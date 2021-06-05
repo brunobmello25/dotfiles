@@ -18,3 +18,5 @@
   pl = pull
 [init]
 	defaultBranch = main
+[core]
+	editor = nvim
