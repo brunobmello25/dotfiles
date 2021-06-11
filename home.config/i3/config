@@ -140,6 +140,9 @@ bindsym $mod+Shift+o move workspace to output right
 # Lock Screen
 bindsym $mod+shift+x exec i3lock --color "$bg-color" 
 
+# Launch Flameshot
+bindsym Print exec /usr/bin/flameshot gui
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -215,7 +218,9 @@ exec_always feh --bg-scale ~/Pictures/wallpapers/Appearance.png wallpapers/Appea
 # Setup monitors
 exec xrandr --output DVI-D-0 --off --output DP-0 --off --output DP-1 --off --output HDMI-0 --mode 1920x1080 --pos 3840x487 --rotate normal --output DP-2 --primary --mode 3840x2160 --pos 0x0 --rotate normal --output DP-3 --off --output DP-4 --off --output DP-5 --off
 
+exec nitrogen --restore
 exec picom -f
 exec ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize
 exec telegram-desktop -startintray
 exec setxkbmap -layout us -variant intl
+exec flameshot
