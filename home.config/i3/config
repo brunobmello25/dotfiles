@@ -176,7 +176,7 @@ bindsym $mod+r mode "resize"
 
 set $bg-color 	         #2f343f
 set $inactive-bg-color   #2f343f
-set $text-color          #f3f4f5
+set $text-color          #cf70bc
 set $inactive-text-color #676E7D
 set $urgent-bg-color     #E53935
 set $indicator           #fc03f0
@@ -189,7 +189,7 @@ client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-co
 client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          $indicator
 
 # start rofi (a program launcher)
-bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 800 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "Fira Sans 18"
+bindsym $mod+d exec rofi -show drun -display-drun "Run:"
 
 hide_edge_borders both
 
@@ -216,3 +216,6 @@ exec_always feh --bg-scale ~/Pictures/wallpapers/Appearance.png wallpapers/Appea
 exec xrandr --output DVI-D-0 --off --output DP-0 --off --output DP-1 --off --output HDMI-0 --mode 1920x1080 --pos 3840x487 --rotate normal --output DP-2 --primary --mode 3840x2160 --pos 0x0 --rotate normal --output DP-3 --off --output DP-4 --off --output DP-5 --off
 
 exec picom -f
+exec ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize
+exec telegram-desktop -startintray
+exec setxkbmap -layout us -variant intl
