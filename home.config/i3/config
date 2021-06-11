@@ -212,14 +212,11 @@ bar {
 	tray_output primary
 }
 
-# Setup wallpapers
-exec_always feh --bg-scale ~/Pictures/wallpapers/Appearance.png wallpapers/Appearance.png
-
 # Setup monitors
 exec xrandr --output DVI-D-0 --off --output DP-0 --off --output DP-1 --off --output HDMI-0 --mode 1920x1080 --pos 3840x487 --rotate normal --output DP-2 --primary --mode 3840x2160 --pos 0x0 --rotate normal --output DP-3 --off --output DP-4 --off --output DP-5 --off
 
 exec nitrogen --restore
-exec picom -f
+# exec picom -f
 exec ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize
 exec telegram-desktop -startintray
 exec setxkbmap -layout us -variant intl
