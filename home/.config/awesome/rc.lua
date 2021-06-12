@@ -519,6 +519,8 @@ end)
 --     c:emit_signal("request::activate", "mouse_enter", {raise = false})
 -- end)
 
+beautiful.border_focus = "#db34eb"
+
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
@@ -528,5 +530,6 @@ beautiful.useless_gap = 6
 
 -- Autostart
 awful.spawn.with_shell("picom")
-awful.spawn.with_shell("nitrogen --set-zoom-fill --random ~/Pictures/wallpapers")
+awful.spawn.with_shell("nitrogen --restore")
 awful.spawn.with_shell("setxkbmap -layout us -variant intl")
+
