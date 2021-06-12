@@ -8,7 +8,5 @@ set expandtab
 
 syntax enable
 
-colorscheme dracula
-
 set clipboard+=unnamedplus
 
