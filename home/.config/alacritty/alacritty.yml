@@ -2,8 +2,8 @@
 colors:
   # Primary colors
   primary:
-    background: '0x1c1e26'
-    foreground: '0xe0e0e0'
+    background: '#060809'
+    foreground: '#cbd9e2'
 
   # Normal colors
   normal:
@@ -41,3 +41,5 @@ font:
     family: 'JetBrains Mono'
     style: Bold Italic
   size: 10
+
+background_opacity: 0.9
