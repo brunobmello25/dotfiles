@@ -253,6 +253,9 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "w", function () mymainmenu:show() end,
               {description = "show main menu", group = "awesome"}),
 
+    -- Print Screen
+    awful.key({ }, "Print", function () awful.util.spawn("/usr/bin/flameshot gui") end),
+
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
               {description = "swap with next client by index", group = "client"}),
@@ -527,5 +530,3 @@ beautiful.useless_gap = 6
 awful.spawn.with_shell("picom")
 awful.spawn.with_shell("nitrogen --set-zoom-fill --random ~/Pictures/wallpapers")
 awful.spawn.with_shell("setxkbmap -layout us -variant intl")
-awful.spawn.with_shell("")
-awful.spawn.with_shell("")
