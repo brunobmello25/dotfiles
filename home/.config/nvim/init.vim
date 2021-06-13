@@ -1,12 +1,14 @@
 source $HOME/.config/nvim/plugs-config/init-plugins.vim
 
+syntax enable
+
+set encoding=UTF-8
 set number 
 set relativenumber
 set tabstop=2
 set shiftwidth=2
 set expandtab
-
-syntax enable
+set smartindent
 
 set clipboard+=unnamedplus
 
