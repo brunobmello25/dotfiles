@@ -12,7 +12,7 @@ local themes_path = gfs.get_themes_dir()
 local theme = {}
 
 -- My colors
-local pink_accent = "#f154ff"
+local pink_accent = "#ff9ef7"
 
 theme.font          = "JetBrains Mono 10"
 
