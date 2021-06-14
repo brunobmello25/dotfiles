@@ -49,6 +49,8 @@ beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), "default")
 beautiful.init(theme_path)
 
+local bling = require("bling")
+
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
 editor = os.getenv("EDITOR") or "nvim"
@@ -67,6 +69,8 @@ awful.layout.layouts = {
     awful.layout.suit.tile.top,
     awful.layout.suit.floating,
     awful.layout.suit.max,
+    bling.layout.mstab,
+    bling.layout.equalarea,
     -- awful.layout.suit.tile.left,
     -- awful.layout.suit.tile.bottom,
     -- awful.layout.suit.fair,
