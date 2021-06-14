@@ -14,7 +14,7 @@ local theme = {}
 -- My colors
 local pink_accent = "#ff9ef7"
 
-theme.font          = "JetBrains Mono 10"
+theme.font          = "JetBrains Mono 12"
 
 theme.bg_normal     = "#222222dc"
 theme.bg_focus      = pink_accent

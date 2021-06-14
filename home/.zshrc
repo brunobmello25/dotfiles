@@ -1,3 +1,4 @@
+# === Oh My ZSH ===
 export ZSH="/home/brubs/.oh-my-zsh"
 
 ZSH_THEME="robbyrussell"
@@ -21,9 +22,6 @@ alias l="ls -lah"
 
 # === ASDF ===
 . $HOME/.asdf/asdf.sh
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-#export PATH="$PATH:$HOME/.rvm/bin"
 
 #export ANDROID_HOME=$HOME/Android/Sdk
 #export PATH=$PATH:$ANDROID_HOME/emulator
