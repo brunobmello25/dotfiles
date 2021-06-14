@@ -14,6 +14,21 @@ local theme = {}
 -- My colors
 local pink_accent = "#ff9ef7"
 
+local widgets = {
+    mic = require("widgets/mic"),
+}
+
+theme.mic = widgets.mic({
+    timeout = 10,
+    settings = function(self)
+        if self.state == "muted" then
+            self.widget:set_image(theme.widget_micMuted)
+        else
+            self.widget:set_image(theme.widget_micUnmuted)
+        end
+    end
+})
+
 theme.font          = "JetBrains Mono 12"
 
 theme.bg_normal     = "#222222dc"
