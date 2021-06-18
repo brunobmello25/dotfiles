@@ -30,7 +30,6 @@ font-1 = Symbols Nerd Font:size=10;2
 
 ; modules-left = bspwm
 modules-left = ewmh
-modules-center = spotify
 modules-right = eth date
 
 tray-position = right
@@ -72,14 +71,6 @@ label-occupied-padding = 2
 label-empty = %name%
 label-empty-foreground = ${colors.foreground-alt}
 label-empty-padding = 2
-
-[module/spotify]
-type = custom/script
-interval = 1
-format = <label>
-exec = python ~/tools/polybar-spotify/spotify_status.py -q -t 55 -p ',' --playpause-font=1
-; format-prefix = "aaa"
-; format-underline = #1db954
 
 [module/eth]
 type = internal/network
