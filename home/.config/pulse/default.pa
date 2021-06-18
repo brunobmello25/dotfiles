@@ -1,3 +1,0 @@
-.ifexists module-dbus-protocol.so
-load-module module-dbus-protocol
-.endif
