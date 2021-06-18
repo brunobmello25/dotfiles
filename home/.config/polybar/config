@@ -1,0 +1,112 @@
+[colors]
+;background = ${xrdb:color0:#222}
+background = #E51c1e26
+background-alt = #E56c6f93
+;foreground = ${xrdb:color7:#222}
+foreground = #e0e0e0
+foreground-alt = #fab795
+
+[bar/main]
+;monitor = ${env:MONITOR:HDMI-1}
+width = 100%
+height = 27
+fixed-center = true
+locale = pt_BR.UTF-8
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 3
+line-color = #f00
+
+padding-left = 0
+padding-right = 2
+
+module-margin-left = 1
+module-margin-right = 1
+
+font-0 = JetBrains Mono:size=9:style=Light;1
+font-1 = Symbols Nerd Font:size=10;2
+
+; modules-left = bspwm
+modules-left = ewmh
+modules-center = spotify
+modules-right = eth date
+
+tray-position = right
+tray-padding = 10
+
+override-redirect = true
+; wm-restack = bspwm
+cursor-click = pointer
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:30:...%
+
+[module/ewmh]
+type = internal/xworkspaces
+enable-scroll = false
+
+label-active = %name%
+label-active-background = ${colors.background-alt}
+label-active-padding = 1
+
+label-occupied = %name%
+label-occupied-padding = 1
+
+label-empty = %name%
+label-empty-foreground = ${colors.foreground-alt}
+label-empty-padding = 1
+
+[module/bspwm]
+type = internal/bspwm
+
+label-focused = %name%
+label-focused-background = ${colors.background-alt}
+label-focused-padding = 2
+
+label-occupied = %name%
+label-occupied-padding = 2
+
+label-empty = %name%
+label-empty-foreground = ${colors.foreground-alt}
+label-empty-padding = 2
+
+[module/spotify]
+type = custom/script
+interval = 1
+format = <label>
+exec = python ~/tools/polybar-spotify/spotify_status.py -q -t 55 -p ',' --playpause-font=1
+; format-prefix = "aaa"
+; format-underline = #1db954
+
+[module/eth]
+type = internal/network
+interface = enp7s0
+interval = 10.0
+label-connected = ""
+label-disconnected = ""
+
+[module/date]
+type = internal/date
+interval = 1
+
+date = %a, %d de %B
+time = %H:%M:%S
+
+format-prefix-foreground = ${colors.foreground-alt}
+
+label = %date% %time%
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+;pseudo-transparency = false
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
