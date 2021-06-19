@@ -9,6 +9,7 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set smartindent
+set mouse=a
 
 set clipboard+=unnamedplus
 
