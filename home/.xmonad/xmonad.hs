@@ -9,9 +9,6 @@ import qualified Data.Map        as M
 -- Colors
 myAccentColor = "#ff9ef7"
 
--- The preferred terminal program, which is used in a binding below and by
--- certain contrib modules.
---
 myTerminal      = "alacritty"
 
 -- Whether focus follows the mouse pointer.
@@ -26,11 +23,6 @@ myClickJustFocuses = False
 --
 myBorderWidth   = 2
 
--- modMask lets you specify which modkey you want to use. The default
--- is mod1Mask ("left alt").  You may also consider using mod3Mask
--- ("right alt"), which does not conflict with emacs keybindings. The
--- "windows key" is usually mod4Mask.
---
 myModMask       = mod4Mask
 
 -- The default number of workspaces (virtual screens) and their names.
