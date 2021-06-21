@@ -2,9 +2,12 @@ import XMonad
 import Data.Monoid
 import System.Exit
 import XMonad.Util.SpawnOnce
+import XMonad.Layout.IndependentScreens
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
+
+import XMonad.Util.EZConfig (additionalKeysP)
 
 -- Colors
 myAccentColor = "#ff9ef7"
@@ -34,7 +37,9 @@ myModMask       = mod4Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
+--myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
+
+myWorkspaces = withScreens 2 ["1","2","3","4","5","6","7","8","9"]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -120,14 +125,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     ]
     ++
 
-    --
-    -- mod-[1..9], Switch to workspace N
-    -- mod-shift-[1..9], Move client to workspace N
-    --
-    [((m .|. modm, k), windows $ f i)
-        | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
+    [((m .|. modm, k), windows $ onCurrentScreen f i)
+        | (i, k) <- zip (workspaces' conf) [xK_1 .. xK_9]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
-    -- ++
 
     --
     -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
@@ -234,6 +234,7 @@ myStartupHook = do
     spawnOnce "nitrogen --restore &"
     spawnOnce "picom &"
     spawnOnce "setxkbmap -layout us -variant intl &"
+    spawnOnce "${HOME}/.config/polybar/launch.sh"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.

@@ -28,7 +28,6 @@ module-margin-right = 1
 font-0 = JetBrains Mono:size=9:style=Light;1
 font-1 = Symbols Nerd Font:size=10;2
 
-; modules-left = bspwm
 modules-left = ewmh
 modules-right = eth date
 
@@ -36,7 +35,6 @@ tray-position = right
 tray-padding = 10
 
 override-redirect = true
-; wm-restack = bspwm
 cursor-click = pointer
 
 [module/xwindow]
@@ -51,16 +49,6 @@ label-active = %name%
 label-active-background = ${colors.background-alt}
 label-active-padding = 1
 
-label-occupied = %name%
-label-occupied-padding = 1
-
-label-empty = %name%
-label-empty-foreground = ${colors.foreground-alt}
-label-empty-padding = 1
-
-[module/bspwm]
-type = internal/bspwm
-
 label-focused = %name%
 label-focused-background = ${colors.background-alt}
 label-focused-padding = 2
@@ -74,7 +62,7 @@ label-empty-padding = 2
 
 [module/eth]
 type = internal/network
-interface = enp7s0
+interface = enp6s0
 interval = 10.0
 label-connected = ""
 label-disconnected = ""
