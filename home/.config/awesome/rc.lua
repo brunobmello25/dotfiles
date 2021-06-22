@@ -14,9 +14,14 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
+local freedesktop = require("freedesktop")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
+
+local widgets = {
+    mic = require("widgets/mic"),
+}
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -111,6 +116,19 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
 
+-- Microphone Widget
+beautiful.mic = widgets.mic({
+  timeout = 10,
+  settings = function(self)
+    if self.state == "muted" then
+      self.widget:set_image("themes/default/icons/microphone_muted.svg")
+    else
+      self.widget:set_image("themes/default/icons/microphone.svg")
+    end
+  end
+})
+local widget_mic = wibox.widget { beautiful.mic.widget, layout = wibox.layout.align.horizontal }
+
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -160,6 +178,7 @@ awful.screen.connect_for_each_screen(function(s)
         },
         nil,
         { -- Right widgets
+            widget_mic,
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
             mytextclock,
@@ -217,6 +236,10 @@ globalkeys = gears.table.join(
             end
         end,
         {description = "go back", group = "client"}),
+
+    -- Mute microphone
+    awful.key({ modkey, "Shift"   }, "d", function () beautiful.mic:toggle() end,
+              {description = "mute microphone", group = "Hotkeys" }),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
@@ -450,6 +473,9 @@ client.connect_signal("manage", function (c)
         awful.placement.no_offscreen(c)
     end
 end)
+
+-- Desktop Icons
+-- freedesktop.desktop.add_icons({ screen = awful.screen.primary })
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
