@@ -15,15 +15,10 @@ alias rsdbg="rdebug-ide --host 0.0.0.0 --port 1234 --dispatcher-port 26162 -- ./
 alias open="xdg-open"
 alias doco="docker-compose"
 alias v="nvim"
-alias ra="cd ~/www/respondeai/respondeai"
-alias rac="cd ~/www/respondeai/content"
-alias ras="cd ~/www/respondeai/seo"
 alias l="ls -lah"
 
 # === ASDF ===
 . $HOME/.asdf/asdf.sh
-
-export PATH=$PATH:$HOME/.emacs.d/bin
 
 #export ANDROID_HOME=$HOME/Android/Sdk
 #export PATH=$PATH:$ANDROID_HOME/emulator
@@ -31,3 +26,4 @@ export PATH=$PATH:$HOME/.emacs.d/bin
 #export PATH=$PATH:$ANDROID_HOME/tools/bin
 #export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+. /etc/profile.d/vte.sh
