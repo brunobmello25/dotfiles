@@ -17,6 +17,10 @@ alias doco="docker-compose"
 alias v="nvim"
 alias l="ls -lah"
 
+plugins=(
+  zsh-autosuggestions
+)
+
 # === ASDF ===
 . $HOME/.asdf/asdf.sh
 
