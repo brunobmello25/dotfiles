@@ -24,10 +24,7 @@ plugins=(
 # === ASDF ===
 . $HOME/.asdf/asdf.sh
 
-#export ANDROID_HOME=$HOME/Android/Sdk
-#export PATH=$PATH:$ANDROID_HOME/emulator
-#export PATH=$PATH:$ANDROID_HOME/tools
-#export PATH=$PATH:$ANDROID_HOME/tools/bin
-#export PATH=$PATH:$ANDROID_HOME/platform-tools
+eval `dircolors $HOME/.dir_colors/dircolors`
 
-. /etc/profile.d/vte.sh
+# added by pipx (https://github.com/pipxproject/pipx)
+export PATH="/home/brubs/.local/bin:$PATH"
