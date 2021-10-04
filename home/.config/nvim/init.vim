@@ -11,5 +11,7 @@ set expandtab
 set smartindent
 set mouse=a
 
+colorscheme dracula
+
 set clipboard+=unnamedplus
 
