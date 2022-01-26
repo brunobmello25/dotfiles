@@ -1,0 +1,35 @@
+font:
+  size: 14.0
+
+# DarkPastel Color theme - https://mayccoll.github.io/Gogh/
+colors:
+  primary:
+    background: '0x000000'
+    foreground: '0xffffff'
+
+  # Colors the cursor will use if `custom_cursor_colors` is true
+  cursor:
+    text: '0x122637'
+    cursor: '0xf0cb09'
+
+  # Normal colors
+  normal:
+    black:   '0x000000'
+    red:     '0xff5555'
+    green:   '0x55ff55'
+    yellow:  '0xffff55'
+    blue:    '0x5555ff'
+    magenta: '0xff55ff'
+    cyan:    '0x55ffff'
+    white:   '0xbbbbbb'
+
+  # Bright colors
+  bright:
+    black:   '0x555555'
+    red:     '0xff5555'
+    green:   '0x55ff55'
+    yellow:  '0xffff55'
+    blue:    '0x5555ff'
+    magenta: '0xff55ff'
+    cyan:    '0x55ffff'
+    white:   '0xffffff'
