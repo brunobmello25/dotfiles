@@ -1,6 +1,7 @@
 [user]
-	name = Bruno Mello
-	email = bruno.barros.mello@gmail.com
+  name = Bruno Mello
+  email = bruno.barros.mello@gmail.com
+
 [alias]
   ci = commit
   co = checkout

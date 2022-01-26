@@ -20,6 +20,7 @@ alias l="ls -lah"
 alias t="tmux"
 alias tks="tmux kill-session -t"
 alias tksa="tmux kill-server"
+alias tn="tmux new -s"
 
 plugins=(
   zsh-autosuggestions
