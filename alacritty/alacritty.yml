@@ -1,6 +1,8 @@
+background_opacity: 0.9
 font:
   size: 14.0
-
+  normal:
+    family: "Hack Nerd Font"
 # DarkPastel Color theme - https://mayccoll.github.io/Gogh/
 colors:
   primary:
