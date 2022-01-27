@@ -17,3 +17,5 @@
   rollback = reset --soft HEAD~1
   ps = push
   pl = pull
+[core]
+  editor=nvim
