@@ -21,6 +21,10 @@ alias t="tmux"
 alias tks="tmux kill-session -t"
 alias tksa="tmux kill-server"
 alias tn="tmux new -s"
+alias ra="cd ~/www/respondeai/respondeai"
+alias cont="cd ~/www/respondeai/content"
+alias seo="cd ~/www/respondeai/seo"
+alias seof="cd ~/www/respondeai/seo-front"
 
 plugins=(
   zsh-autosuggestions
@@ -41,3 +45,4 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+[ -f "/home/brubs/.ghcup/env" ] && source "/home/brubs/.ghcup/env" # ghcup-env
