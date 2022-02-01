@@ -9,6 +9,7 @@ Plug 'preservim/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'dense-analysis/ale'
+Plug 'neovim/nvim-lspconfig'
 
 call plug#end()
 

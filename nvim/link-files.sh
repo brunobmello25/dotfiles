@@ -5,3 +5,4 @@ ln -s ~/www/dotfiles/nvim/plugins.vim ~/.config/nvim/plugins.vim
 ln -s ~/www/dotfiles/nvim/colors.vim ~/.config/nvim/colors.vim
 ln -s ~/www/dotfiles/nvim/airline.vim ~/.config/nvim/airline.vim
 ln -s ~/www/dotfiles/nvim/ale.vim ~/.config/nvim/ale.vim
+ln -s ~/www/dotfiles/nvim/lsp.vim ~/.config/nvim/lsp.vim
