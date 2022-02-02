@@ -35,3 +35,7 @@ colors:
     magenta: '0xff55ff'
     cyan:    '0x55ffff'
     white:   '0xffffff'
+window:
+  padding:
+    x: 5
+    y: 5
