@@ -21,10 +21,12 @@ alias t="tmux"
 alias tks="tmux kill-session -t"
 alias tksa="tmux kill-server"
 alias tn="tmux new -s"
+
 alias ra="cd ~/www/respondeai/respondeai"
 alias cont="cd ~/www/respondeai/content"
 alias seo="cd ~/www/respondeai/seo"
-alias seof="cd ~/www/respondeai/seo-front"
+alias seof="cd ~/www/respondeai/front-seo"
+alias raw="cd ~/www/respondeai/web"
 
 plugins=(
   zsh-autosuggestions
