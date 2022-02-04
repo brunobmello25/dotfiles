@@ -22,6 +22,8 @@ alias tks="tmux kill-session -t"
 alias tksa="tmux kill-server"
 alias tn="tmux new -s"
 
+alias dotf="cd ~/www/dotfiles"
+
 alias ra="cd ~/www/respondeai/respondeai"
 alias cont="cd ~/www/respondeai/content"
 alias seo="cd ~/www/respondeai/seo"

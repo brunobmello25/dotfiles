@@ -1,0 +1,5 @@
+require 'settings'
+require 'keymaps'
+require 'plugins.paq'
+require 'colors'
+require 'lsp'
