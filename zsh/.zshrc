@@ -14,7 +14,7 @@ alias g="git"
 alias rsdbg="rdebug-ide --host 0.0.0.0 --port 1234 --dispatcher-port 26162 -- ./bin/rails s -b 0.0.0.0"
 alias open="xdg-open"
 alias doco="docker-compose"
-alias v="nvim"
+alias v="nvim ."
 alias l="ls -lah"
 
 alias t="tmux"
