@@ -1,10 +1,15 @@
-# === Oh My ZSH ===
-export ZSH="/home/brubs/.oh-my-zsh"
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-ZSH_THEME="robbyrussell"
-plugins=(git)
-
-source $ZSH/oh-my-zsh.sh
+# === HISTORY CONFIG ===
+HISTFILE=~/.zsh_history
+HISTZIE=10000
+SAVEHIST=10000
+setopt appendhistory
 
 # === ALIASES ===
 alias cdex="code . && exit"
@@ -14,8 +19,8 @@ alias g="git"
 alias rsdbg="rdebug-ide --host 0.0.0.0 --port 1234 --dispatcher-port 26162 -- ./bin/rails s -b 0.0.0.0"
 alias open="xdg-open"
 alias doco="docker-compose"
-alias v="nvim ."
 alias l="ls -lah"
+alias v="lvim"
 
 alias t="tmux"
 alias tks="tmux kill-session -t"
@@ -30,16 +35,9 @@ alias seo="cd ~/www/respondeai/seo"
 alias seof="cd ~/www/respondeai/front-seo"
 alias raw="cd ~/www/respondeai/web"
 
-plugins=(
-  zsh-autosuggestions
-)
-
 # === ASDF ===
 . $HOME/.asdf/asdf.sh
 
-# eval `dircolors $HOME/.dir_colors/dircolors`
-
-# added by pipx (https://github.com/pipxproject/pipx)
 export PATH="/home/brubs/.local/bin:$PATH"
 
 export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
@@ -49,4 +47,20 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+# === POWERLEVEL10K THEME ===
 [ -f "/home/brubs/.ghcup/env" ] && source "/home/brubs/.ghcup/env" # ghcup-env
+source ~/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# === AUTOCOMPLETE DIRECTORIES ===
+setopt auto_cd
+autoload -Uz compinit
+compinit
+zstyle ':completion:*' menu yes select
+WORDCHARS=
+
+# === NAVIGATION ===
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
