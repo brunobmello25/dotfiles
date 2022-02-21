@@ -64,10 +64,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_Print), spawn "flameshot gui")
 
     -- launch dmenu
-    , ((modm,               xK_d     ), spawn "dmenu_run")
+    , ((modm,               xK_d     ), spawn "rofi -show drun")
 
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
+
+    -- launch gmrun
+    , ((modm .|. shiftMask, xK_m     ), spawn "pactl -- set-source-mute 2 toggle")
 
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)

@@ -1,4 +1,4 @@
-Config { font = "xft:Hack Nerd Font:pixelsize=20:weight=bold:antialias=true:hinting=true"
+Config { font = "xft:Hack Nerd Font:pixelsize=16:weight=bold:antialias=true:hinting=true"
        , additionalFonts = []
        , borderColor = "black"
        , border = TopB
