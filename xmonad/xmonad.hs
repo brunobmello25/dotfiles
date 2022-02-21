@@ -184,7 +184,8 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
-myLayout = avoidStruts (tiled ||| Full)
+myLayout = spacingRaw True (Border 10 10 10 10) True (Border 10 10 10 10) True $
+  avoidStruts (tiled ||| Full)
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -214,10 +215,11 @@ myLayout = avoidStruts (tiled ||| Full)
 -- 'className' and 'resource' are used below.
 --
 myManageHook = composeAll
-    [ className =? "MPlayer"        --> doFloat
-    , className =? "Gimp"           --> doFloat
-    , resource  =? "desktop_window" --> doIgnore
-    , resource  =? "kdesktop"       --> doIgnore ]
+    [ className =? "MPlayer"          --> doFloat
+    , className =? "Gimp"             --> doFloat
+    , className =? "Gnome-calculator" --> doFloat
+    , resource  =? "desktop_window"   --> doIgnore
+    , resource  =? "kdesktop"         --> doIgnore ]
 
 ------------------------------------------------------------------------
 -- Event handling
@@ -248,6 +250,8 @@ myLogHook = return ()
 -- By default, do nothing.
 -- myStartupHook = return ()
 myStartupHook = do
+  spawnOnce "setxkbmap us -option compose:ralt"
+  spawnOnce "xmodmap -e \"keysym Alt_R = Multi_key\""
   spawnOnce "nitrogen --restore &"
   spawnOnce "compton &"
   spawnOnce "xrandr --output DVI-D-0 --off --output DP-0 --primary --mode 3840x2160 --pos 0x1080 --rotate normal --output DP-1 --off --output HDMI-0 --mode 1920x1080 --pos 960x0 --rotate normal --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off"
@@ -283,7 +287,7 @@ defaults = def {
         mouseBindings      = myMouseBindings,
 
       -- hooks, layouts
-        layoutHook         = spacingWithEdge 5 $ myLayout,
+        layoutHook         = myLayout,
         manageHook         = myManageHook,
         handleEventHook    = myEventHook,
         logHook            = myLogHook,
