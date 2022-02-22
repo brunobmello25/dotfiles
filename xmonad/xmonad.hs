@@ -262,7 +262,7 @@ myStartupHook = do
   spawnOnce "xmodmap -e \"keysym Alt_R = Multi_key\""
   spawnOnce "nitrogen --restore &"
   spawnOnce "compton &"
-  spawnOnce "exec /usr/bin/trayer --edge top --align right --margin 10 --widthtype request --height 30 --transparent true --alpha 0 --tint 0x292d3e"
+  spawnOnce "exec /usr/bin/trayer --edge top --align right --margin 10 --widthtype request --height 30 --transparent true --alpha 0 --tint 0x292d3e --iconspacing 11"
   spawnOnce "xrandr --output DVI-D-0 --off --output DP-0 --primary --mode 3840x2160 --pos 0x1080 --rotate normal --output DP-1 --off --output HDMI-0 --mode 1920x1080 --pos 960x0 --rotate normal --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off"
 
 ------------------------------------------------------------------------
