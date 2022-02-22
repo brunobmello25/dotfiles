@@ -8,24 +8,35 @@ import XMonad.Util.Run
 import XMonad.Layout.Spacing
 import XMonad.Hooks.ManageDocks
 import XMonad.Layout.IndependentScreens
+-- import XMonad.Hooks.StatusBar
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import qualified XMonad.Layout.Decoration as XMonad.Layout.LayoutModifier
-import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobarPP, xmobarColor, PP (ppCurrent, ppVisible, ppHidden, ppOutput, ppHiddenNoWindows, ppTitle, ppSep, ppUrgent, ppExtras, ppOrder), wrap, shorten)
+import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobarPP, xmobarColor, PP (ppCurrent, ppVisible, ppHidden, ppOutput, ppHiddenNoWindows, ppTitle, ppSep, ppUrgent, ppExtras, ppOrder, ppWsSep, ppVisibleNoWindows), wrap, shorten)
 import XMonad.Util.NamedScratchpad (namedScratchpadFilterOutWorkspacePP)
 import GHC.IO.Handle
 import Data.Maybe
+import XMonad.Actions.CycleWS
+
+-- Colors
+grey1, grey2, grey3, grey4, cyan, orange :: String
+grey1  = "#2B2E37"
+grey2  = "#555E70"
+grey3  = "#697180"
+grey4  = "#8691A8"
+cyan   = "#8BABF0"
+orange = "#C45500"
 
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal :: [Char]
+myTerminal :: String
 myTerminal      = "alacritty"
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
-myFocusFollowsMouse = True
+myFocusFollowsMouse = False
 
 -- Whether clicking on a window to focus also passes the click to the window
 myClickJustFocuses :: Bool
@@ -53,15 +64,60 @@ myModMask       = mod4Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces :: [[Char]]
+myWorkspaces :: [String]
 myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
-myNormalBorderColor :: [Char]
+myNormalBorderColor :: String
 myNormalBorderColor  = "#dddddd"
-myFocusedBorderColor :: [Char]
+myFocusedBorderColor :: String
 myFocusedBorderColor = "#01caff"
+
+------------------------------------------------------------------------
+-- Logic responsible to isolate workspaces on xmobar
+--
+currentScreen :: X ScreenId
+currentScreen = gets (W.screen . W.current . windowset)
+
+isOnScreen :: ScreenId -> WindowSpace -> Bool
+isOnScreen s ws = s == unmarshallS (W.tag ws)
+
+workspaceOnCurrentScreen :: WSType
+workspaceOnCurrentScreen = WSIs $ do
+  s <- currentScreen
+  return $ \x -> W.tag x /= "NSP" && isOnScreen s x
+
+-- myXmobarPP :: ScreenId -> PP
+-- myXmobarPP s  = filterOutWsPP [scratchpadWorkspaceTag] . marshallPP s $ def
+--   { ppSep = ""
+--   , ppWsSep = ""
+--   , ppCurrent = xmobarColor cyan "" . clickable wsIconFull
+--   , ppVisible = xmobarColor grey4 "" . clickable wsIconFull
+--   , ppVisibleNoWindows = Just (xmobarColor grey4 "" . clickable wsIconFull)
+--   , ppHidden = xmobarColor grey2 "" . clickable wsIconHidden
+--   , ppHiddenNoWindows = xmobarColor grey2 "" . clickable wsIconEmpty
+--   , ppUrgent = xmobarColor orange "" . clickable wsIconFull
+--   , ppOrder = \(ws : _ : _ : extras) -> ws : extras
+--   , ppExtras  = [ wrapL (actionPrefix ++ "n" ++ actionButton ++ "1>") actionSuffix
+--                 $ wrapL (actionPrefix ++ "q" ++ actionButton ++ "2>") actionSuffix
+--                 $ wrapL (actionPrefix ++ "Left" ++ actionButton ++ "4>") actionSuffix
+--                 $ wrapL (actionPrefix ++ "Right" ++ actionButton ++ "5>") actionSuffix
+--                 $ wrapL "    " "    " $ layoutColorIsActive s (logLayoutOnScreen s)
+--                 , wrapL (actionPrefix ++ "q" ++ actionButton ++ "2>") actionSuffix
+--                 $  titleColorIsActive s (shortenL 81 $ logTitleOnScreen s)
+--                 ]
+--   }
+--   where
+--     wsIconFull   = "  <fn=2>\xf111</fn>   "
+--     wsIconHidden = "  <fn=2>\xf111</fn>   "
+--     wsIconEmpty  = "  <fn=2>\xf10c</fn>   "
+--     titleColorIsActive n l = do
+--       c <- withWindowSet $ return . W.screen . W.current
+--       if n == c then xmobarColorL cyan "" l else xmobarColorL grey3 "" l
+--     layoutColorIsActive n l = do
+--       c <- withWindowSet $ return . W.screen . W.current
+--       if n == c then wrapL "<icon=" "_selected.xpm/>" l else wrapL "<icon=" ".xpm/>" l
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -197,7 +253,7 @@ myMouseBindings XConfig {XMonad.modMask = modm} = M.fromList
 -- which denotes layout choice.
 --
 myLayout :: XMonad.Layout.LayoutModifier.ModifiedLayout Spacing (XMonad.Layout.LayoutModifier.ModifiedLayout AvoidStruts (Choose Tall Full)) a
-myLayout = spacingRaw True (Border 10 10 10 10) True (Border 10 10 10 10) True $
+myLayout = spacingRaw False (Border 10 10 10 10) True (Border 10 10 10 10) True $
   avoidStruts (tiled ||| Full)
   where
      -- default tiling algorithm partitions the screen into two panes
@@ -247,6 +303,9 @@ myManageHook = composeAll
 myEventHook :: Event -> X All
 myEventHook = mempty
 
+myLogHook :: X ()
+myLogHook = return ()
+
 ------------------------------------------------------------------------
 -- Startup hook
 
@@ -294,27 +353,28 @@ main = do
     , layoutHook         = myLayout
     , manageHook         = myManageHook
     , handleEventHook    = myEventHook
-    , logHook = dynamicLogWithPP $ namedScratchpadFilterOutWorkspacePP $ xmobarPP
-        -- XMOBAR SETTINGS
-        { ppOutput = \x -> hPutStrLn xmproc0 x >> hPutStrLn xmproc1 x
+    -- , logHook = dynamicLogWithPP $ namedScratchpadFilterOutWorkspacePP $ xmobarPP
+    --     -- XMOBAR SETTINGS
+    --     { ppOutput = \x -> hPutStrLn xmproc0 x >> hPutStrLn xmproc1 x
 
-        , ppCurrent = xmobarColor "#98be65" "" . wrap "[" "]" -- Current workspace
+    --     , ppCurrent = xmobarColor "#98be65" "" . wrap "[" "]" -- Current workspace
 
-        , ppVisible = xmobarColor "#98be65" "" -- Visible but not current workspace
+    --     , ppVisible = xmobarColor "#98be65" "" -- Visible but not current workspace
 
-        , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" "" -- Hidden workspace
+    --     , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" "" -- Hidden workspace
 
-        , ppHiddenNoWindows = xmobarColor "#c792ea" "" -- Hidden workspace
+    --     , ppHiddenNoWindows = xmobarColor "#c792ea" "" -- Hidden workspace
 
-        , ppTitle = xmobarColor "#b3afc2" "" . shorten 60 -- Title of active window
+    --     , ppTitle = xmobarColor "#b3afc2" "" . shorten 60 -- Title of active window
 
-        , ppSep = "<fc=#666666> | </fc>" -- Separators
+    --     , ppSep = "<fc=#666666> | </fc>" -- Separators
 
-        , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!" -- Urgent workspace
+    --     , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!" -- Urgent workspace
 
-        , ppOrder = \(ws:l:t:ex) -> [ws]
-        },
-      startupHook        = myStartupHook
+    --     , ppOrder = \(ws:l:t:ex) -> [ws]
+    --     },
+      , logHook = myLogHook
+      , startupHook = myStartupHook
     }
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.

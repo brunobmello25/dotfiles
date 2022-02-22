@@ -20,12 +20,12 @@ Config { font = "xft:Hack Nerd Font:pixelsize=14:weight=bold:antialias=true:hint
             Run Date "\xf133 %b %d %Y - (%H:%M)" "date" 50,
 
             -- Network info
-            Run Network "enp6s0" ["-t", "\xf0aa <rx>kb \xf0ab <tx>kb"] 20,
+            Run Network "enp6s0" ["-t", "\xf0aa <rx>kb \xf0ab <tx>kb"] 20
 
             -- Workspaces
-            Run UnsafeStdinReader
+            -- Run UnsafeStdinReader
        ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %UnsafeStdinReader% }{ <fc=#98be65>%enp6s0%</fc><fc=#666666>  |  </fc><fc=#01caff>%date%</fc> "
+       , template = " }{ <fc=#98be65>%enp6s0%</fc><fc=#666666>  |  </fc><fc=#01caff>%date%</fc> "
        }

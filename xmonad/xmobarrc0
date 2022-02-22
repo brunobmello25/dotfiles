@@ -24,11 +24,12 @@ Config { font = "xft:Hack Nerd Font:pixelsize=16:weight=bold:antialias=true:hint
 
             -- Trayer padding
 
-            Run Com ".config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 5,
+            Run Com ".config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 5
             -- Workspaces
-            Run UnsafeStdinReader
+
+            -- Run UnsafeStdinReader
        ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %UnsafeStdinReader% }{ <fc=#98be65>%enp6s0%</fc><fc=#666666>  |  </fc><fc=#01caff>%date%</fc> %trayerpad% "
+       , template = " }{ <fc=#98be65>%enp6s0%</fc><fc=#666666>  |  </fc><fc=#01caff>%date%</fc> %trayerpad% "
        }
