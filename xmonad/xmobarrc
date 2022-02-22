@@ -27,5 +27,5 @@ Config { font = "xft:Hack Nerd Font:pixelsize=16:weight=bold:antialias=true:hint
        ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " }{ <fc=#98be65>%enp6s0%</fc><fc=#666666>  |  </fc><fc=#01caff>%date%</fc> "
+       , template = " %UnsafeStdinReader% }{ <fc=#98be65>%enp6s0%</fc><fc=#666666>  |  </fc><fc=#01caff>%date%</fc> "
        }

@@ -12,6 +12,10 @@ import XMonad.Layout.IndependentScreens
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import qualified XMonad.Layout.Decoration as XMonad.Layout.LayoutModifier
+import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobarPP, xmobarColor, PP (ppCurrent, ppVisible, ppHidden, ppOutput, ppHiddenNoWindows, ppTitle, ppSep, ppUrgent, ppExtras, ppOrder), wrap, shorten)
+import XMonad.Util.NamedScratchpad (namedScratchpadFilterOutWorkspacePP)
+import GHC.IO.Handle
+import Data.Maybe
 
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
@@ -244,15 +248,6 @@ myEventHook :: Event -> X All
 myEventHook = mempty
 
 ------------------------------------------------------------------------
--- Status bars and logging
-
--- Perform an arbitrary action on each internal state change or X event.
--- See the 'XMonad.Hooks.DynamicLog' extension for examples.
---
-myLogHook :: X ()
-myLogHook = return ()
-
-------------------------------------------------------------------------
 -- Startup hook
 
 -- Perform an arbitrary action each time xmonad starts or is restarted
@@ -276,37 +271,49 @@ myStartupHook = do
 --
 main :: IO ()
 main = do
-  xmproc <- spawnPipe "~/.config/xmobar/spawn-xmobar.sh"
-  xmonad $ docks defaults
+  xmproc0 <- spawnPipe "xmobar -x 0 ~/.config/xmobar/xmobarrc"
+  xmproc1 <- spawnPipe "xmobar -x 1 ~/.config/xmobar/xmobarrc"
 
--- A structure containing your configuration settings, overriding
--- fields in the default config. Any you don't override, will
--- use the defaults defined in xmonad/XMonad/Config.hs
---
--- No need to modify this.
---
-defaults :: XConfig (XMonad.Layout.LayoutModifier.ModifiedLayout Spacing (XMonad.Layout.LayoutModifier.ModifiedLayout AvoidStruts (Choose Tall Full)))
-defaults = def {
-      -- simple stuff
-        terminal           = myTerminal,
-        focusFollowsMouse  = myFocusFollowsMouse,
-        clickJustFocuses   = myClickJustFocuses,
-        borderWidth        = myBorderWidth,
-        modMask            = myModMask,
-        workspaces         = withScreens 2 myWorkspaces,
-        normalBorderColor  = myNormalBorderColor,
-        focusedBorderColor = myFocusedBorderColor,
+  xmonad $ docks $ def {
+    -- simple stuff
+      terminal           = myTerminal
+    , focusFollowsMouse  = myFocusFollowsMouse
+    , clickJustFocuses   = myClickJustFocuses
+    , borderWidth        = myBorderWidth
+    , modMask            = myModMask
+    , workspaces         = withScreens 2 myWorkspaces
+    , normalBorderColor  = myNormalBorderColor
+    , focusedBorderColor = myFocusedBorderColor
 
-      -- key bindings
-        keys               = myKeys,
-        mouseBindings      = myMouseBindings,
+  -- key bindings
+    , keys               = myKeys
+    , mouseBindings      = myMouseBindings
 
-      -- hooks, layouts
-        layoutHook         = myLayout,
-        manageHook         = myManageHook,
-        handleEventHook    = myEventHook,
-        logHook            = myLogHook,
-        startupHook        = myStartupHook
+  -- hooks, layouts
+    , layoutHook         = myLayout
+    , manageHook         = myManageHook
+    , handleEventHook    = myEventHook
+    , logHook = dynamicLogWithPP $ namedScratchpadFilterOutWorkspacePP $ xmobarPP
+        -- XMOBAR SETTINGS
+        { ppOutput = \x -> hPutStrLn xmproc0 x >> hPutStrLn xmproc1 x
+
+        , ppCurrent = xmobarColor "#98be65" "" . wrap "[" "]" -- Current workspace
+
+        , ppVisible = xmobarColor "#98be65" "" -- Visible but not current workspace
+
+        , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" "" -- Hidden workspace
+
+        , ppHiddenNoWindows = xmobarColor "#c792ea" "" -- Hidden workspace
+
+        , ppTitle = xmobarColor "#b3afc2" "" . shorten 60 -- Title of active window
+
+        , ppSep = "<fc=#666666> | </fc>" -- Separators
+
+        , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!" -- Urgent workspace
+
+        , ppOrder = \(ws:l:t:ex) -> [ws]
+        },
+      startupHook        = myStartupHook
     }
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.
