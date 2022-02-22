@@ -1,11 +1,11 @@
-Config { font = "xft:Hack Nerd Font:pixelsize=16:weight=bold:antialias=true:hinting=true"
+Config { font = "xft:Hack Nerd Font:pixelsize=14:weight=bold:antialias=true:hinting=true"
        , additionalFonts = []
        , borderColor = "black"
        , border = TopB
        , bgColor = "black"
        , fgColor = "grey"
        , alpha = 204
-       , position = Top
+       , position = TopSize L 100 24
        , textOffset = -1
        , iconOffset = -1
        , lowerOnStart = True
