@@ -1,6 +1,5 @@
-background_opacity: 0.9
 font:
-  size: 16.0
+  size: 11.0
   normal:
     family: "Hack Nerd Font"
 # DarkPastel Color theme - https://mayccoll.github.io/Gogh/
@@ -36,6 +35,7 @@ colors:
     cyan:    '0x55ffff'
     white:   '0xffffff'
 window:
+  opacity: 0.9
   padding:
     x: 5
     y: 5
