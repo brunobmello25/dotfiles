@@ -1,3 +1,7 @@
+if [ -f ~/.profile ]; then
+	. ~/.profile
+fi
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -10,6 +14,7 @@ HISTFILE=~/.zsh_history
 HISTZIE=10000
 SAVEHIST=10000
 setopt appendhistory
+setopt share_history
 
 # === ALIASES ===
 alias cdex="code . && exit"
@@ -23,9 +28,9 @@ alias l="ls -lah"
 alias v="lvim"
 
 alias t="tmux"
-alias tks="tmux kill-session -t"
-alias tksa="tmux kill-server"
-alias tn="tmux new -s"
+alias tks="t kill-session -t"
+alias tksa="t kill-server"
+alias tn="t new -s"
 
 alias dotf="cd ~/www/dotfiles"
 
@@ -36,7 +41,7 @@ alias seof="cd ~/www/respondeai/front-seo"
 alias raw="cd ~/www/respondeai/web"
 
 # === ASDF ===
-. $HOME/.asdf/asdf.sh
+[ -d ~/.asdf ] && . $HOME/.asdf/asdf.sh
 
 export PATH="/home/brubs/.local/bin:$PATH"
 
@@ -49,7 +54,7 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # === POWERLEVEL10K THEME ===
 [ -f "/home/brubs/.ghcup/env" ] && source "/home/brubs/.ghcup/env" # ghcup-env
-source ~/powerlevel10k/powerlevel10k.zsh-theme
+[ -d ~/powerlevel10k ] && source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
