@@ -1,3 +1,7 @@
+if [ -f /etc/profile ]; then
+	. /etc/profile
+fi
+
 if [ -f ~/.profile ]; then
 	. ~/.profile
 fi
@@ -15,6 +19,7 @@ HISTZIE=10000
 SAVEHIST=10000
 setopt appendhistory
 setopt share_history
+setopt inc_append_history
 
 # === ALIASES ===
 alias cdex="code . && exit"
@@ -45,7 +50,7 @@ alias raw="cd ~/www/respondeai/web"
 
 export PATH="/home/brubs/.local/bin:$PATH"
 
-export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/default
 export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
@@ -69,3 +74,9 @@ WORDCHARS=
 # === NAVIGATION ===
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/brubs/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/brubs/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/brubs/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/brubs/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
