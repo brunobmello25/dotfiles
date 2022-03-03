@@ -58,7 +58,6 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # === POWERLEVEL10K THEME ===
-[ -f "/home/brubs/.ghcup/env" ] && source "/home/brubs/.ghcup/env" # ghcup-env
 [ -d ~/powerlevel10k ] && source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -76,7 +75,9 @@ bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/brubs/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/brubs/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/home/brubs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/brubs/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/brubs/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/brubs/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/home/brubs/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/brubs/google-cloud-sdk/completion.zsh.inc'; fi
+
+[ -f "/home/brubs/.ghcup/env" ] && source "/home/brubs/.ghcup/env" # ghcup-env
