@@ -317,7 +317,6 @@ myLogHook = return ()
 -- myStartupHook = return ()
 myStartupHook :: X ()
 myStartupHook = do
-  spawnOnce "killall xmobar"
   spawnOnce "setxkbmap us -option compose:ralt"
   spawnOnce "nitrogen --restore &"
   spawnOnce "picom &"

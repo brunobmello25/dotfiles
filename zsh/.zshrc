@@ -6,21 +6,6 @@ if [ -f ~/.profile ]; then
 	. ~/.profile
 fi
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# === HISTORY CONFIG ===
-HISTFILE=~/.zsh_history
-HISTZIE=10000
-SAVEHIST=10000
-setopt appendhistory
-setopt share_history
-setopt inc_append_history
-
 # === ALIASES ===
 alias cdex="code . && exit"
 alias rs="rails s -b 0.0.0.0"
@@ -56,23 +41,6 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
-
-# === POWERLEVEL10K THEME ===
-[ -d ~/powerlevel10k ] && source ~/powerlevel10k/powerlevel10k.zsh-theme
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# === AUTOCOMPLETE DIRECTORIES ===
-setopt auto_cd
-autoload -Uz compinit
-compinit
-zstyle ':completion:*' menu yes select
-WORDCHARS=
-
-# === NAVIGATION ===
-bindkey "^[[1;5C" forward-word
-bindkey "^[[1;5D" backward-word
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/brubs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/brubs/google-cloud-sdk/path.zsh.inc'; fi
