@@ -15,4 +15,7 @@ return require('packer').startup(function()
       }
     end
   }
+
+  use 'nvim-lua/plenary.nvim'
+  use 'nvim-telescope/telescope.nvim' 
 end)

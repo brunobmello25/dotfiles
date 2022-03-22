@@ -12,7 +12,7 @@ alias rsdbg="rdebug-ide --host 0.0.0.0 --port 1234 --dispatcher-port 26162 -- ./
 alias open="xdg-open"
 alias doco="docker-compose"
 alias l="ls -lah"
-alias v="lvim"
+alias v="nvim"
 alias cat="bat"
 
 alias t="tmux"
