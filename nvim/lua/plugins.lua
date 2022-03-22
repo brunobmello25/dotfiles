@@ -4,6 +4,7 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function()
   -- BASIC LUA SETUP
   use 'wbthomason/packer.nvim'
+  use 'nvim-treesitter/nvim-treesitter'
 
   -- COLOR THEME
   use {'catppuccin/nvim', as = 'catppuccin'}
@@ -16,6 +17,15 @@ return require('packer').startup(function()
     end
   }
 
+  use 'nvim-treesitter/nvim-treesitter'
   use 'nvim-lua/plenary.nvim'
-  use 'nvim-telescope/telescope.nvim' 
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = { 
+      {'nvim-lua/plenary.nvim'},
+      {'nvim-telescope/telescope-fzy-native.nvim'},
+      {'nvim-treesitter/nvim-treesitter'}
+    }
+  }
+  use 'neovim/nvim-lspconfig'
 end)
