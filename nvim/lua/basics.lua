@@ -8,4 +8,3 @@ vim.opt.scrolloff = 8
 vim.cmd('filetype plugin indent on')
 
 vim.g.mapleader = ' '
-
