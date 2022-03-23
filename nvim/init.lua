@@ -1,6 +1,7 @@
 require('basics')
 require('colors')
 require('telescope')
+require('lsp')
 
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim'
@@ -12,6 +13,7 @@ return require('packer').startup(function()
     'nvim-telescope/telescope.nvim',
     requires = { {'nvim-lua/plenary.nvim'} }
   }
+  use 'hrsh7th/cmp-nvim-lsp'
   use 'neovim/nvim-lspconfig'
 end)
 
