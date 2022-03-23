@@ -17,8 +17,8 @@ return require('packer').startup(function()
     end
   }
 
-  use 'nvim-treesitter/nvim-treesitter'
   use 'nvim-lua/plenary.nvim'
+  use 'hrsh7th/nvim-cmp'
   use {
     'nvim-telescope/telescope.nvim',
     requires = { 

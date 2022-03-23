@@ -24,6 +24,7 @@ cmd[[colorscheme catppuccin]]
 
 
 -- --------------- LSP CONFIG ---------------
+
 require'lspconfig'.tsserver.setup{}
 local lsp_opts = { noremap=true, silent=true }
 vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', lsp_opts)
@@ -69,11 +70,5 @@ end
 
 -- --------------- REMAPS ---------------
 vim.g.mapleader = ' '
-api.nvim_set_keymap('n', '<leader>ff', [[:lua require('telescope.builtin').git_files()<CR>]], { noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>ff', [[:lua require('telescope.builtin').git_files()<CR>]], { noremap = true})
 
-map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
-map('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
-map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
-map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-map('n', 'gr', '<cmd>lua vim.lsp.buf.implementation()<CR>')
