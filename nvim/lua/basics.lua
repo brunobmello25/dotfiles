@@ -15,6 +15,7 @@ local function map(mode, lhs, rhs, opts)
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
+-- git fugitive
 map('n', '<leader>gj', ':diffget //3<CR>')
 map('n', '<leader>gf', ':diffget //2<CR>')
 map('n', '<leader>gs', ':G<CR>')
