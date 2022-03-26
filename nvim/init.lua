@@ -2,6 +2,7 @@ require('basics')
 require('colors')
 require('telescope')
 require('lsp')
+require('quickscope')
 
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim'
@@ -22,5 +23,6 @@ return require('packer').startup(function()
   use 'jiangmiao/auto-pairs'
   use 'tpope/vim-surround'
   use 'lukas-reineke/lsp-format.nvim'
+  use 'unblevable/quick-scope'
 end)
 
