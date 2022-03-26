@@ -19,3 +19,8 @@ end
 map('n', '<leader>gj', ':diffget //3<CR>')
 map('n', '<leader>gf', ':diffget //2<CR>')
 map('n', '<leader>gs', ':G<CR>')
+
+-- yank to clipboard
+map('n', '<leader>y', '"+y"')
+map('v', '<leader>y', '"+y"')
+
