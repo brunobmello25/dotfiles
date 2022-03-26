@@ -8,7 +8,7 @@ font:
 colors:
   # Default colors
   primary:
-    background: '0x1E1D2F'
+    background: '0x0F0F0F'
     foreground: '0xD9E0EE'
 
   # Colors the cursor will use if `custom_cursor_colors` is true
@@ -42,7 +42,7 @@ colors:
     - { index: 16, color: '0xF8BD96' }
     - { index: 17, color: '0xF5E0DC' }
 window:
-  opacity: 0.9
+  opacity: 0.95
   padding:
     x: 5
     y: 5
