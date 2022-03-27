@@ -1,4 +1,5 @@
 require('basics')
+require('fugitive')
 require('colors')
 require('telescope')
 require('lsp')
