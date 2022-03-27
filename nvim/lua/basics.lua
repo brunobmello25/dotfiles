@@ -13,3 +13,8 @@ vim.g.mapleader = ' '
 vim.api.nvim_set_keymap('n', '<leader>y', '"+y<CR>', { noremap = true })
 vim.api.nvim_set_keymap('v', '<leader>y', '"+y<CR>', { noremap = true })
 
+-- move lines up and down
+vim.api.nvim_set_keymap('n', '<A-j>', ':m+<CR>==', { noremap = true })
+vim.api.nvim_set_keymap('n', '<A-k>', ':m-2<CR>==', { noremap = true })
+vim.api.nvim_set_keymap('v', '<A-j>', ':m+<CR>gv=gv', { noremap = true })
+vim.api.nvim_set_keymap('v', '<A-k>', ':m-2<CR>gv=gv', { noremap = true })
