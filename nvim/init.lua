@@ -4,6 +4,7 @@ require('colors')
 require('telescope')
 require('lsp')
 require('quickscope')
+require('harpoon-config')
 
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim'
@@ -25,5 +26,7 @@ return require('packer').startup(function()
   use 'tpope/vim-surround'
   use 'lukas-reineke/lsp-format.nvim'
   use 'unblevable/quick-scope'
+  use 'ThePrimeagen/vim-be-good'
+  use 'ThePrimeagen/harpoon'
 end)
 
