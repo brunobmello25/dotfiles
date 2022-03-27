@@ -9,18 +9,7 @@ vim.cmd('filetype plugin indent on')
 
 vim.g.mapleader = ' '
 
-local function map(mode, lhs, rhs, opts)
-  local options = { noremap = true }
-  if opts then options = vim.tbl_extend('force', options, opts) end
-  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
-
--- git fugitive
-map('n', '<leader>gj', ':diffget //3<CR>')
-map('n', '<leader>gf', ':diffget //2<CR>')
-map('n', '<leader>gs', ':G<CR>')
-
 -- yank to clipboard
-map('n', '<leader>y', '"+y"')
-map('v', '<leader>y', '"+y"')
+vim.api.nvim_set_keymap('n', '<leader>y', '"+y<CR>', { noremap = true })
+vim.api.nvim_set_keymap('v', '<leader>y', '"+y<CR>', { noremap = true })
 
