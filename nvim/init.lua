@@ -5,6 +5,7 @@ require('telescope')
 require('lsp')
 require('quickscope')
 require('harpoon-config')
+require('signify-config')
 
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim'
@@ -28,5 +29,6 @@ return require('packer').startup(function()
   use 'unblevable/quick-scope'
   use 'ThePrimeagen/vim-be-good'
   use 'ThePrimeagen/harpoon'
+  use 'mhinz/vim-signify'
 end)
 
