@@ -18,3 +18,7 @@ vim.api.nvim_set_keymap('n', '<A-j>', ':m+<CR>==', { noremap = true })
 vim.api.nvim_set_keymap('n', '<A-k>', ':m-2<CR>==', { noremap = true })
 vim.api.nvim_set_keymap('v', '<A-j>', ':m+<CR>gv=gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '<A-k>', ':m-2<CR>gv=gv', { noremap = true })
+
+-- indent lines with > and < in visual mode
+vim.api.nvim_set_keymap('v', '<Tab>',   '>gv', { noremap = true })
+vim.api.nvim_set_keymap('v', '<S-Tab>', '<gv', { noremap = true })
