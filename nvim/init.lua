@@ -30,5 +30,6 @@ return require('packer').startup(function()
   use 'ThePrimeagen/vim-be-good'
   use 'ThePrimeagen/harpoon'
   use 'mhinz/vim-signify'
+  use 'github/copilot.vim'
 end)
 
