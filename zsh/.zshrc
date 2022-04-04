@@ -42,6 +42,8 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+export JDTLS_HOME=$HOME/.local/lib/jdtls
+
 # === GOOGLE CLOUD SDK ===
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/brubs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/brubs/google-cloud-sdk/path.zsh.inc'; fi
