@@ -16,9 +16,6 @@ alias v="nvim"
 alias cat="bat"
 
 alias t="tmux"
-alias tks="t kill-session -t"
-alias tksa="t kill-server"
-alias tn="t new -s"
 
 alias dotf="cd ~/www/dotfiles"
 
