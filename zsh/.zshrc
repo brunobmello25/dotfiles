@@ -14,11 +14,11 @@ alias doco="docker-compose"
 alias l="ls -lah"
 alias v="nvim"
 alias cat="bat"
+alias lg="lazygit"
 
 alias t="tmux"
 
 alias dotf="cd ~/www/dotfiles"
-
 alias ra="cd ~/www/respondeai/respondeai"
 alias cont="cd ~/www/respondeai/content"
 alias seo="cd ~/www/respondeai/seo"
