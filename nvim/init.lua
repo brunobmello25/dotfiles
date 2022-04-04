@@ -6,6 +6,7 @@ require('lsp')
 require('quickscope')
 require('harpoon-config')
 require('signify-config')
+require('treesitter-config')
 
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim'
