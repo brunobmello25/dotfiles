@@ -23,3 +23,6 @@ vim.api.nvim_set_keymap('v', '<A-k>', ':m-2<CR>gv=gv', { noremap = true })
 -- indent lines with > and < in visual mode
 vim.api.nvim_set_keymap('v', '<Tab>',   '>gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '<S-Tab>', '<gv', { noremap = true })
+
+-- copy relative path
+vim.cmd('command! CopyRelPath call setreg(\'+\', expand(\'%\'))')
