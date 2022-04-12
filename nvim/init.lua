@@ -17,8 +17,10 @@ return require('packer').startup(function()
     'nvim-telescope/telescope.nvim',
     requires = { {'nvim-lua/plenary.nvim'} }
   } -- fuzzy finder
-  use 'hrsh7th/nvim-cmp' -- autocomplete plugin
-  use 'hrsh7th/cmp-nvim-lsp' -- autocomplete plugin
+  use 'hrsh7th/nvim-cmp' -- autocompletion
+  use 'saadparwaiz1/cmp_luasnip' -- autocompletion
+  use 'L3MON4D3/LuaSnip' -- autocompletion
+  use 'hrsh7th/cmp-nvim-lsp' -- autocompletion 
   use 'neovim/nvim-lspconfig' -- neovim lsp
   use 'vim-airline/vim-airline' -- statusbar
   use 'tpope/vim-fugitive' -- git integration
