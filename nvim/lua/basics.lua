@@ -6,6 +6,7 @@ vim.opt.relativenumber = true
 vim.opt.shiftwidth = 2
 vim.opt.scrolloff = 8
 vim.opt.wrap = false
+vim.opt.ignorecase = true
 vim.cmd('filetype plugin indent on')
 
 vim.g.mapleader = ' '
