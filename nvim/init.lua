@@ -32,5 +32,6 @@ return require('packer').startup(function()
   use 'mhinz/vim-signify' -- line changes with git
   use 'github/copilot.vim' -- github copilot
   use 'sheerun/vim-polyglot' -- languages support
+  use 'f-person/git-blame.nvim' -- inline git blame
 end)
 
