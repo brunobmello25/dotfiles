@@ -7,6 +7,7 @@ require('quickscope')
 require('harpoon-config')
 require('signify-config')
 require('treesitter-config')
+require('comment-config')
 
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- plugin manager
@@ -33,5 +34,6 @@ return require('packer').startup(function()
   use 'github/copilot.vim' -- github copilot
   use 'sheerun/vim-polyglot' -- languages support
   use 'f-person/git-blame.nvim' -- inline git blame
+  use 'terrortylor/nvim-comment'
 end)
 
