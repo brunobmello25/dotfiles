@@ -27,3 +27,6 @@ vim.api.nvim_set_keymap('v', '<S-Tab>', '<gv', { noremap = true })
 
 -- copy relative path
 vim.cmd('command! CopyRelPath call setreg(\'+\', expand(\'%\'))')
+
+-- open explorer
+vim.api.nvim_set_keymap('n', '<leader>e', ':Ex <CR>', { noremap = true })
