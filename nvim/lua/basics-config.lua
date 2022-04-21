@@ -8,6 +8,7 @@ vim.opt.scrolloff = 8
 vim.opt.wrap = false
 vim.opt.ignorecase = true
 vim.cmd('filetype plugin indent on')
+vim.g.gitblame_ignored_filetypes = {'netrw'}
 
 vim.g.mapleader = ' '
 
