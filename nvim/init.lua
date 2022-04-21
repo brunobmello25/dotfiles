@@ -35,5 +35,6 @@ return require('packer').startup(function()
   use 'sheerun/vim-polyglot' -- languages support
   use 'f-person/git-blame.nvim' -- inline git blame
   use 'terrortylor/nvim-comment'
+  use 'romainl/vim-cool' -- disable search highlight after cursor movement
 end)
 
