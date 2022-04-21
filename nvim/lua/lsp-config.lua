@@ -80,13 +80,20 @@ local servers = {'tsserver', 'gopls', 'jdtls'}
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
+
 for _, lsp in ipairs(servers) do
+    local telescope_builtin = require('telescope.builtin')
+
     lspconfig[lsp].setup {
         on_attach = on_attach,
         flags = {
             debounce_text_changes = 150
         },
-        capabilites = capabilites
+        capabilites = capabilites,
+        handlers = {
+            ["textDocument/references"] = telescope_builtin.lsp_references,
+            ["textDocument/definition"] = telescope_builtin.lsp_definitions 
+        }
     }
 end
 
