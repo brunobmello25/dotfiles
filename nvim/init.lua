@@ -8,6 +8,7 @@ require('harpoon-config')
 require('signify-config')
 require('treesitter-config')
 require('comment-config')
+require('neoformat-config')
 
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- plugin manager
@@ -36,5 +37,6 @@ return require('packer').startup(function()
   use 'f-person/git-blame.nvim' -- inline git blame
   use 'terrortylor/nvim-comment'
   use 'romainl/vim-cool' -- disable search highlight after cursor movement
+  use 'sbdchd/neoformat'
 end)
 

@@ -75,7 +75,7 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 end
 
-local servers = {'tsserver', 'gopls', 'jdtls'}
+local servers = {'tsserver', 'gopls', 'jdtls', 'jedi_language_server'}
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
