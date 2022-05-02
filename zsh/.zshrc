@@ -24,6 +24,7 @@ alias cont="cd ~/www/respondeai/content"
 alias seo="cd ~/www/respondeai/seo"
 alias seof="cd ~/www/respondeai/front-seo"
 alias raw="cd ~/www/respondeai/web"
+alias driven="cd ~/www/driven"
 
 # === ASDF ===
 [ -d ~/.asdf ] && . $HOME/.asdf/asdf.sh
