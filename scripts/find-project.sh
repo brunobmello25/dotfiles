@@ -1,7 +1,7 @@
 #!/bin/bash
 
-config_dir=~/.config/find-project
-config_file=$config_dir/projects
+config_dir="/home/$USER/.config/find-project"
+config_file="$config_dir/projects"
 
 assert_file_exists() {
   if ! [ -d $config_dir ]; then
@@ -13,12 +13,14 @@ assert_file_exists() {
   fi
 }
 
-if [ $# == 0 ]; then
+if [ $#==0 ]; then
   assert_file_exists
+  
+  selected=`/usr/bin/cat $config_file | fzf`
+  
+  dir=`echo $selected | cut -d " " -f 2`
 
-  chosen_project=`/usr/bin/cat $config_file | fzf`
-
-  cd "$chosen_project"
+  cd $dir
 elif [ $# == 1 ]; then
   echo "tem um argumento"
 else

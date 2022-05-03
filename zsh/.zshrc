@@ -15,16 +15,9 @@ alias l="ls -lah"
 alias v="nvim"
 alias cat="bat"
 alias lg="lazygit"
-
 alias t="tmux"
 
-alias dotf="cd ~/www/dotfiles"
-alias ra="cd ~/www/respondeai/respondeai"
-alias cont="cd ~/www/respondeai/content"
-alias seo="cd ~/www/respondeai/seo"
-alias seof="cd ~/www/respondeai/front-seo"
-alias raw="cd ~/www/respondeai/web"
-alias driven="cd ~/www/driven"
+bindkey -s '^f' 'source /home/$USER/www/dotfiles/scripts/find-project.sh^M'
 
 # === ASDF ===
 [ -d ~/.asdf ] && . $HOME/.asdf/asdf.sh
