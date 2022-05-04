@@ -27,7 +27,6 @@ fp() {
   elif [[ $# == 1 && $1 == 'add' ]]; then
     assert_file_exists $config_dir $config_file
     
-    current_folder_name=${PWD##*/}
     current_full_path_name=${PWD}
     
     echo $current_full_path_name >> $config_file
