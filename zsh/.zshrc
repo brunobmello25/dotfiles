@@ -1,3 +1,5 @@
+source $HOME/www/dotfiles/zsh/find-project.sh
+
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 plugins=(git)
@@ -17,7 +19,7 @@ alias cat="bat"
 alias lg="lazygit"
 alias t="tmux"
 
-bindkey -s '^f' 'source /home/$USER/www/dotfiles/scripts/find-project.sh^M'
+bindkey -s '^f' 'fp^M'
 
 # === ASDF ===
 [ -d ~/.asdf ] && . $HOME/.asdf/asdf.sh
