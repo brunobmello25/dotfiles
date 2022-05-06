@@ -24,6 +24,7 @@ fp() {
     if [[ $dir != "" ]]; then
       cd $dir
     fi
+    clear
   elif [[ $# == 1 && $1 == 'add' ]]; then
     assert_file_exists $config_dir $config_file
     
