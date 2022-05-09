@@ -86,13 +86,21 @@ for _, lsp in ipairs(servers) do
     }
 end
 
-lspconfig.eslint.setup {
-    on_attach = on_attach,
+lspconfig.eslint.setup({
     capabilities = capabilities,
-    settings = {
-        codeActionOnSave = {
-            enable = true,
-            mode = "all"
-        },
-    }
-}
+    flags = { debounce_text_changes = 500 },
+    on_attach = function(client, bufnr)
+        -- this executes language bound stuff
+        client.resolved_capabilities.document_formatting = true
+        if client.resolved_capabilities.document_formatting then
+            local au_lsp = vim.api.nvim_create_augroup("eslint_lsp", { clear = true })
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                pattern = "*",
+                command = "EslintFixAll",
+                group = au_lsp,
+            })
+        end
+        -- this executes the logic with generic stuff for all lsps
+        on_attach(client, bufnr)
+    end,
+})
