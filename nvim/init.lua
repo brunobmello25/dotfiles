@@ -14,16 +14,16 @@ require('neoformat-config')
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- plugin manager
   use 'nvim-treesitter/nvim-treesitter' -- syntax highlighting
-  use {'catppuccin/nvim', as = 'catppuccin'} -- color theme
+  use { 'catppuccin/nvim', as = 'catppuccin' } -- color theme
   use 'nvim-lua/plenary.nvim' -- requirement for other plugins
   use {
     'nvim-telescope/telescope.nvim',
-    requires = { {'nvim-lua/plenary.nvim'} }
+    requires = { { 'nvim-lua/plenary.nvim' } }
   } -- fuzzy finder
   use 'hrsh7th/nvim-cmp' -- autocompletion
   use 'saadparwaiz1/cmp_luasnip' -- autocompletion
   use 'L3MON4D3/LuaSnip' -- autocompletion
-  use 'hrsh7th/cmp-nvim-lsp' -- autocompletion 
+  use 'hrsh7th/cmp-nvim-lsp' -- autocompletion
   use {
     "williamboman/nvim-lsp-installer",
     "neovim/nvim-lspconfig",
@@ -42,5 +42,5 @@ return require('packer').startup(function()
   use 'terrortylor/nvim-comment'
   use 'romainl/vim-cool' -- disable search highlight after cursor movement
   use 'sbdchd/neoformat'
+  use 'mfussenegger/nvim-dap'
 end)
-
