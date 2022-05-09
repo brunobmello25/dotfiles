@@ -39,8 +39,8 @@ cmp.setup({
         end
     },
     sources = {
-      { name = 'nvim_lsp' },
-      { name = 'luasnip' },
+        { name = 'nvim_lsp' },
+        { name = 'luasnip' },
     },
 })
 
@@ -58,7 +58,7 @@ local on_attach = function(client, bufnr)
     end
 
     -- enable format on save
-    require"lsp-format".on_attach(client)
+    require "lsp-format".on_attach(client)
 
     local opts = {
         noremap = true,
@@ -75,7 +75,7 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 end
 
-local servers = {'tsserver', 'gopls', 'jdtls', 'jedi_language_server', 'eslint'}
+local servers = { 'tsserver', 'gopls', 'jdtls', 'jedi_language_server', 'eslint', 'sumneko_lua' }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
@@ -92,8 +92,7 @@ for _, lsp in ipairs(servers) do
         capabilites = capabilites,
         handlers = {
             ["textDocument/references"] = telescope_builtin.lsp_references,
-            ["textDocument/definition"] = telescope_builtin.lsp_definitions 
+            ["textDocument/definition"] = telescope_builtin.lsp_definitions
         }
     }
 end
-
