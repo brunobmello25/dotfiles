@@ -2,6 +2,7 @@ require('basics-config')
 require('fugitive-config')
 require('colors-config')
 require('telescope-config')
+require('lsp-installer-config')
 require('lsp-config')
 require('quickscope-config')
 require('harpoon-config')
@@ -23,7 +24,10 @@ return require('packer').startup(function()
   use 'saadparwaiz1/cmp_luasnip' -- autocompletion
   use 'L3MON4D3/LuaSnip' -- autocompletion
   use 'hrsh7th/cmp-nvim-lsp' -- autocompletion 
-  use 'neovim/nvim-lspconfig' -- neovim lsp
+  use {
+    "williamboman/nvim-lsp-installer",
+    "neovim/nvim-lspconfig",
+  }
   use 'vim-airline/vim-airline' -- statusbar
   use 'tpope/vim-fugitive' -- git integration
   use 'jiangmiao/auto-pairs' -- autoclose pairs
