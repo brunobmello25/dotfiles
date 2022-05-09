@@ -47,16 +47,6 @@ cmp.setup({
 -- on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-    if client.name == 'tsserver' then
-        if client.config.flags then
-            client.config.flags.allow_incremental_sync = true
-        end
-        client.resolved_capabilities.document_formatting = false
-    elseif client.name == 'efm' then
-        client.resolved_capabilities.document_formatting = true
-        client.resolved_capabilities.goto_definition = false
-    end
-
     -- enable format on save
     require "lsp-format".on_attach(client)
 
@@ -75,11 +65,10 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 end
 
-local servers = { 'tsserver', 'gopls', 'jdtls', 'jedi_language_server', 'eslint', 'sumneko_lua' }
+local servers = { 'tsserver', 'gopls', 'jdtls', 'jedi_language_server', 'sumneko_lua' }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
 
 for _, lsp in ipairs(servers) do
     local telescope_builtin = require('telescope.builtin')
@@ -89,10 +78,21 @@ for _, lsp in ipairs(servers) do
         flags = {
             debounce_text_changes = 150
         },
-        capabilites = capabilites,
+        capabilites = capabilities,
         handlers = {
             ["textDocument/references"] = telescope_builtin.lsp_references,
             ["textDocument/definition"] = telescope_builtin.lsp_definitions
         }
     }
 end
+
+lspconfig.eslint.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        codeActionOnSave = {
+            enable = true,
+            mode = "all"
+        },
+    }
+}
