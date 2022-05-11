@@ -1,9 +1,12 @@
-source $HOME/www/dotfiles/zsh/find-project.sh
+DOTFILES_PATH=~/www/dotfiles
+
+source $DOTFILES_PATH/zsh/find-project.sh
 
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 plugins=(git)
 [ -d $ZSH ]  && source $ZSH/oh-my-zsh.sh
+
 
 # === ALIASES ===
 alias cdex="code . && exit"
@@ -18,8 +21,10 @@ alias v="nvim"
 alias cat="bat"
 alias lg="lazygit"
 alias t="tmux"
+alias trn="$DOTFILES_PATH/zsh/name-tmux-session.sh"
 
 bindkey -s '^f' 'fp^M'
+bindkey -s '^n' 'trn^M'
 
 # === ASDF ===
 [ -d ~/.asdf ] && . $HOME/.asdf/asdf.sh

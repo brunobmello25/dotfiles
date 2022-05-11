@@ -30,6 +30,7 @@ fp() {
     
     current_full_path_name=${PWD}
     
+    grep -vx ${PWD} $config_file > temp && mv temp $config_file 
     echo $current_full_path_name >> $config_file
   elif [[ $# == 1 && $1 == 'rm' ]]; then
     grep -vx ${PWD} $config_file > temp && mv temp $config_file 
