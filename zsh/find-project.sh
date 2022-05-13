@@ -11,13 +11,13 @@ assert_file_exists() {
 }
 
 fp() {
-  config_dir="/home/$USER/.config/find-project"
+  config_dir="$HOME/.config/find-project"
   config_file="$config_dir/projects"
 
   if [[ $# == 0 ]]; then
     assert_file_exists $config_dir $config_file
     
-    selected=`/usr/bin/cat $config_file | fzf`
+    selected=`grep "" $config_file | fzf`
 
     dir=`echo $selected | cut -d " " -f 2`
 
