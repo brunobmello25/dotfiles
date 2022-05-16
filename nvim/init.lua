@@ -42,5 +42,6 @@ return require('packer').startup(function()
   use 'terrortylor/nvim-comment'
   use 'romainl/vim-cool' -- disable search highlight after cursor movement
   use 'sbdchd/neoformat'
-  use 'mfussenegger/nvim-dap'
+  use 'mfussenegger/nvim-dap' -- Debugger
+  use 'windwp/nvim-ts-autotag' -- autoclose and autorename tags using treesitter
 end)
