@@ -10,6 +10,7 @@ require('signify-config')
 require('treesitter-config')
 require('comment-config')
 require('neoformat-config')
+require('copilot-config')
 
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- plugin manager
