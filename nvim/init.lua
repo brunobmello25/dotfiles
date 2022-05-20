@@ -44,4 +44,5 @@ return require('packer').startup(function()
   use 'sbdchd/neoformat'
   use 'mfussenegger/nvim-dap' -- Debugger
   use 'windwp/nvim-ts-autotag' -- autoclose and autorename tags using treesitter
+  use 'gennaro-tedesco/nvim-peekup' -- see all registers in a floating window
 end)
