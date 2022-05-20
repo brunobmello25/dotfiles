@@ -22,6 +22,7 @@ alias cat="bat"
 alias lg="lazygit"
 alias t="tmux"
 alias trn="$DOTFILES_PATH/zsh/name-tmux-session.sh"
+alias dsa="docker stop \$(docker ps)"
 
 bindkey -s '^f' 'fp^M'
 bindkey -s '^n' 'trn^M'
