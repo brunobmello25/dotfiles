@@ -11,6 +11,7 @@ require('treesitter-config')
 require('comment-config')
 require('neoformat-config')
 require('copilot-config')
+require('todo-config')
 
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- plugin manager
@@ -46,4 +47,8 @@ return require('packer').startup(function()
   use 'mfussenegger/nvim-dap' -- Debugger
   use 'windwp/nvim-ts-autotag' -- autoclose and autorename tags using treesitter
   use 'gennaro-tedesco/nvim-peekup' -- see all registers in a floating window
+  use {
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+  }
 end)
