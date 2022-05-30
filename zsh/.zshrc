@@ -23,7 +23,8 @@ alias lg="lazygit"
 alias t="tmux"
 alias trn="$DOTFILES_PATH/zsh/name-tmux-session.sh"
 alias dsa="docker stop \$(docker ps)"
-alias dka="docker rm $(docker ps -a | grep -v -E 'ra-pg$|ra-redis$' | cut -d ' ' -f 1 | tail -n +2 | tr '\n' ' ')"
+alias dka="docker rm \$(docker ps -a | grep -v -E 'ra-pg$|ra-redis$' | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ')"
+alias dkai="docker rmi \$(docker images)"
 
 bindkey -s '^f' 'fp^M'
 bindkey -s '^n' 'trn^M'
