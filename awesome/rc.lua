@@ -191,6 +191,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
             s.mytasklist, -- Middle widget
             { -- Right widgets
                 layout = wibox.layout.fixed.horizontal,
+                spacing = 10,
                 mykeyboardlayout,
                 wibox.widget.systray(),
                 mytextclock,
@@ -202,12 +203,6 @@ end)
 
 -- }}}
 
--- {{{ Mouse bindings
-awful.mouse.append_global_mousebindings({
-    awful.button({}, 3, function() mymainmenu:toggle() end),
-    awful.button({}, 4, awful.tag.viewprev),
-    awful.button({}, 5, awful.tag.viewnext),
-})
 -- }}}
 
 -- {{{ Key bindings
@@ -235,6 +230,10 @@ awful.keyboard.append_global_keybindings({
     awful.key({ modkey }, "d", function() awful.spawn("rofi -show drun") end,
         { description = "run rofi", group = "launcher" }),
     awful.key({ modkey }, "p", function() menubar.show() end,
+        { description = "show the menubar", group = "launcher" }),
+    awful.key({}, "Print", function() awful.spawn.with_shell('flameshot gui') end,
+        { description = "show the menubar", group = "launcher" }),
+    awful.key({ modkey, "Shift" }, "m", function() awful.spawn.with_shell('pactl set-source-mute 1 toggle') end,
         { description = "show the menubar", group = "launcher" }),
 })
 
@@ -561,6 +560,13 @@ end)
 client.connect_signal("mouse::enter", function(c)
     c:activate { context = "mouse_enter", raise = false }
 end)
+
+beautiful.border_normal = "#222222"
+beautiful.border_focus = "#01caff"
+beautiful.systray_icon_spacing = 10
+
+client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 -- Autostart applications
 awful.spawn.with_shell("~/.config/awesome/autorun.sh")
