@@ -17,6 +17,7 @@ local naughty = require("naughty")
 local ruled = require("ruled")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
+local capslock = require("capslock")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
@@ -176,6 +177,14 @@ screen.connect_signal("request::desktop_decoration", function(s)
     --     }
     -- }
 
+    local widget_separator = wibox.widget {
+        orientation = "horizontal",
+        forced_height = 1,
+        forced_width = 0.5,
+        span_ratio = 1.0,
+        widget = wibox.widget.separator,
+    }
+
     -- Create the wibox
     s.mywibox = awful.wibar {
         position = "top",
@@ -192,9 +201,15 @@ screen.connect_signal("request::desktop_decoration", function(s)
             { -- Right widgets
                 layout = wibox.layout.fixed.horizontal,
                 spacing = 10,
+                -------
+                capslock,
+                widget_separator,
                 mykeyboardlayout,
+                widget_separator,
                 wibox.widget.systray(),
+                widget_separator,
                 mytextclock,
+                widget_separator,
                 s.mylayoutbox,
             },
         }
