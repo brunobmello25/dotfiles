@@ -12,6 +12,7 @@ require('comment-config')
 require('neoformat-config')
 require('copilot-config')
 require('todo-config')
+require('lualine-config')
 
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- plugin manager
@@ -30,7 +31,10 @@ return require('packer').startup(function()
     "williamboman/nvim-lsp-installer",
     "neovim/nvim-lspconfig",
   }
-  use 'vim-airline/vim-airline' -- statusbar
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+  }
   use 'tpope/vim-fugitive' -- git integration
   use 'jiangmiao/auto-pairs' -- autoclose pairs
   use 'tpope/vim-surround' -- easy change surrounding tags and quotes
