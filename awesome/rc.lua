@@ -250,6 +250,7 @@ awful.keyboard.append_global_keybindings({
         { description = "show the menubar", group = "launcher" }),
     awful.key({ modkey, "Shift" }, "m", function() awful.spawn.with_shell('pactl set-source-mute 1 toggle') end,
         { description = "show the menubar", group = "launcher" }),
+    capslock.key,
 })
 
 -- Tags related keybindings
