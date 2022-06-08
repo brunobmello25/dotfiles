@@ -55,4 +55,5 @@ return require('packer').startup(function()
     "folke/todo-comments.nvim",
     requires = "nvim-lua/plenary.nvim",
   }
+  use 'styled-components/vim-styled-components'
 end)
