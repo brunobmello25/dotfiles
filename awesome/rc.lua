@@ -15,7 +15,6 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 -- Declarative object management
 local ruled = require("ruled")
-local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local capslock = require("capslock")
 -- Enable hotkeys help widget for VIM and other apps
@@ -54,42 +53,12 @@ editor_cmd = terminal .. " -e " .. editor
 modkey = "Mod4"
 -- }}}
 
--- {{{ Menu
--- Create a launcher widget and a main menu
-myawesomemenu = {
-    { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
-    { "manual", terminal .. " -e man awesome" },
-    { "edit config", editor_cmd .. " " .. awesome.conffile },
-    { "restart", awesome.restart },
-    { "quit", function() awesome.quit() end },
-}
-
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-    { "open terminal", terminal }
-}
-})
-
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
-    menu = mymainmenu })
-
--- Menubar configuration
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
--- }}}
-
 -- {{{ Tag layout
 -- Table of layouts to cover with awful.layout.inc, order matters.
 tag.connect_signal("request::default_layouts", function()
     awful.layout.append_default_layouts({
         awful.layout.suit.tile,
         awful.layout.suit.max,
-        -- awful.layout.suit.floating,
-        -- awful.layout.suit.fair,
-        -- awful.layout.suit.fair.horizontal,
-        -- awful.layout.suit.spiral,
-        -- awful.layout.suit.spiral.dwindle,
-        -- awful.layout.suit.max.fullscreen,
-        -- awful.layout.suit.magnifier,
-        -- awful.layout.suit.corner.nw,
     })
 end)
 -- }}}
@@ -193,7 +162,6 @@ screen.connect_signal("request::desktop_decoration", function(s)
             layout = wibox.layout.align.horizontal,
             { -- Left widgets
                 layout = wibox.layout.fixed.horizontal,
-                mylauncher,
                 s.mytaglist,
                 s.mypromptbox,
             },
@@ -244,12 +212,10 @@ awful.keyboard.append_global_keybindings({
         { description = "open a terminal", group = "launcher" }),
     awful.key({ modkey }, "d", function() awful.spawn("rofi -show drun") end,
         { description = "run rofi", group = "launcher" }),
-    awful.key({ modkey }, "p", function() menubar.show() end,
-        { description = "show the menubar", group = "launcher" }),
     awful.key({}, "Print", function() awful.spawn.with_shell('flameshot gui') end,
-        { description = "show the menubar", group = "launcher" }),
+        { description = "Launch flameshot in gui mode", group = "launcher" }),
     awful.key({ modkey, "Shift" }, "m", function() awful.spawn.with_shell('pactl set-source-mute 1 toggle') end,
-        { description = "show the menubar", group = "launcher" }),
+        { description = "Mute microphone", group = "launcher" }),
     capslock.key,
 })
 
@@ -513,48 +479,7 @@ ruled.client.connect_signal("request::rules", function()
 end)
 -- }}}
 
--- {{{ Titlebars
--- Add a titlebar if titlebars_enabled is set to true in the rules.
-client.connect_signal("request::titlebars", function(c)
-    -- buttons for the titlebar
-    local buttons = {
-        awful.button({}, 1, function()
-            c:activate { context = "titlebar", action = "mouse_move" }
-        end),
-        awful.button({}, 3, function()
-            c:activate { context = "titlebar", action = "mouse_resize" }
-        end),
-    }
-
-    awful.titlebar(c).widget = {
-        { -- Left
-            awful.titlebar.widget.iconwidget(c),
-            buttons = buttons,
-            layout  = wibox.layout.fixed.horizontal
-        },
-        { -- Middle
-            { -- Title
-                align  = "center",
-                widget = awful.titlebar.widget.titlewidget(c)
-            },
-            buttons = buttons,
-            layout  = wibox.layout.flex.horizontal
-        },
-        { -- Right
-            awful.titlebar.widget.floatingbutton(c),
-            awful.titlebar.widget.maximizedbutton(c),
-            awful.titlebar.widget.stickybutton(c),
-            awful.titlebar.widget.ontopbutton(c),
-            awful.titlebar.widget.closebutton(c),
-            layout = wibox.layout.fixed.horizontal()
-        },
-        layout = wibox.layout.align.horizontal
-    }
-end)
--- }}}
-
 -- {{{ Notifications
-
 ruled.notification.connect_signal('request::rules', function()
     -- All notifications will match this rule.
     ruled.notification.append_rule {
@@ -569,7 +494,6 @@ end)
 naughty.connect_signal("request::display", function(n)
     naughty.layout.box { notification = n }
 end)
-
 -- }}}
 
 -- Enable sloppy focus, so that focus follows mouse.
