@@ -35,22 +35,17 @@ end)
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
-
--- window gaps
-beautiful.useless_gap = 5
+beautiful.init(gears.filesystem.get_configuration_dir() .. "mytheme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "alacritty"
-editor = os.getenv("EDITOR") or "nvim"
-editor_cmd = terminal .. " -e " .. editor
+local terminal = "alacritty"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
+local modkey = "Mod4"
 -- }}}
 
 -- {{{ Tag layout
@@ -86,10 +81,10 @@ end)
 -- {{{ Wibar
 
 -- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
+local mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock()
+local mytextclock = wibox.widget.textclock()
 
 screen.connect_signal("request::desktop_decoration", function(s)
     -- Each screen has its own tag table.
@@ -132,20 +127,6 @@ screen.connect_signal("request::desktop_decoration", function(s)
         }
     }
 
-    -- Create a tasklist widget
-    -- s.mytasklist = awful.widget.tasklist {
-    --     screen  = s,
-    --     filter  = awful.widget.tasklist.filter.currenttags,
-    --     buttons = {
-    --         awful.button({}, 1, function(c)
-    --             c:activate { context = "tasklist", action = "toggle_minimization" }
-    --         end),
-    --         awful.button({}, 3, function() awful.menu.client_list { theme = { width = 250 } } end),
-    --         awful.button({}, 4, function() awful.client.focus.byidx(-1) end),
-    --         awful.button({}, 5, function() awful.client.focus.byidx(1) end),
-    --     }
-    -- }
-
     local widget_separator = wibox.widget {
         orientation = "horizontal",
         forced_height = 1,
@@ -183,10 +164,6 @@ screen.connect_signal("request::desktop_decoration", function(s)
         }
     }
 end)
-
--- }}}
-
--- }}}
 
 -- {{{ Key bindings
 
@@ -500,10 +477,6 @@ end)
 client.connect_signal("mouse::enter", function(c)
     c:activate { context = "mouse_enter", raise = false }
 end)
-
-beautiful.border_normal = "#222222"
-beautiful.border_focus = "#01caff"
-beautiful.systray_icon_spacing = 10
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
