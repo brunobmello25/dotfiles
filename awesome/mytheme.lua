@@ -13,18 +13,18 @@ local theme = {}
 
 theme.font = "FreeSans Regular 12"
 
-theme.bg_normal   = "#0f0e1ccc"
+theme.bg_normal   = "#1a192b"
 theme.bg_focus    = "#535d6c"
 theme.bg_urgent   = "#e05555"
 theme.bg_minimize = "#444444"
-theme.bg_systray  = "#00000000"
+theme.bg_systray  = theme.bg_normal
 
 theme.fg_normal   = "#aaaaaa"
 theme.fg_focus    = "#ffffff"
 theme.fg_urgent   = "#ffffff"
 theme.fg_minimize = "#ffffff"
 
-theme.useless_gap   = dpi(5)
+theme.useless_gap   = dpi(10)
 theme.border_width  = dpi(1)
 theme.border_normal = "#222222"
 theme.border_focus  = "#01caff"
@@ -42,15 +42,22 @@ theme.border_marked = "#91231c"
 -- hotkeys_[bg|fg|border_width|border_color|shape|opacity|modifiers_fg|label_bg|label_fg|group_margin|font|description_font]
 -- Example:
 --theme.taglist_bg_focus = "#ff0000"
+theme.taglist_bg_focus = "#01caff"
+theme.taglist_bg_urgent = theme.bg_urgent
 
 -- Generate taglist squares:
 local taglist_square_size = dpi(4)
+-- theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
+--     taglist_square_size, theme.fg_normal
+-- )
 theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-    taglist_square_size, theme.fg_normal
+    taglist_square_size, theme.taglist_bg_focus
 )
 theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
     taglist_square_size, theme.fg_normal
 )
+
+theme.taglist_spacing = dpi(10)
 
 -- Variables set for theming notifications:
 -- notification_font

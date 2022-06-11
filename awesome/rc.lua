@@ -86,12 +86,24 @@ local mykeyboardlayout = awful.widget.keyboardlayout()
 -- Create a textclock widget
 local mytextclock = wibox.widget.textclock()
 
+local my_systray = wibox.widget {
+    {
+        wibox.widget.systray(),
+        left   = 10,
+        top    = 2,
+        bottom = 2,
+        right  = 10,
+        widget = wibox.container.margin,
+    },
+    bg         = beautiful.bg_normal,
+    shape      = gears.shape.rounded_rect,
+    shape_clip = true,
+    widget     = wibox.container.background,
+}
+
 screen.connect_signal("request::desktop_decoration", function(s)
     -- Each screen has its own tag table.
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
-
-    -- Create a promptbox for each screen
-    s.mypromptbox = awful.widget.prompt()
 
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
@@ -139,14 +151,13 @@ screen.connect_signal("request::desktop_decoration", function(s)
     s.mywibox = awful.wibar {
         position = "top",
         screen   = s,
+        expand   = 'none',
         widget   = {
             layout = wibox.layout.align.horizontal,
             { -- Left widgets
                 layout = wibox.layout.fixed.horizontal,
-                s.mytaglist,
-                s.mypromptbox,
             },
-            s.mytasklist, -- Middle widget
+            s.mytaglist,
             { -- Right widgets
                 layout = wibox.layout.fixed.horizontal,
                 spacing = 10,
@@ -155,7 +166,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 widget_separator,
                 mykeyboardlayout,
                 widget_separator,
-                wibox.widget.systray(),
+                -- wibox.widget.systray(),
+                my_systray,
                 widget_separator,
                 mytextclock,
                 widget_separator,
@@ -175,16 +187,6 @@ awful.keyboard.append_global_keybindings({
         { description = "reload awesome", group = "awesome" }),
     awful.key({ modkey, "Shift" }, "q", awesome.quit,
         { description = "quit awesome", group = "awesome" }),
-    awful.key({ modkey }, "x",
-        function()
-            awful.prompt.run {
-                prompt       = "Run Lua code: ",
-                textbox      = awful.screen.focused().mypromptbox.widget,
-                exe_callback = awful.util.eval,
-                history_path = awful.util.get_cache_dir() .. "/history_eval"
-            }
-        end,
-        { description = "lua execute prompt", group = "awesome" }),
     awful.key({ modkey, }, "Return", function() awful.spawn(terminal) end,
         { description = "open a terminal", group = "launcher" }),
     awful.key({ modkey }, "d", function() awful.spawn("rofi -show drun") end,
