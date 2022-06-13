@@ -485,4 +485,4 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- Autostart applications
 awful.spawn.with_shell("~/.config/awesome/autorun.sh")
-awful.spawn.with_shell("setxkbmap us -option compose:ralt")
+awful.spawn.with_shell("setxkbmap -layout us -variant intl")
