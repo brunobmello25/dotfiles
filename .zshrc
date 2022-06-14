@@ -55,4 +55,4 @@ if [ -f '/home/brubs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/brubs/googl
 if [ -f '/home/brubs/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/brubs/google-cloud-sdk/completion.zsh.inc'; fi
 
 # === GHCUPS ===
-[ -f "/home/brubs/.ghcup/env" ] && source "/home/brubs/.ghcup/env" # ghcup-env
+if [ -d /home/brubs/.ghcup ]; then . /home/brubs/.ghcup/env; fi # ghcup-env
