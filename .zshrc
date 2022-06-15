@@ -3,7 +3,7 @@ DOTFILES_PATH=~/www/dotfiles
 source $DOTFILES_PATH/zsh_scripts/find-project.sh
 
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="robbyrussell"
+ZSH_THEME="bureau"
 plugins=(git)
 [ -d $ZSH ]  && source $ZSH/oh-my-zsh.sh
 
