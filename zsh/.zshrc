@@ -1,4 +1,4 @@
-DOTFILES_PATH=~/www/dotfiles
+DOTFILES_PATH=~/.dotfiles
 
 source $DOTFILES_PATH/zsh_scripts/find-project.sh
 
