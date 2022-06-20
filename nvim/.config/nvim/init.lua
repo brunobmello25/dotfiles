@@ -56,4 +56,5 @@ return require('packer').startup(function()
     requires = "nvim-lua/plenary.nvim",
   }
   use 'styled-components/vim-styled-components'
+  use 'psliwka/vim-smoothie'
 end)
