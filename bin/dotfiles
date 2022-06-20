@@ -5,9 +5,9 @@ SSH_DIR="$HOME/.ssh"
 DOTFILES_DIR="$HOME/.dotfiles"
 
 # Install ansible
-if ! [ -x "$(command -v ansible)" ]; then
-  sudo pacman -S ansible --noconfirm
-fi
+# if ! [ -x "$(command -v ansible)" ]; then
+#   sudo pacman -S ansible --noconfirm
+# fi
 
 
 # Setup ssh keys
@@ -30,6 +30,8 @@ if [[ -f "$DOTFILES_DIR/requirements.yml" ]]; then
   ansible-galaxy install -r requirements.yml
 fi
 
-
-cd "$DOTFILES_DIR"
-ansible-playbook --diff "$DOTFILES_DIR/playbook.yml"
+# Run ansible playbook
+if [[ -f "$DOTFILES_DIR/requirements.yml" ]]; then
+  cd "$DOTFILES_DIR"
+  ansible-playbook --diff "$DOTFILES_DIR/playbook.yml"
+fi
