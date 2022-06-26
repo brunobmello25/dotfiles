@@ -486,3 +486,4 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- Autostart applications
 awful.spawn.with_shell("~/.config/awesome/autorun.sh")
 awful.spawn.with_shell("setxkbmap -layout us -variant intl")
+awful.spawn.once("xrandr --output DVI-D-0 --off --output DP-0 --primary --mode 1920x1080 --pos 0x1080 --rotate normal --output DP-1 --off --output HDMI-0 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off")
