@@ -11,4 +11,4 @@ setxkbmap -layout us -variant intl
 run picom --config $HOME/.config/picom/picom.conf --experimental-backends
 run kdeconnect-indicator
 run mictray
-sleep 0.1 && nitrogen --restore
+sleep 0.2 && nitrogen --restore
