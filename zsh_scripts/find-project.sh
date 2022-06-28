@@ -10,39 +10,37 @@ assert_file_exists() {
   fi
 }
 
-fp() {
-  config_dir="$HOME/.config/find-project"
-  config_file="$config_dir/projects"
+config_dir="$HOME/.config/find-project"
+config_file="$config_dir/projects"
 
-  if [[ $# == 0 ]]; then
-    assert_file_exists $config_dir $config_file
-    
-    selected=`grep "" $config_file | fzf`
+if [[ $# == 0 ]]; then
+  assert_file_exists $config_dir $config_file
+  
+  selected=`grep "" $config_file | fzf`
 
-    dir=`echo $selected | cut -d " " -f 2`
+  dir=`echo $selected | cut -d " " -f 2`
 
-    if [[ $dir != "" ]]; then
-      cd $dir
-    fi
-    clear
-  elif [[ $# == 1 && $1 == 'add' ]]; then
-    assert_file_exists $config_dir $config_file
-    
-    current_full_path_name=${PWD}
-    
-    grep -vx ${PWD} $config_file > temp && mv temp $config_file 
-    echo $current_full_path_name >> $config_file
-  elif [[ $# == 1 && $1 == 'rm' ]]; then
-    grep -vx ${PWD} $config_file > temp && mv temp $config_file 
-  elif [[ $# == 1 && $1 == 'rmi' ]]; then
-    assert_file_exists $config_dir $config_file
-
-    selected=`grep "" $config_file | fzf`
-
-    grep -vx $selected $config_file > temp && mv temp $config_file 
-
-    echo "Removed \"$selected\" from favorites"
-  else
-    echo "Invalid arguments. You should either call this script with no arguments to open the projects finder, or call it with \"add\" or \"remove\" arguments"
+  if [[ $dir != "" ]]; then
+    cd $dir
   fi
-}
+  clear
+elif [[ $# == 1 && $1 == 'add' ]]; then
+  assert_file_exists $config_dir $config_file
+  
+  current_full_path_name=${PWD}
+  
+  grep -vx ${PWD} $config_file > temp && mv temp $config_file 
+  echo $current_full_path_name >> $config_file
+elif [[ $# == 1 && $1 == 'rm' ]]; then
+  grep -vx ${PWD} $config_file > temp && mv temp $config_file 
+elif [[ $# == 1 && $1 == 'rmi' ]]; then
+  assert_file_exists $config_dir $config_file
+
+  selected=`grep "" $config_file | fzf`
+
+  grep -vx $selected $config_file > temp && mv temp $config_file 
+
+  echo "Removed \"$selected\" from favorites"
+else
+  echo "Invalid arguments. You should either call this script with no arguments to open the projects finder, or call it with \"add\" or \"remove\" arguments"
+fi

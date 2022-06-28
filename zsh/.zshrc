@@ -1,7 +1,5 @@
 DOTFILES_PATH=~/.dotfiles
 
-source $DOTFILES_PATH/zsh_scripts/find-project.sh
-
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="half-life"
 plugins=(git zsh-fzf-history-search)
@@ -20,10 +18,12 @@ alias l="ls -lah"
 alias v="nvim"
 alias lg="lazygit"
 alias t="tmux"
-alias trn="$DOTFILES_PATH/zsh_scripts/name-tmux-session.sh"
 alias dsa="docker stop \$(docker ps | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ')"
 alias dka="docker rm \$(docker ps -a | grep -v -E 'ra-pg$|ra-redis$' | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ')"
 alias dkai="docker rmi \$(docker images)"
+
+alias fp=". $DOTFILES_PATH/zsh_scripts/find-project.sh"
+alias trn="$DOTFILES_PATH/zsh_scripts/name-tmux-session.sh"
 
 bindkey -s '^f' 'fp^M'
 bindkey -s '^n' 'trn^M'
