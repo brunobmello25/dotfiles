@@ -18,8 +18,8 @@ if ! pacman -Qs lightdm-gtk-greeter > /dev/null ; then
 	printf "---------\n\n"
 fi
 
-[ -f /usr/local/bin/fixmonitors.sh ] && rm /usr/local/bin/fixmonitors.sh
-cp $CURRENT_DIR/fixmonitors.sh /usr/local/bin/fixmonitors.sh
+[ -f /usr/share/fixmonitors.sh ] && rm /usr/share/fixmonitors.sh
+cp $CURRENT_DIR/fixmonitors.sh /usr/share/fixmonitors.sh
 
 if [ ! -d /etc/lightdm ]; then
 	mkdir /etc/lightdm
