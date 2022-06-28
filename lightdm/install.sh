@@ -25,15 +25,8 @@ if [ ! -d /etc/lightdm ]; then
 	mkdir /etc/lightdm
 fi
 
-if [ -f /etc/lightdm/lightdm.conf  ]; then
-	echo "lightdm.conf already exists"
-	exit
-fi
-
-if [ -f /etc/lightdm/lightdm-gtk-greeter.conf  ]; then
-	echo "lightdm-gtk-greeter.conf already exists"
-	exit
-fi
+[ -f /etc/lightdm/lightdm.conf ] && rm /etc/lightdm/lightdm.conf
+[ -f /etc/lightdm/lightdm-gtk-greeter.conf ] && rm /etc/lightdm/lightdm-gtk-greeter.conf
 
 cp $CURRENT_DIR/lightdm.conf /etc/lightdm/lightdm.conf
 cp $CURRENT_DIR/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf
