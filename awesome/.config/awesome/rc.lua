@@ -39,6 +39,7 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. "mytheme.lua")
 
 -- This is used later as the default terminal and editor to run.
 local terminal = "alacritty"
+local browser = "firefox"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -189,6 +190,8 @@ awful.keyboard.append_global_keybindings({
         { description = "quit awesome", group = "awesome" }),
     awful.key({ modkey, }, "Return", function() awful.spawn(terminal) end,
         { description = "open a terminal", group = "launcher" }),
+    awful.key({ modkey, }, "b", function() awful.spawn(browser) end,
+        { description = "open a browser", group = "launcher" }),
     awful.key({ modkey }, "d", function() awful.spawn("rofi -show drun") end,
         { description = "run rofi", group = "launcher" }),
     awful.key({}, "Print", function() awful.spawn.with_shell('flameshot gui') end,
