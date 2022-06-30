@@ -33,6 +33,9 @@ naughty.connect_signal("request::display_error", function(message, startup)
 end)
 -- }}}
 
+-- Fully disable notifications
+naughty.connect_signal("request::display", function() end)
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_configuration_dir() .. "mytheme.lua")
