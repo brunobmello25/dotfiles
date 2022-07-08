@@ -7,7 +7,7 @@ function run {
   fi
 }
 
-setxkbmap -layout us -variant intl
+setxkbmap -layout us -variant intl -option "caps:swapescape"
 run picom --config $HOME/.config/picom/picom.conf --experimental-backends
 run kdeconnect-indicator
 run mictray
