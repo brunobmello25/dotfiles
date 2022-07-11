@@ -47,6 +47,7 @@ elif [[ $# == 1 && $1 == 'clean' ]]; then
   cat $config_file | while read line
   do
     if ! [[ -d $line ]]; then
+      echo "Removing $line from favorites because it's not a valid directory"
       grep -vx $line $config_file > temp && mv temp $config_file
     fi
   done
