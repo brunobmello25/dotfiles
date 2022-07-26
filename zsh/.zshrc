@@ -31,7 +31,7 @@ bindkey -s '^n' 'trn^M'
 # === ASDF ===
 [ -d ~/.asdf ] && . $HOME/.asdf/asdf.sh
 
-# === XMONAD PATH ===
+# === SCRIPTS PATH ===
 export PATH="/home/brubs/.local/bin:$PATH"
 
 # === JAVA PATH ===
