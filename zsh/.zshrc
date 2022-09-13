@@ -43,6 +43,7 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 export JDTLS_HOME=$HOME/.local/lib/jdtls
+export GOPATH=$HOME/dev/go
 
 # Driven Config
 export DOCKER_BUILDKIT=1
