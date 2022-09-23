@@ -3,7 +3,7 @@ env:
 font:
   size: 14.0
   normal:
-    family: "Hack Nerd Font"
+    family: "Jetbrains Mono"
 window:
   opacity: 1
   padding:
