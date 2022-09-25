@@ -21,6 +21,7 @@ alias t="tmux"
 alias dsa="docker stop \$(docker ps | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ')"
 alias dka="docker rm \$(docker ps -a | grep -v -E 'ra-pg$|ra-redis$' | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ')"
 alias dkai="docker rmi \$(docker images)"
+alias code="flatpak run com.visualstudio.code"
 
 alias fp=". $DOTFILES_PATH/zsh_scripts/find-project.sh"
 alias trn="$DOTFILES_PATH/zsh_scripts/name-tmux-session.sh"
