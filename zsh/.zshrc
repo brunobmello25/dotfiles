@@ -32,7 +32,7 @@ bindkey -s '^n' 'trn^M'
 [ -d ~/.asdf ] && . $HOME/.asdf/asdf.sh
 
 # === SCRIPTS PATH ===
-export PATH="/home/brubs/.local/bin:$PATH"
+[ -d ~/.local/bin ] && export PATH="/home/brubs/.local/bin:$PATH"
 
 # === JAVA PATH ===
 export JAVA_HOME=/usr/lib/jvm/default
