@@ -1,4 +1,5 @@
 !.env.development
 !.env.test
 !.env.production
+!.env
 .git
