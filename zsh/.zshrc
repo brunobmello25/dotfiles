@@ -34,6 +34,9 @@ bindkey -s '^n' 'trn^M'
 # === SCRIPTS PATH ===
 [ -d ~/.local/bin ] && export PATH="/home/brubs/.local/bin:$PATH"
 
+export LANG=en_US.UTF-8
+export LOCALE=en_US.UTF-8
+
 # === JAVA PATH ===
 export JAVA_HOME=/usr/lib/jvm/default
 export ANDROID_HOME=$HOME/Android/Sdk
