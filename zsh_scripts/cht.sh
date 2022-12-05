@@ -1,6 +1,6 @@
 #!/bin/bash
 languages=`echo "golang lua typescript python" | tr ' ' '\n'`
-core_utils=`echo "xargs find mv sed awk" | tr ' ' '\n'`
+core_utils=`echo "find mv cp sed grep" | tr ' ' '\n'`
 
 selected=`printf "$languages\n$core_utils" | fzf`
 
