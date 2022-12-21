@@ -21,5 +21,6 @@
   show-merge = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
 [core]
   editor=nvim
+	autocrlf = false
 [pull]
 	rebase = false
