@@ -61,3 +61,5 @@ if [ -f '/home/brubs/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/brubs
 
 # === GHCUPS ===
 if [ -d /home/brubs/.ghcup ]; then . /home/brubs/.ghcup/env; fi # ghcup-env
+
+[ -d ~/.private-aliases ] && . ~/.private-aliases/aliases.sh
