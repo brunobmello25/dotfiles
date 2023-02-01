@@ -47,7 +47,6 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 alias myip="curl ifconfig.me"
 
 export JDTLS_HOME=$HOME/.local/lib/jdtls
-export GOPATH=$HOME/dev/go
 
 # Driven Config
 export DOCKER_BUILDKIT=1
