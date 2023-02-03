@@ -79,7 +79,7 @@ curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo tee /usr/share
 sudo apt update -y && sudo apt install google-cloud-cli
 wait_for_keypress
 
-if [! -d "$HOME/.asdf" ]; then
+if [ ! -d "$HOME/.asdf" ]; then
   print_step_header "Installing asdf"
   ASDF_VERSION=$(curl -s "https://api.github.com/repos/asdf-vm/asdf/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
   git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v$ASDF_VERSION
