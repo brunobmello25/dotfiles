@@ -85,7 +85,7 @@ if [ ! -d "$HOME/.asdf" ]; then
 fi
 
 if [ ! -d "$HOME/dev/skeleton.nvim" ]; then
-  SKELETON_NVIM_PATH = ~/dev/skeleton.nvim
+  SKELETON_NVIM_PATH=~/dev/skeleton.nvim
   print_step_header "Installing skeleton.nvim"
   git clone https://github.com/brunobmello25/skeleton.nvim.git $SKELETON_NVIM_PATH
   cd $SKELETON_NVIM_PATH
