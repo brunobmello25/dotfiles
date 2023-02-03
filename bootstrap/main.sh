@@ -27,35 +27,42 @@ wait_for_keypress
 
 print_step_header "Adding alacritty ppa"
 sudo add-apt-repository ppa:aslatter/ppa -y
-sudo apt update
+sudo apt update -y
 wait_for_keypress
 
 print_step_header "Installing packages"
-sudo apt install fzf git curl wget flameshot docker-compose postgresql-client ranger tmux zsh stow ripgrep bat fd-find alacritty
+sudo apt install -y fzf git curl wget flameshot docker-compose postgresql-client ranger tmux zsh stow ripgrep bat fd-find alacritty
 wait_for_keypress
 
-print_step_header "Installing neovim"
 if ! command -v neovim &> /dev/null
 then
-  sudo add-apt-repository ppa:neovim-ppa/unstable
-  sudo apt update
+  print_step_header "Installing neovim"
+  sudo add-apt-repository -y ppa:neovim-ppa/unstable
+  sudo apt update -y
   sudo apt install neovim
 fi
 wait_for_keypress
 
-print_step_header "Installing oh-my-zsh"
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" # TODO: make this idempotent
-wait_for_keypress
+if [ ! -d "$HOME/.oh-my-zsh"]; then
+  print_step_header "Installing oh-my-zsh"
+  git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
+  wait_for_keypress
+fi
 
-print_step_header "Installing zsh-fzf-history-search"
-[ ! -d "${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search" ] && \
-          git clone https://github.com/joshskidmore/zsh-fzf-history-search \
-          ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search
-wait_for_keypress
+if [ ! -d "${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search"  ]; then
+  print_step_header "Installing zsh-fzf-history-search"
 
+  git clone https://github.com/joshskidmore/zsh-fzf-history-search \
+  ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search
 
-[ ! -d "$HOME/.ssh" ] && print_step_header "Setting up ssh keys" && ssh-keygen -t ed25519 -C "bruno.barros.mello@gmail.com" && wait_for_keypress
+  wait_for_keypress
+fi
 
+if [ ! -d "$HOME/.ssh" ]; then
+ print_step_header "Setting up ssh keys"
+ ssh-keygen -t ed25519 -C "bruno.barros.mello@gmail.com"
+ wait_for_keypress
+fi
 
 print_step_header "Installing lazygit"
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
@@ -69,7 +76,7 @@ print_step_header "Installing google cloud cli"
 sudo apt install -y apt-transport-https ca-certificates gnupg
 echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo tee /usr/share/keyrings/cloud.google.gpg
-sudo apt update && sudo apt install google-cloud-cli
+sudo apt update -y && sudo apt install google-cloud-cli
 wait_for_keypress
 
 if [! -d "$HOME/.asdf" ]; then
