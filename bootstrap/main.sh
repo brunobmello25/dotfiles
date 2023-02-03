@@ -44,7 +44,7 @@ fi
 wait_for_keypress
 
 print_step_header "Installing oh-my-zsh"
-curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh # TODO: make this idempotent
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" # TODO: make this idempotent
 wait_for_keypress
 
 print_step_header "Installing zsh-fzf-history-search"
