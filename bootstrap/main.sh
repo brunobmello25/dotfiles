@@ -26,14 +26,8 @@ print_step_header "Updating and upgrading system"
 sudo apt update -y && sudo apt upgrade -y
 wait_for_keypress
 
-
-print_step_header "Adding alacritty ppa"
-sudo add-apt-repository ppa:aslatter/ppa -y
-sudo apt update -y
-wait_for_keypress
-
 print_step_header "Installing packages"
-sudo apt install -y fzf git curl wget flameshot docker-compose postgresql-client ranger tmux zsh stow ripgrep bat fd-find alacritty
+sudo apt install -y fzf git curl wget flameshot docker-compose postgresql-client ranger tmux zsh stow ripgrep bat fd-find
 wait_for_keypress
 
 if ! command -v neovim &> /dev/null
@@ -91,14 +85,16 @@ if [ ! -d "$HOME/.asdf" ]; then
 fi
 
 if [ ! -d "$HOME/dev/skeleton.nvim" ]; then
+  SKELETON_NVIM_PATH = ~/dev/skeleton.nvim
   print_step_header "Installing skeleton.nvim"
-  git clone https://github.com/brunobmello25/skeleton.nvim.git ~/dev/skeleton.nvim
-  cd ~/skeleton.nvim
+  git clone https://github.com/brunobmello25/skeleton.nvim.git $SKELETON_NVIM_PATH
+  cd $SKELETON_NVIM_PATH
   chmod +x ./install.sh
   ./install.sh
   cd
   wait_for_keypress
 fi
+
 
 print_step_header "stowing dotfiles"
 cd ~/.dotfiles
@@ -113,6 +109,12 @@ wait_for_keypress
 
 print "changing default shell to zsh"
 chsh -s $(which zsh)
+
+print_step_header "Adding alacritty ppa and Installing it"
+sudo add-apt-repository ppa:aslatter/ppa -y
+sudo apt update -y
+sudo apt install alacritty -y
+wait_for_keypress
 
 echo "Done!"
 echo "Now remember to add your ssh key to github and then run the after script"
