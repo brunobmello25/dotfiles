@@ -74,12 +74,13 @@ sudo install lazygit /usr/local/bin
 wait_for_keypress
 
 
-print_step_header "Installing google cloud cli"
-sudo apt install -y apt-transport-https ca-certificates gnupg
-echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo tee /usr/share/keyrings/cloud.google.gpg
-sudo apt update -y && sudo apt install google-cloud-cli
-wait_for_keypress
+# TODO: uncomment this
+# print_step_header "Installing google cloud cli"
+# sudo apt install -y apt-transport-https ca-certificates gnupg
+# echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+# curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo tee /usr/share/keyrings/cloud.google.gpg
+# sudo apt update -y && sudo apt install google-cloud-cli
+# wait_for_keypress
 
 if [ ! -d "$HOME/.asdf" ]; then
   print_step_header "Installing asdf"
