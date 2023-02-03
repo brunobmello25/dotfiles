@@ -92,7 +92,7 @@ fi
 
 if [ ! -d "$HOME/dev/skeleton.nvim" ]; then
   print_step_header "Installing skeleton.nvim"
-  git clone https://github.com/brunobmello25/skeleton.nvim.git
+  git clone https://github.com/brunobmello25/skeleton.nvim.git ~/dev/skeleton.nvim
   cd ~/skeleton.nvim
   chmod +x ./install.sh
   ./install.sh
