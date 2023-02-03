@@ -107,8 +107,9 @@ stow ignore
 cd
 wait_for_keypress
 
-print "changing default shell to zsh"
+print_step_header "changing default shell to zsh"
 chsh -s $(which zsh)
+wait_for_keypress
 
 print_step_header "Adding alacritty ppa and Installing it"
 sudo add-apt-repository ppa:aslatter/ppa -y
