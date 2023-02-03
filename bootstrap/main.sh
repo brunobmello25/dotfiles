@@ -41,7 +41,7 @@ then
   print_step_header "Installing neovim"
   sudo add-apt-repository -y ppa:neovim-ppa/unstable
   sudo apt update -y
-  sudo apt install neovim
+  sudo apt install -y neovim
 fi
 wait_for_keypress
 
