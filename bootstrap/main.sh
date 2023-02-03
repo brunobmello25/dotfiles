@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# force exit on error
+set -e
+
 function wait_for_keypress {
     echo ""
     echo "press any key to continue"
@@ -23,7 +26,7 @@ wait_for_keypress
 
 
 print_step_header "Adding alacritty ppa"
-sudo add-apt-repository ppa:mmstick76/alacritty
+sudo add-apt-repository ppa:aslatter/ppa -y
 sudo apt update
 wait_for_keypress
 
