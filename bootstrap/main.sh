@@ -1,19 +1,17 @@
 #!/usr/bin/env bash
 
-
-
-# make a function that waits for using to press any key
 function wait_for_keypress {
     echo "Press any key to continue"
     read -n 1 -s
     echo ""
 }
 
-
 echo "Updating and upgrading system"
 sudo apt update -y && sudo apt upgrade -y
 
 wait_for_keypress
+
+sudo add-apt-repository ppa:mmstick76/alacritty
 
 echo "Installing packages"
 to_install=(fzf git curl wget flameshot docker-compose postgresql-client ranger tmux zsh stow ripgrep bat fd-find alacritty)
