@@ -43,7 +43,7 @@ then
 fi
 wait_for_keypress
 
-if [ ! -d "$HOME/.oh-my-zsh"]; then
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
   print_step_header "Installing oh-my-zsh"
   git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
   wait_for_keypress
