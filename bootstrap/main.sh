@@ -35,7 +35,7 @@ wait_for_keypress
 echo "Installing oh-my-zsh"
 curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh # TODO: make this idempotent
 
-[ ! -d "${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search" ] \
+[ ! -d "${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search" ] && \
           git clone https://github.com/joshskidmore/zsh-fzf-history-search \
           ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search
 
