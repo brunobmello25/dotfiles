@@ -20,6 +20,8 @@ function print_step_header {
     echo ""
 }
 
+mkdir -p ~/dev
+
 print_step_header "Updating and upgrading system"
 sudo apt update -y && sudo apt upgrade -y
 wait_for_keypress
@@ -87,15 +89,15 @@ if [ ! -d "$HOME/.asdf" ]; then
   wait_for_keypress
 fi
 
-
-# if [ ! -d "$HOME/.dotfiles" ]; then 
-#   echo "Cloning dotfiles"
-#   git clone https://github.com/brunobmello25/dotfiles.git ~/.dotfiles
-# fi
-
-
-
-
+if [ ! -d "$HOME/dev/skeleton.nvim" ]; then
+  print_step_header "Installing skeleton.nvim"
+  git clone https://github.com/brunobmello25/skeleton.nvim.git
+  cd ~/skeleton.nvim
+  chmod +x ./install.sh
+  ./install.sh
+  cd
+  wait_for_keypress
+fi
 
 print_step_header "stowing dotfiles"
 cd ~/.dotfiles
@@ -105,4 +107,11 @@ stow tmux
 stow zsh
 stow alacritty
 stow ignore
+cd
 wait_for_keypress
+
+print "changing default shell to zsh"
+chsh -s $(which zsh)
+
+echo "Done!"
+echo "Now remember to add your ssh key to github and then run the after script"
