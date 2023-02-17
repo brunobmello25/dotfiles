@@ -133,5 +133,9 @@ print_step_header "changing default shell to zsh"
 chsh -s $(which zsh)
 wait_for_keypress
 
+print_step_header "Install ranger devicons"
+git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger/plugins/ranger_devicons
+wait_for_keypress
+
 echo "Done!"
 echo "Now remember to add your ssh key to github and then run the after script"
