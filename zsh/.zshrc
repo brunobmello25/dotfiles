@@ -51,6 +51,8 @@ export JDTLS_HOME=$HOME/.local/lib/jdtls
 # Driven Config
 export DOCKER_BUILDKIT=1
 
+export EDITOR="nvim"
+
 # === GOOGLE CLOUD SDK ===
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/brubs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/brubs/google-cloud-sdk/path.zsh.inc'; fi
