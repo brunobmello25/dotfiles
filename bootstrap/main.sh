@@ -137,5 +137,13 @@ print_step_header "Install ranger devicons"
 git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger/plugins/ranger_devicons
 wait_for_keypress
 
+print_step_header "Adjusting keyboard layout"
+sudo apt-add-repository -y ppa:rael-gc/utils
+sudo apt update
+sudo apt install win-us-intl
+gsettings set org.gnome.settings-daemon.plugins.xsettings disabled-gtk-modules '["'keyboard'"]'
+im-config -n uim
+wait_for_keypress
+
 echo "Done!"
 echo "Now remember to add your ssh key to github and then run the after script"
