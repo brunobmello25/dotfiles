@@ -27,7 +27,7 @@ sudo apt update -y && sudo apt dist-upgrade -y
 wait_for_keypress
 
 print_step_header "Installing packages"
-sudo apt install -y fzf git curl wget flameshot postgresql-client ranger tmux zsh stow ripgrep bat fd-find kitty
+sudo apt install -y fzf git curl wget flameshot postgresql-client ranger tmux zsh stow ripgrep bat fd-find alacritty
 wait_for_keypress
 
 print_step_header "Installing vanilla gnome session"
@@ -123,7 +123,7 @@ stow git
 stow fd
 stow tmux
 stow zsh
-stow kitty
+stow alacritty
 stow ignore
 cd
 wait_for_keypress
