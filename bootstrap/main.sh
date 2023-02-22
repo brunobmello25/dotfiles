@@ -72,7 +72,6 @@ sudo install lazygit /usr/local/bin
 wait_for_keypress
 
 print_step_header "Installing docker"
-sudo apt-get remove docker docker-engine docker.io containerd runc
 sudo apt-get update
 sudo apt-get install \
     ca-certificates \
@@ -85,7 +84,7 @@ echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update -y
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo apt-get install --reinstall docker-ce docker-ce-cli containerd.io docker-compose-plugin
 sudo groupadd docker
 sudo usermod -aG docker $USER
 wait_for_keypress
