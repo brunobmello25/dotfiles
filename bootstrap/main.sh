@@ -27,7 +27,7 @@ sudo apt update -y && sudo apt dist-upgrade -y
 wait_for_keypress
 
 print_step_header "Installing packages"
-sudo apt install -y fzf git curl wget flameshot docker-compose postgresql-client ranger tmux zsh stow ripgrep bat fd-find kitty
+sudo apt install -y fzf git curl wget flameshot postgresql-client ranger tmux zsh stow ripgrep bat fd-find kitty
 wait_for_keypress
 
 print_step_header "Installing vanilla gnome session"
@@ -71,31 +71,31 @@ tar xf lazygit.tar.gz lazygit
 sudo install lazygit /usr/local/bin
 wait_for_keypress
 
-print_step_header "Installing docker"
-sudo apt-get update
-sudo apt-get install \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
-sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update -y
-sudo apt-get install --reinstall docker-ce docker-ce-cli containerd.io docker-compose-plugin
-sudo groupadd docker
-sudo usermod -aG docker $USER
-wait_for_keypress
-
-# TODO: uncomment this
-# print_step_header "Installing google cloud cli"
-# sudo apt install -y apt-transport-https ca-certificates gnupg
-# echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-# curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo tee /usr/share/keyrings/cloud.google.gpg
-# sudo apt update -y && sudo apt install google-cloud-cli
+# TODO: fix this
+# print_step_header "Installing docker"
+# sudo apt-get update
+# sudo apt-get install \
+#     ca-certificates \
+#     curl \
+#     gnupg \
+#     lsb-release
+# sudo mkdir -p /etc/apt/keyrings
+# curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+# echo \
+#   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+#   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# sudo apt-get update -y
+# sudo apt-get install --reinstall docker-ce docker-ce-cli containerd.io docker-compose-plugin
+# sudo groupadd docker
+# sudo usermod -aG docker $USER
 # wait_for_keypress
+
+print_step_header "Installing google cloud cli"
+sudo apt install -y apt-transport-https ca-certificates gnupg
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo tee /usr/share/keyrings/cloud.google.gpg
+sudo apt update -y && sudo apt install google-cloud-cli
+wait_for_keypress
 
 if [ ! -d "$HOME/.asdf" ]; then
   print_step_header "Installing asdf"
