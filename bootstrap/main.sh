@@ -23,11 +23,11 @@ function print_step_header {
 mkdir -p ~/dev
 
 print_step_header "Updating and upgrading system"
-sudo apt update -y && sudo apt upgrade -y
+sudo apt update -y && sudo apt dist-upgrade -y
 wait_for_keypress
 
 print_step_header "Installing packages"
-sudo apt install -y fzf git curl wget flameshot docker-compose postgresql-client ranger tmux zsh stow ripgrep bat fd-find alacritty
+sudo apt install -y fzf git curl wget flameshot docker-compose postgresql-client ranger tmux zsh stow ripgrep bat fd-find kitty
 wait_for_keypress
 
 print_step_header "Installing vanilla gnome session"
@@ -124,7 +124,7 @@ stow git
 stow fd
 stow tmux
 stow zsh
-stow alacritty
+stow kitty
 stow ignore
 cd
 wait_for_keypress
