@@ -1,5 +1,5 @@
 #!/bin/bash
-languages=`echo "golang lua typescript python" | tr ' ' '\n'`
+languages=`echo "golang rust lua typescript python" | tr ' ' '\n'`
 core_utils=`echo "find mv cp sed grep" | tr ' ' '\n'`
 
 selected=`printf "$languages\n$core_utils" | fzf`
