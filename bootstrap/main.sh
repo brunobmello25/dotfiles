@@ -49,12 +49,11 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
   wait_for_keypress
 fi
 
-if [ ! -d "${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search"  ]; then
+if [! -d "$HOME/.oh-my-zsh/custom/plugins" ]; then
   print_step_header "Installing zsh-fzf-history-search"
-
+  mkdir -p ~/.oh-my-zsh/custom/plugins
   git clone https://github.com/joshskidmore/zsh-fzf-history-search \
-  ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search
-
+  =~/.oh-my-zsh/custom/plugins/zsh-fzf-history-search
   wait_for_keypress
 fi
 
