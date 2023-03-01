@@ -118,6 +118,7 @@ stow git
 stow fd
 stow tmux
 stow zsh
+stow bin
 stow alacritty
 stow ignore
 cd

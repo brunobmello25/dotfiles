@@ -22,8 +22,7 @@ alias dsa="docker stop \$(docker ps | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' 
 alias dka="docker rm \$(docker ps -a | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ')"
 alias dkai="docker rmi \$(docker images | tail -n +2 | tr -s ' ' | cut -d ' ' -f 3 | tr '\\n' ' ')"
 
-alias fp=". $DOTFILES_PATH/zsh_scripts/find-project.sh"
-bindkey -s '^f' 'fp^M'
+bindkey -s ^f ". find-project\n"
 
 # alias trn="$DOTFILES_PATH/zsh_scripts/name-tmux-session.sh"
 # bindkey -s '^n' 'trn^M'
@@ -33,6 +32,7 @@ bindkey -s '^f' 'fp^M'
 
 # === SCRIPTS PATH ===
 [ -d ~/.local/bin ] && export PATH="/home/brubs/.local/bin:$PATH"
+[ -d ~/.local/scripts ] && export PATH="$HOME/.local/scripts:$PATH"
 
 export LANG=en_US.UTF-8
 export LOCALE=en_US.UTF-8
