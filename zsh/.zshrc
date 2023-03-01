@@ -31,7 +31,7 @@ bindkey -s ^f ". find-project\n"
 [ -d ~/.asdf ] && . $HOME/.asdf/asdf.sh
 
 # === SCRIPTS PATH ===
-[ -d ~/.local/bin ] && export PATH="/home/brubs/.local/bin:$PATH"
+[ -d ~/.local/bin ] && export PATH="$HOME/.local/bin:$PATH"
 [ -d ~/.local/scripts ] && export PATH="$HOME/.local/scripts:$PATH"
 
 export LANG=en_US.UTF-8
@@ -55,12 +55,12 @@ export EDITOR="nvim"
 
 # === GOOGLE CLOUD SDK ===
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/brubs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/brubs/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '$HOME/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/brubs/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/brubs/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '$HOME/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/google-cloud-sdk/completion.zsh.inc'; fi
 
 # === GHCUPS ===
-if [ -d /home/brubs/.ghcup ]; then . /home/brubs/.ghcup/env; fi # ghcup-env
+if [ -d $HOME/.ghcup ]; then . $HOME/.ghcup/env; fi # ghcup-env
 
 [ -d ~/.private-aliases ] && . ~/.private-aliases/aliases.sh
