@@ -27,7 +27,7 @@ sudo apt update -y && sudo apt dist-upgrade -y
 wait_for_keypress
 
 print_step_header "Installing packages"
-sudo apt install -y fzf git curl wget flameshot postgresql-client ranger tmux zsh stow ripgrep bat fd-find alacritty
+sudo apt install -y fzf git curl wget flameshot postgresql-client ranger tmux zsh stow ripgrep bat fd-find alacritty fonts-firacode
 wait_for_keypress
 
 print_step_header "Installing vanilla gnome session"
