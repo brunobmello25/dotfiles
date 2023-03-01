@@ -49,6 +49,10 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
   wait_for_keypress
 fi
 
+print_step_header "Installing tmux plugin manager"
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+wait_for_keypress
+
 print_step_header "Installing zsh-fzf-history-search"
 git clone https://github.com/joshskidmore/zsh-fzf-history-search ~/.oh-my-zsh/custom/plugins/zsh-fzf-history-search
 wait_for_keypress
@@ -64,6 +68,8 @@ LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/re
 curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 tar xf lazygit.tar.gz lazygit
 sudo install lazygit /usr/local/bin
+rm lazygit
+rm lazygit.tar.gz
 wait_for_keypress
 
 # TODO: fix this
