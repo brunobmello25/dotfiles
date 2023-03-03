@@ -27,7 +27,7 @@ sudo apt update -y && sudo apt dist-upgrade -y
 wait_for_keypress
 
 print_step_header "Installing packages"
-sudo apt install -y fzf git curl wget flameshot postgresql-client ranger tmux zsh stow ripgrep bat fd-find alacritty fonts-firacode
+sudo apt install -y fzf git curl wget flameshot postgresql-client ranger tmux zsh stow ripgrep bat fd-find alacritty fonts-firacode build-essential libx11-dev libxinerama-dev
 wait_for_keypress
 
 print_step_header "Installing vanilla gnome session"
@@ -144,6 +144,12 @@ sudo apt update
 sudo apt install win-us-intl
 gsettings set org.gnome.settings-daemon.plugins.xsettings disabled-gtk-modules '["'keyboard'"]'
 im-config -n uim
+wait_for_keypress
+
+print_step_header "Setting up symlinks"
+mkdir -p ~/.local/bin
+cd ~/.local/bin
+ln -s /usr/bin/batcat bat
 wait_for_keypress
 
 echo "Done!"
