@@ -5,7 +5,6 @@ ZSH_THEME="half-life"
 plugins=(git zsh-fzf-history-search)
 [ -d $ZSH ]  && source $ZSH/oh-my-zsh.sh
 
-
 # === ALIASES ===
 alias cdex="code . && exit"
 alias rs="rails s -b 0.0.0.0"
@@ -22,11 +21,9 @@ alias dsa="docker stop \$(docker ps | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' 
 alias dka="docker rm \$(docker ps -a | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ')"
 alias dkai="docker rmi \$(docker images | tail -n +2 | tr -s ' ' | cut -d ' ' -f 3 | tr '\\n' ' ')"
 
-alias fp="find-project"
-bindkey -s ^f ". find-project\n"
+alias dotf="cd $DOTFILES_PATH"
 
-# alias trn="$DOTFILES_PATH/zsh_scripts/name-tmux-session.sh"
-# bindkey -s '^n' 'trn^M'
+bindkey -s ^f "tmux-sessionizer\n"
 
 # === ASDF ===
 [ -d ~/.asdf ] && . $HOME/.asdf/asdf.sh
