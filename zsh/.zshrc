@@ -21,8 +21,6 @@ alias dsa="docker stop \$(docker ps | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' 
 alias dka="docker rm \$(docker ps -a | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ')"
 alias dkai="docker rmi \$(docker images | tail -n +2 | tr -s ' ' | cut -d ' ' -f 3 | tr '\\n' ' ')"
 
-alias dotf="cd $DOTFILES_PATH"
-
 bindkey -s ^f "tmux-sessionizer\n"
 
 # === ASDF ===
