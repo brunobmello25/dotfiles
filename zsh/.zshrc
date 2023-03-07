@@ -24,8 +24,8 @@ alias tks="tmux kill-server"
 
 bindkey -s ^f "tmux-sessionizer\n"
 
-bindkey -s ^h backward-char
-bindkey -s ^l forward-char
+bindkey "^h" backward-char
+bindkey "^l" forward-char
 
 # === ASDF ===
 [ -d ~/.asdf ] && . $HOME/.asdf/asdf.sh
