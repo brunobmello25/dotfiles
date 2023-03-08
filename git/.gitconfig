@@ -1,7 +1,6 @@
 [user]
   name = Bruno Mello
   email = bruno.barros.mello@gmail.com
-
 [alias]
   ci = commit
   co = checkout
@@ -24,3 +23,5 @@
 	autocrlf = false
 [pull]
 	rebase = false
+[init]
+	defaultBranch = main
