@@ -17,10 +17,9 @@ alias l="ls -lah"
 alias v="nvim"
 alias lg="lazygit"
 alias t="tmux"
-alias dsa="docker stop \$(docker ps | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ')"
-alias dka="docker rm \$(docker ps -a | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ')"
-alias dkai="docker rmi \$(docker images | tail -n +2 | tr -s ' ' | cut -d ' ' -f 3 | tr '\\n' ' ')"
+alias dsa="docker stop \$(docker ps | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ') ; docker rm \$(docker ps -a | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ')"
 alias tks="tmux kill-server"
+alias killdrivenservers="tmux kill-session -t driven-servers"
 
 bindkey '^h' backward-char
 bindkey '^l' forward-char
