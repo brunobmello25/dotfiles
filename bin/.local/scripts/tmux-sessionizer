@@ -3,7 +3,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    dirs=$(find ~/dev ~/dev/personal ~/dev/personal/learn-rust ~/dev/work ~/dev/work/hub ~/dev/faculdade -mindepth 1 -maxdepth 1 -type d)
+    dirs=$(find ~/dev ~/dev/personal ~/dev/faculdade -mindepth 1 -maxdepth 1 -type d)
     selected=$(printf "%s\n%s" "$dirs" "$HOME/.dotfiles" | fzf)
 fi
 
