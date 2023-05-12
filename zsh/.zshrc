@@ -65,3 +65,6 @@ if [ -f '$HOME/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/google-clou
 if [ -d $HOME/.ghcup ]; then . $HOME/.ghcup/env; fi # ghcup-env
 
 [ -d ~/.private-aliases ] && . ~/.private-aliases/aliases.sh
+
+export PATH=$PATH:$HOME/ardupilot/Tools/autotest
+export PATH=/usr/lib/ccache:$PATH
