@@ -15,9 +15,9 @@ alias lg="lazygit"
 alias t="tmux"
 alias dsa="docker stop \$(docker ps | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ') ; docker rm \$(docker ps -a | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ')"
 alias myip="curl ifconfig.me"
-alias vpn_connect="warp-cli connect"
-alias vpn_disconnect="warp-cli disconnect"
-alias vpn_status="curl https://www.cloudflare.com/cdn-cgi/trace/"
+alias vpnconnect="warp-cli connect"
+alias vpndisconnect="warp-cli disconnect"
+alias vpnstatus="curl https://www.cloudflare.com/cdn-cgi/trace/"
 bindkey -s '^f' "tmux-sessionizer\n"
 
 # === ASDF ===
