@@ -15,6 +15,14 @@ config.window_padding = {
 
 config.colors = {
   cursor_bg = '#ccc',
+  background = '#070707',
+}
+
+config.enable_tab_bar = false
+
+-- set font to FiraCode Nerd Font
+config.font = wezterm.font_with_fallback {
+  'FiraCode Nerd Font',
 }
 
 return config
