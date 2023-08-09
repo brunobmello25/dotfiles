@@ -21,7 +21,11 @@ alias vpnstatus="curl https://www.cloudflare.com/cdn-cgi/trace/"
 bindkey -s '^f' "tmux-sessionizer\n"
 
 # === ASDF ===
-[ -d ~/.asdf ] && . $HOME/.asdf/asdf.sh
+if [ -d ~/.asdf ]; then
+  . $HOME/.asdf/asdf.sh
+  export GOPATH=~/.asdf/installs/golang/1.18/packages
+  export PATH=$PATH:$GOPATH/bin
+fi
 
 # === SCRIPTS PATH ===
 [ -d ~/.local/scripts ] && export PATH="$HOME/.local/scripts:$PATH"
