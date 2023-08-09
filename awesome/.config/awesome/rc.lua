@@ -51,18 +51,20 @@ end
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
+beautiful.useless_gap = 4
+
 -- This is used later as the default terminal and editor to run.
-browser = "google-chrome-stable"
-terminal = "alacritty"
-editor = os.getenv("EDITOR") or "nvim"
-editor_cmd = terminal .. " -e " .. editor
+local browser = "google-chrome-stable"
+local terminal = "alacritty"
+local editor = os.getenv("EDITOR") or "nvim"
+local editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
+local modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -158,15 +160,7 @@ local tasklist_buttons = gears.table.join(
   end))
 
 local function set_wallpaper(s)
-  -- Wallpaper
-  if beautiful.wallpaper then
-    local wallpaper = beautiful.wallpaper
-    -- If wallpaper is a function, call it with the screen
-    if type(wallpaper) == "function" then
-      wallpaper = wallpaper(s)
-    end
-    gears.wallpaper.maximized(wallpaper, s, true)
-  end
+  gears.wallpaper.maximized("/home/brubs/Pictures/catppuccin-wallpaper.png", s, true)
 end
 
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
@@ -197,11 +191,11 @@ awful.screen.connect_for_each_screen(function(s)
   }
 
   -- Create a tasklist widget
-  s.mytasklist = awful.widget.tasklist {
-    screen  = s,
-    filter  = awful.widget.tasklist.filter.currenttags,
-    buttons = tasklist_buttons
-  }
+  -- s.mytasklist = awful.widget.tasklist {
+  --   screen  = s,
+  --   filter  = awful.widget.tasklist.filter.currenttags,
+  --   buttons = tasklist_buttons
+  -- }
 
   -- Create the wibox
   s.mywibox = awful.wibar({ position = "top", screen = s })
@@ -239,9 +233,13 @@ root.buttons(gears.table.join(
 globalkeys = gears.table.join(
   awful.key({ modkey, }, "s", hotkeys_popup.show_help,
     { description = "show help", group = "awesome" }),
-  awful.key({ modkey, }, "Left", awful.tag.viewprev,
+  -- awful.key({ modkey, }, "Left", awful.tag.viewprev,
+  --   { description = "view previous", group = "tag" }),
+  -- awful.key({ modkey, }, "Right", awful.tag.viewnext,
+  --   { description = "view next", group = "tag" }),
+  awful.key({ modkey, "Shift" }, "Tab", awful.tag.viewprev,
     { description = "view previous", group = "tag" }),
-  awful.key({ modkey, }, "Right", awful.tag.viewnext,
+  awful.key({ modkey, }, "Tab", awful.tag.viewnext,
     { description = "view next", group = "tag" }),
   awful.key({ modkey, }, "Escape", awful.tag.history.restore,
     { description = "go back", group = "tag" }),
@@ -258,18 +256,20 @@ globalkeys = gears.table.join(
     end,
     { description = "focus previous by index", group = "client" }
   ),
-  awful.key({ modkey, }, "w", function() mymainmenu:show() end,
-    { description = "show main menu", group = "awesome" }),
+  -- awful.key({ modkey, }, "w", function() mymainmenu:show() end,
+  --   { description = "show main menu", group = "awesome" }),
 
   -- Layout manipulation
   awful.key({ modkey, "Shift" }, "j", function() awful.client.swap.byidx(1) end,
     { description = "swap with next client by index", group = "client" }),
   awful.key({ modkey, "Shift" }, "k", function() awful.client.swap.byidx(-1) end,
     { description = "swap with previous client by index", group = "client" }),
-  awful.key({ modkey, "Control" }, "j", function() awful.screen.focus_relative(1) end,
+  awful.key({ modkey, "Shift" }, "o", function() awful.screen.focus_relative(1) end,
     { description = "focus the next screen", group = "screen" }),
-  awful.key({ modkey, "Control" }, "k", function() awful.screen.focus_relative(-1) end,
-    { description = "focus the previous screen", group = "screen" }),
+  -- awful.key({ modkey, "Control" }, "j", function() awful.screen.focus_relative(1) end,
+  --   { description = "focus the next screen", group = "screen" }),
+  -- awful.key({ modkey, "Control" }, "k", function() awful.screen.focus_relative(-1) end,
+  --   { description = "focus the previous screen", group = "screen" }),
   awful.key({ modkey, }, "u", awful.client.urgent.jumpto,
     { description = "jump to urgent client", group = "client" }),
   awful.key({ modkey, }, "Tab",
@@ -280,6 +280,9 @@ globalkeys = gears.table.join(
       end
     end,
     { description = "go back", group = "client" }),
+
+  awful.key({ modkey, }, "b", function() awful.spawn(browser) end,
+    { description = "open chrome browser", group = "launcher" }),
 
   -- Standard program
   awful.key({ modkey, }, "Return", function() awful.spawn(terminal) end,
@@ -302,7 +305,11 @@ globalkeys = gears.table.join(
     { description = "increase the number of columns", group = "layout" }),
   awful.key({ modkey, "Control" }, "l", function() awful.tag.incncol(-1, nil, true) end,
     { description = "decrease the number of columns", group = "layout" }),
-  awful.key({ modkey, }, "space", function() awful.layout.inc(1) end,
+  -- awful.key({ modkey, }, "space", function() awful.layout.inc(1) end,
+  --   { description = "select next", group = "layout" }),
+
+
+  awful.key({ modkey, }, "space", function() awful.spawn("rofi -show drun") end,
     { description = "select next", group = "layout" }),
   awful.key({ modkey, "Shift" }, "space", function() awful.layout.inc(-1) end,
     { description = "select previous", group = "layout" }),
@@ -345,7 +352,7 @@ clientkeys = gears.table.join(
       c:raise()
     end,
     { description = "toggle fullscreen", group = "client" }),
-  awful.key({ modkey, "Shift" }, "c", function(c) c:kill() end,
+  awful.key({ modkey }, "w", function(c) c:kill() end,
     { description = "close", group = "client" }),
   awful.key({ modkey, "Control" }, "space", awful.client.floating.toggle,
     { description = "toggle floating", group = "client" }),
@@ -458,7 +465,8 @@ awful.rules.rules = {
     rule = {},
     properties = {
       border_width = beautiful.border_width,
-      border_color = beautiful.border_normal,
+      -- border_color = beautiful.border_normal,
+      border_color = "#decaff",
       focus = awful.client.focus.filter,
       raise = true,
       keys = clientkeys,
@@ -486,7 +494,8 @@ awful.rules.rules = {
         "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
         "Wpa_gui",
         "veromix",
-        "xtightvncviewer" },
+        "xtightvncviewer",
+        "gnome-calculator" },
 
       -- Note that the name property shown in xprop might be set slightly after creation of the client
       -- and the name shown there might not match defined rules here.
@@ -496,22 +505,38 @@ awful.rules.rules = {
       role = {
         "AlarmWindow",   -- Thunderbird's calendar.
         "ConfigManager", -- Thunderbird's about:config.
-        "pop-up",        -- e.g. Google Chrome's (detached) Developer Tools.
+        -- "pop-up",        -- e.g. Google Chrome's (detached) Developer Tools. TODO: this rule is commented because of whatsapp web and telegram web windows
       }
     },
     properties = { floating = true }
   },
 
   -- Add titlebars to normal clients and dialogs
-  {
-    rule_any = { type = { "normal", "dialog" }
-    },
-    properties = { titlebars_enabled = true }
-  },
+  -- {
+  --   rule_any = { type = { "normal", "dialog" }
+  --   },
+  --   properties = { titlebars_enabled = true }
+  -- },
 
   -- Set Firefox to always map on the tag named "2" on screen 1.
   -- { rule = { class = "Firefox" },
   --   properties = { screen = 1, tag = "2" } },
+  {
+    rule_any = { name = { "Google Chrome" } },
+    properties = { screen = 1, tag = "2" }
+  },
+  {
+    rule_any = { class = { "slack", "Slack" } },
+    properties = { screen = 1, tag = "3" }
+  },
+  {
+    rule_any = { name = { "WhatsApp Web" } },
+    properties = { screen = 1, tag = "4" }
+  },
+  {
+    rule_any = { name = { "telegram*" } },
+    properties = { screen = 1, tag = "4" }
+  },
 }
 -- }}}
 
