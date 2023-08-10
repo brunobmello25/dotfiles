@@ -17,6 +17,7 @@ local capslock = require("capslock")
 local constants = require("constants")
 local util = require("util")
 local vpn_status = require('vpn_status')
+local calendar_widget = require('awesome-wm-widgets.calendar-widget.calendar')
 
 require("awful.hotkeys_popup.keys")
 
@@ -107,13 +108,27 @@ awful.screen.connect_for_each_screen(function(s)
     s.mypromptbox,
   }
 
+  local mytextclock = wibox.widget.textclock()
+  local cw = calendar_widget({
+    theme = 'naughty',
+    placement = "top_right",
+    start_sunday = true,
+    radius = 8,
+    previous_month_button = 1,
+    next_month_button = 3,
+  })
+  mytextclock:connect_signal("button::press",
+    function(_, _, _, button)
+      if button == 1 then cw.toggle() end
+    end)
+
   local rightwidgets = {
     layout = wibox.layout.fixed.horizontal,
     capslock,
     vpn_status,
     awful.widget.keyboardlayout(),
     wibox.widget.systray(),
-    wibox.widget.textclock(),
+    mytextclock,
     s.mylayoutbox,
   }
 
