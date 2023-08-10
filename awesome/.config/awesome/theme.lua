@@ -9,6 +9,8 @@ local dpi                                       = xresources.apply_dpi
 local gfs                                       = require("gears.filesystem")
 local themes_path                               = gfs.get_themes_dir()
 
+local mic                                       = require('mic')
+
 local theme                                     = {}
 
 theme.font                                      = "sans 10"
@@ -125,6 +127,22 @@ theme.awesome_icon                              = theme_assets.awesome_icon(
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
 theme.icon_theme                                = nil
+
+-- require('util').P(gfs.get_configuration_dir() .. "icons/micMuted.png")
+
+theme.widget_micMuted                           = gfs.get_configuration_dir() .. "icons/micMuted2.png"
+theme.widget_micUnmuted                         = gfs.get_configuration_dir() .. "icons/micUnmuted2.png"
+
+theme.mic                                       = mic({
+    timeout = 10,
+    settings = function(self)
+        if self.state == "muted" then
+            self.widget:set_image(theme.widget_micMuted)
+        else
+            self.widget:set_image(theme.widget_micUnmuted)
+        end
+    end
+})
 
 return theme
 

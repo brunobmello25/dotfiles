@@ -122,11 +122,14 @@ awful.screen.connect_for_each_screen(function(s)
       if button == 1 then cw.toggle() end
     end)
 
+  local widget_mic = wibox.widget { beautiful.mic.widget, layout = wibox.layout.align.horizontal }
+
   local rightwidgets = {
     layout = wibox.layout.fixed.horizontal,
     capslock,
     vpn_status,
     awful.widget.keyboardlayout(),
+    widget_mic,
     wibox.widget.systray(),
     mytextclock,
     s.mylayoutbox,
@@ -275,7 +278,15 @@ globalkeys = gears.table.join(
         history_path = awful.util.get_cache_dir() .. "/history_eval"
       }
     end,
-    { description = "lua execute prompt", group = "awesome" })
+    { description = "lua execute prompt", group = "awesome" }),
+
+  -- Toggle microphone state
+  awful.key({ "Mod1", "Shift" }, "m",
+    function()
+      beautiful.mic:toggle()
+    end,
+    { description = "Toggle microphone (amixer)", group = "Hotkeys" }
+  )
 )
 
 clientkeys = gears.table.join(
@@ -523,4 +534,4 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
-awful.spawn("solaar" .. " -w hide")
+-- awful.spawn("solaar" .. " -w hide")
