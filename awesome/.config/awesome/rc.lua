@@ -14,6 +14,7 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
+local capslock = require("capslock")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
@@ -213,6 +214,7 @@ awful.screen.connect_for_each_screen(function(s)
     s.mytasklist, -- Middle widget
     {             -- Right widgets
       layout = wibox.layout.fixed.horizontal,
+      capslock,
       mykeyboardlayout,
       wibox.widget.systray(),
       mytextclock,
@@ -277,6 +279,7 @@ globalkeys = gears.table.join(
     end,
     { description = "focus previous by index", group = "client" }
   ),
+  capslock.key,
   -- awful.key({ modkey, }, "w", function() mymainmenu:show() end,
   --   { description = "show main menu", group = "awesome" }),
 
@@ -627,4 +630,4 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
-awful.spawn("solaar" .. " -w hide")
+-- awful.spawn("solaar" .. " -w hide")
