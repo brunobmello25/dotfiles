@@ -53,7 +53,7 @@ end
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
-beautiful.useless_gap = 5
+beautiful.useless_gap = 6
 
 -- This is used later as the default terminal and editor to run.
 local browser = "google-chrome-stable"
@@ -234,6 +234,10 @@ root.buttons(gears.table.join(
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
+-- run flameshot with printscreen
+  awful.key({}, "Print", function() awful.spawn("flameshot gui") end,
+    { description = "take a screenshot", group = "hotkeys" }),
+
   awful.key({ modkey, }, "s", hotkeys_popup.show_help,
     { description = "show help", group = "awesome" }),
   -- awful.key({ modkey, }, "Left", awful.tag.viewprev,
