@@ -2,6 +2,7 @@
 
 # Added by Toolbox App
 export PATH="$PATH:/home/brubs/.local/share/JetBrains/Toolbox/scripts"
+export GTK_IM_MODULES=cedilla
 
 warp-cli disconnect
 

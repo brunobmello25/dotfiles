@@ -486,6 +486,7 @@ client.connect_signal("manage", function(c)
       and not c.size_hints.program_position then
     awful.placement.no_offscreen(c)
   end
+  awful.client.setslave(c)
 end)
 
 client.connect_signal("request::titlebars", function(c)
