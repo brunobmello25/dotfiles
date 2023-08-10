@@ -169,8 +169,8 @@ awful.screen.connect_for_each_screen(function(s)
 
   local rightwidgets = {
     layout = wibox.layout.fixed.horizontal,
-    vpn_status,
     capslock,
+    vpn_status,
     mykeyboardlayout,
     wibox.widget.systray(),
     mytextclock,

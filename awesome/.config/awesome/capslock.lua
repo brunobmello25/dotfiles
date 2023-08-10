@@ -39,11 +39,10 @@ local capslock = wibox.widget {
   widget = wibox.widget.textbox,
   align = "center",
   valign = "center",
-  forced_width = 30,
 }
 
-capslock.activated = "<b>| A |</b>"
-capslock.deactivated = "<b>| a |</b>"
+capslock.activated = "<b>CAPS | </b>"
+capslock.deactivated = ""
 
 local tooltip = awful.tooltip({})
 
