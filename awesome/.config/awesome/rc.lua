@@ -52,7 +52,7 @@ end
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
-beautiful.useless_gap = 4
+beautiful.useless_gap = 5
 
 -- This is used later as the default terminal and editor to run.
 local browser = "google-chrome-stable"
@@ -238,10 +238,30 @@ globalkeys = gears.table.join(
   --   { description = "view previous", group = "tag" }),
   -- awful.key({ modkey, }, "Right", awful.tag.viewnext,
   --   { description = "view next", group = "tag" }),
-  awful.key({ modkey, "Shift" }, "Tab", awful.tag.viewprev,
+  awful.key({ modkey, "Shift" }, "Tab", function()
+      -- tag_view_nonempty(-1)
+      local focused = awful.screen.focused()
+      for _ = 1, #focused.tags do
+        awful.tag.viewidx(-1, focused)
+        if #focused.clients > 0 then
+          return
+        end
+      end
+    end,
     { description = "view previous", group = "tag" }),
-  awful.key({ modkey, }, "Tab", awful.tag.viewnext,
+
+
+  awful.key({ modkey, }, "Tab", function()
+      local focused = awful.screen.focused()
+      for _ = 1, #focused.tags do
+        awful.tag.viewidx(1, focused)
+        if #focused.clients > 0 then
+          return
+        end
+      end
+    end,
     { description = "view next", group = "tag" }),
+
   awful.key({ modkey, }, "Escape", awful.tag.history.restore,
     { description = "go back", group = "tag" }),
 
@@ -607,4 +627,5 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
-awful.spawn("solaar" .. " -w hide")
+-- TODO: uncomment
+-- awful.spawn("solaar" .. " -w hide")
