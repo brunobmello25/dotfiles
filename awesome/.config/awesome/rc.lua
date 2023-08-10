@@ -15,7 +15,6 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local capslock = require("capslock")
-local util = require("util")
 local constants = require("constants")
 
 -- Enable hotkeys help widget for VIM and other apps
@@ -483,7 +482,7 @@ awful.rules.rules = {
       role = {
         "AlarmWindow",   -- Thunderbird's calendar.
         "ConfigManager", -- Thunderbird's about:config.
-        -- "pop-up",        -- e.g. Google Chrome's (detached) Developer Tools. TODO: this rule is commented because of whatsapp web and telegram web windows
+        "pop-up",        -- e.g. Google Chrome's (detached) Developer Tools.
       }
     },
     properties = { floating = true }
@@ -509,11 +508,11 @@ awful.rules.rules = {
   },
   {
     rule_any = { name = { "WhatsApp Web" } },
-    properties = { screen = 1, tag = "4" }
+    properties = { screen = 1, tag = "4", floating = false }
   },
   {
     rule_any = { name = { "telegram*" } },
-    properties = { screen = 1, tag = "4" }
+    properties = { screen = 1, tag = "4", floating = false }
   },
   {
     rule_any = { class = { "Alacritty" } },
