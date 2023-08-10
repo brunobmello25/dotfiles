@@ -18,6 +18,7 @@ local constants = require("constants")
 local util = require("util")
 local vpn_status = require('vpn_status')
 local calendar_widget = require('awesome-wm-widgets.calendar-widget.calendar')
+local netspeed_widget = require('awesome-wm-widgets.net-speed-widget.net-speed')
 
 require("awful.hotkeys_popup.keys")
 
@@ -129,6 +130,7 @@ awful.screen.connect_for_each_screen(function(s)
     capslock,
     vpn_status,
     awful.widget.keyboardlayout(),
+    netspeed_widget(),
     widget_mic,
     wibox.widget.systray(),
     mytextclock,
@@ -202,7 +204,7 @@ globalkeys = gears.table.join(
   awful.key({ modkey, "Shift" }, "k", function() awful.client.swap.byidx(-1) end,
     { description = "swap with previous client by index", group = "client" }),
   --
-  awful.key({ modkey, "Shift" }, "o", function() awful.screen.focus_relative(1) end,
+  awful.key({ modkey, }, "o", function() awful.screen.focus_relative(1) end,
     { description = "focus the next screen", group = "screen" }),
 
   awful.key({ modkey, }, "u", awful.client.urgent.jumpto,
@@ -302,7 +304,7 @@ clientkeys = gears.table.join(
     { description = "toggle floating", group = "client" }),
   awful.key({ modkey, "Control" }, "Return", function(c) c:swap(awful.client.getmaster()) end,
     { description = "move to master", group = "client" }),
-  awful.key({ modkey, }, "o", function(c) c:move_to_screen() end,
+  awful.key({ modkey, "Shift" }, "o", function(c) c:move_to_screen() end,
     { description = "move to screen", group = "client" }),
   awful.key({ modkey, }, "t", function(c) c.ontop = not c.ontop end,
     { description = "toggle keep on top", group = "client" }),
