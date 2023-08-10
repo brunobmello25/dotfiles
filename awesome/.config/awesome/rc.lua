@@ -16,6 +16,8 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local capslock = require("capslock")
 local constants = require("constants")
+local util = require("util")
+local vpn_status = require('vpn_status')
 
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
@@ -52,9 +54,8 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
-beautiful.useless_gap = 6
+beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 
@@ -168,6 +169,7 @@ awful.screen.connect_for_each_screen(function(s)
 
   local rightwidgets = {
     layout = wibox.layout.fixed.horizontal,
+    vpn_status,
     capslock,
     mykeyboardlayout,
     wibox.widget.systray(),
@@ -442,8 +444,7 @@ awful.rules.rules = {
     rule = {},
     properties = {
       border_width = beautiful.border_width,
-      -- border_color = beautiful.border_normal,
-      border_color = "#decaff",
+      border_color = beautiful.border_normal,
       focus = awful.client.focus.filter,
       raise = true,
       keys = clientkeys,
@@ -580,8 +581,6 @@ end)
 client.connect_signal("mouse::enter", function(c)
   c:emit_signal("request::activate", "mouse_enter", { raise = false })
 end)
-
-beautiful.border_focus = "#01caff"
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
