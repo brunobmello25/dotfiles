@@ -475,10 +475,6 @@ awful.rules.rules = {
     rule_any = { name = { "telegram*" } },
     properties = { screen = 1, tag = "4", floating = false }
   },
-  {
-    rule_any = { class = { "Alacritty" } },
-    properties = { screen = 1, tag = "1" }
-  },
 }
 client.connect_signal("manage", function(c)
   if awesome.startup
