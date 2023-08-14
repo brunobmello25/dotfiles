@@ -5,7 +5,7 @@ font:
   normal:
     family: "FiraCode Nerd Font"
 window:
-  opacity: 1
+  opacity: 0.85
 
 color_schemes:
   latte: &latte

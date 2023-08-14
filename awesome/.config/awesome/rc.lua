@@ -53,6 +53,7 @@ local modkey = "Mod4"
 
 awful.layout.layouts = {
   awful.layout.suit.tile,
+  awful.layout.suit.max,
   awful.layout.suit.floating,
 }
 
@@ -75,7 +76,8 @@ local taglist_buttons = gears.table.join(
 )
 
 local function set_wallpaper(s)
-  gears.wallpaper.maximized("/home/brubs/Pictures/catppuccin-wallpaper.png", s, true)
+  -- gears.wallpaper.maximized("/home/brubs/Pictures/catppuccin-wallpaper.png", s, true)
+  gears.wallpaper.maximized("/home/brubs/.dotfiles/wallpaper.jpg", s, true)
 end
 
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
@@ -534,3 +536,6 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 awful.spawn("solaar" .. " -w hide")
+
+-- spawn picom
+awful.spawn.with_shell("picom")
