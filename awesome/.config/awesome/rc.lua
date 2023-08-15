@@ -100,16 +100,13 @@ awful.screen.connect_for_each_screen(function(s)
   s.mytaglist = awful.widget.taglist {
     screen  = s,
     filter  = awful.widget.taglist.filter.all,
-    buttons = taglist_buttons
+    buttons = taglist_buttons,
+    style   = {
+      shape = gears.shape.circle
+    }
   }
 
   s.mywibox = awful.wibar({ position = "top", screen = s })
-
-  local leftwidgets = {
-    layout = wibox.layout.fixed.horizontal,
-    s.mytaglist,
-    s.mypromptbox,
-  }
 
   local mytextclock = wibox.widget.textclock()
   local cw = calendar_widget({
@@ -127,23 +124,25 @@ awful.screen.connect_for_each_screen(function(s)
 
   local widget_mic = wibox.widget { beautiful.mic.widget, layout = wibox.layout.align.horizontal }
 
-  local rightwidgets = {
-    layout = wibox.layout.fixed.horizontal,
-    capslock,
-    vpn_status,
-    awful.widget.keyboardlayout(),
-    netspeed_widget(),
-    widget_mic,
-    wibox.widget.systray(),
-    mytextclock,
-    s.mylayoutbox,
-  }
-
   s.mywibox:setup {
     layout = wibox.layout.align.horizontal,
-    leftwidgets,
-    nil, -- no middle widgets
-    rightwidgets,
+    expand = "none",
+    {
+      layout = wibox.layout.fixed.horizontal,
+      vpn_status,
+      s.mypromptbox,
+      netspeed_widget(),
+      capslock,
+    },
+    s.mytaglist,
+    {
+      layout = wibox.layout.fixed.horizontal,
+      awful.widget.keyboardlayout(),
+      widget_mic,
+      wibox.widget.systray(),
+      mytextclock,
+      s.mylayoutbox,
+    },
   }
 end)
 -- }}}
