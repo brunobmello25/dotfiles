@@ -53,6 +53,7 @@ local modkey = "Mod4"
 
 awful.layout.layouts = {
   awful.layout.suit.tile,
+  awful.layout.suit.tile.top,
   awful.layout.suit.max,
   awful.layout.suit.floating,
 }
@@ -102,7 +103,7 @@ awful.screen.connect_for_each_screen(function(s)
     filter  = awful.widget.taglist.filter.all,
     buttons = taglist_buttons,
     style   = {
-      shape = gears.shape.circle
+      -- shape = gears.shape.circle
     }
   }
 
@@ -253,7 +254,7 @@ globalkeys = gears.table.join(
   awful.key({ modkey, }, "space", function() awful.spawn("rofi -show drun") end,
     { description = "select next", group = "layout" }),
   --
-  awful.key({ modkey, "Shift" }, "space", function() awful.layout.inc(-1) end,
+  awful.key({ modkey, "Shift" }, "space", function() awful.layout.inc(1) end,
     { description = "select previous", group = "layout" }),
   --
   awful.key({ modkey, "Control" }, "n",
