@@ -25,6 +25,7 @@ if [ -d ~/.asdf ]; then
   . $HOME/.asdf/asdf.sh
   export GOPATH=~/.asdf/installs/golang/1.18/packages
   export PATH=$PATH:$GOPATH/bin
+  . ~/.asdf/plugins/golang/set-env.zsh
 fi
 
 # === SCRIPTS PATH ===
