@@ -463,10 +463,10 @@ awful.rules.rules = {
     properties = { floating = true, placement = awful.placement.centered }
   },
 
-  {
-    rule_any = { name = { "Google Chrome" } },
-    properties = { screen = 1, tag = "2" }
-  },
+  -- {
+  --   rule_any = { name = { "Google Chrome" } },
+  --   properties = { screen = 1, tag = "2" }
+  -- },
   {
     rule_any = { class = { "slack", "Slack" } },
     properties = { screen = 1, tag = "3" }
