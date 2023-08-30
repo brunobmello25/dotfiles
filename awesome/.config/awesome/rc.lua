@@ -150,7 +150,11 @@ end)
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
--- run flameshot with printscreen
+  awful.key({ modkey }, "c", function()
+    awful.spawn.with_shell("CM_LAUNCHER=rofi clipmenu -i")
+  end, { description = "open clipmenu", group = "hotkeys" }),
+
+  -- run flameshot with printscreen
   awful.key({}, "Print", function() awful.spawn("flameshot gui") end,
     { description = "take a screenshot", group = "hotkeys" }),
 
