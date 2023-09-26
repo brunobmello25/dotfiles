@@ -25,6 +25,7 @@ if [ -d ~/.asdf ]; then
   . $HOME/.asdf/asdf.sh
   export GOPATH=~/.asdf/installs/golang/1.18/packages
   export PATH=$PATH:$GOPATH/bin
+  export ASDF_GOLANG_MOD_VERSION_ENABLED=true
   . ~/.asdf/plugins/golang/set-env.zsh
 fi
 
