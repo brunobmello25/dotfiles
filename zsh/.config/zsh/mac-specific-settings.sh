@@ -4,3 +4,6 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH="/opt/homebrew/opt/openssl@3/bin:/Users/bruno.mello/go/bin:$PATH"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@3/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
