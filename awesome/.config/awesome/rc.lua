@@ -468,15 +468,15 @@ awful.rules.rules = {
 	-- },
 	{
 		rule_any = { class = { "slack", "Slack" } },
-		properties = { screen = 1, tag = "3" },
+		properties = { screen = 1 },
 	},
 	{
 		rule_any = { name = { "WhatsApp Web" } },
-		properties = { tag = "4", floating = false },
+		properties = { floating = false },
 	},
 	{
 		rule_any = { name = { "telegram*" } },
-		properties = { tag = "4", floating = false },
+		properties = { floating = false },
 	},
 }
 client.connect_signal("manage", function(c)
