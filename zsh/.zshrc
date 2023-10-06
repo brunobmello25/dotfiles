@@ -18,6 +18,7 @@ alias myip="curl ifconfig.me"
 alias vpnconnect="warp-cli connect"
 alias vpndisconnect="warp-cli disconnect"
 alias vpnstatus="curl https://www.cloudflare.com/cdn-cgi/trace/"
+alias tf="terraform"
 bindkey -s '^f' "tmux-sessionizer\n"
 
 # === ASDF ===
