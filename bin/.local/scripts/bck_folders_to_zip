@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Define the source directories to backup
+# TODO: obsidian vaults directory should be here
+declare -a SOURCE_DIRS=("$HOME/dev/skeleton.nvim" "$HOME/.dotfiles")
+
+# Define the backup destination directory
+BACKUP_DIR="$HOME/Documents/backups"
+
+# Check if the backup directory exists; if not, create it
+if [[ ! -d "$BACKUP_DIR" ]]; then
+    mkdir -p "$BACKUP_DIR"
+fi
+
+# Get the current date in the specified format
+DATE_STR=$(date +"%Y-%m-%d-%H-%M")
+
+# Define the backup filename
+BACKUP_FILE="$BACKUP_DIR/$DATE_STR.zip"
+
+# Zip the source directories to the backup file
+zip -r "$BACKUP_FILE" "${SOURCE_DIRS[@]}"
+
+# Print a confirmation message
+echo "Backup completed: $BACKUP_FILE"
+

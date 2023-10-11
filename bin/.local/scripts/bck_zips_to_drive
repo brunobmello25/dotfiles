@@ -1,0 +1,24 @@
+#!/bin/bash
+
+BACKUP_DIR="$HOME/Documents/backups"
+REMOTE="drive-pessoal:"
+
+# Get the three most recent backup files
+RECENT_FILES=$(ls -t "$BACKUP_DIR"/*.zip | head -n 3)
+
+# Sync them to Google Drive
+for file in $RECENT_FILES; do
+    echo $file
+    rclone copy "$file" "$REMOTE/backups"
+done
+
+# Remove older backup files from Google Drive
+REMOTE_FILES=$(rclone ls "$REMOTE/backups" | awk '{print $2}' | grep ".zip$")
+for file in $REMOTE_FILES; do
+    # Check if the file is NOT one of the recent files
+    if ! echo "$RECENT_FILES" | grep -q "$file"; then
+        rclone delete "$REMOTE/$file"
+    fi
+done
+
+echo "Sync and cleanup completed."
