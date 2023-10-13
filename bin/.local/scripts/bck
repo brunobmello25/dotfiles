@@ -1,0 +1,8 @@
+#!/bin/bash
+
+bck_folders_to_zip
+bck_zips_to_drive
+bck_clear_older_local_zips
+
+rclone sync "drive-pessoal:" "onedrive-pessoal:"
+rclone sync "drive-pessoal:" ~/Documents/google-drive
