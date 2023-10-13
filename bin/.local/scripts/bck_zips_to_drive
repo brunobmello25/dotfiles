@@ -14,10 +14,20 @@ done
 
 # Remove older backup files from Google Drive
 REMOTE_FILES=$(rclone ls "$REMOTE/backups" | awk '{print $2}' | grep ".zip$")
-for file in $REMOTE_FILES; do
+for remote_file in $REMOTE_FILES; do
     # Check if the file is NOT one of the recent files
-    if ! echo "$RECENT_FILES" | grep -q "$file"; then
-        rclone delete "$REMOTE/$file"
+    found=0
+    for local_file in $RECENT_FILES; do
+        # Compare base names only
+        if [[ $(basename "$local_file") == "$remote_file" ]]; then
+            found=1
+            break
+        fi
+    done
+    
+    # If the file was not found among the recent files, delete it from the remote
+    if [[ $found -eq 0 ]]; then
+        rclone delete "${REMOTE}/backups/$remote_file"
     fi
 done
 
