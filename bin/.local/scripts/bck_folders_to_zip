@@ -2,7 +2,7 @@
 
 # Define the source directories to backup
 # TODO: obsidian vaults directory should be here
-declare -a SOURCE_DIRS=("$HOME/dev/skeleton.nvim" "$HOME/.dotfiles")
+declare -a SOURCE_DIRS=("$HOME/dev/skeleton.nvim" "$HOME/.dotfiles" "$HOME/obsidian-vault")
 
 # Define the backup destination directory
 BACKUP_DIR="$HOME/Documents/backups"
