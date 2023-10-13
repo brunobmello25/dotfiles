@@ -19,7 +19,7 @@ DATE_STR=$(date +"%Y-%m-%d-%H-%M")
 BACKUP_FILE="$BACKUP_DIR/$DATE_STR.zip"
 
 # Zip the source directories to the backup file
-zip -r "$BACKUP_FILE" "${SOURCE_DIRS[@]}"
+zip --quiet -r "$BACKUP_FILE" "${SOURCE_DIRS[@]}"
 
 # Print a confirmation message
 echo "Backup completed: $BACKUP_FILE"
