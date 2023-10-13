@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BACKUP_DIR="$HOME/Documents/backups"
+BACKUP_DIR="$HOME/backups"
 REMOTE="drive-pessoal:"
 
 # Get the three most recent backup files

@@ -5,7 +5,7 @@
 declare -a SOURCE_DIRS=("$HOME/dev/skeleton.nvim" "$HOME/.dotfiles" "$HOME/obsidian-vault")
 
 # Define the backup destination directory
-BACKUP_DIR="$HOME/Documents/backups"
+BACKUP_DIR="$HOME/backups"
 
 # Check if the backup directory exists; if not, create it
 if [[ ! -d "$BACKUP_DIR" ]]; then
