@@ -7,3 +7,9 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@3/lib/pkgconfig:$PKG_CONFIG_PA
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/bruno.mello/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/bruno.mello/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/bruno.mello/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/bruno.mello/google-cloud-sdk/completion.zsh.inc'; fi
