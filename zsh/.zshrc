@@ -24,19 +24,12 @@ bindkey -s '^f' "tmux-sessionizer\n"
 # === ASDF ===
 if [ -d ~/.asdf ]; then
   . $HOME/.asdf/asdf.sh
-  # TODO: uncomment this after raft
-  export GOPATH=~/.asdf/installs/golang/1.18/packages
-  export PATH=$PATH:$GOPATH/bin
+
+  # export GOPATH=$(asdf where golang)/go
+  # export PATH=$PATH:$GOPATH/bin
   export ASDF_GOLANG_MOD_VERSION_ENABLED=true
   . ~/.asdf/plugins/golang/set-env.zsh
 fi
-
-# TODO: remove this after raft
-# export PATH=$PATH:/usr/local/go/bin
-# export GOROOT=/usr/local/go
-# export PATH=$PATH:$GOPATH/bin
-# export GOPATH=$HOME/dev/faculdade/raft-sistemas-distribuidos
-# export GO111MODULE=off
 
 # === SCRIPTS PATH ===
 [ -d ~/.local/scripts ] && export PATH="$HOME/.local/scripts:$PATH"

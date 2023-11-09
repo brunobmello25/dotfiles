@@ -25,3 +25,5 @@
 	rebase = false
 [init]
 	defaultBranch = main
+[url "git@github.com:OlaIsaac"]
+	insteadOf = https://github.com/OlaIsaac
