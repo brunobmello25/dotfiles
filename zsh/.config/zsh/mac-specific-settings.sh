@@ -13,3 +13,5 @@ if [ -f '/Users/bruno.mello/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/bru
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/bruno.mello/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/bruno.mello/google-cloud-sdk/completion.zsh.inc'; fi
+
+export PATH=/opt/homebrew/opt/libpq/bin:$PATH
