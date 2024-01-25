@@ -15,3 +15,5 @@ if [ -f '/Users/bruno.mello/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/bru
 if [ -f '/Users/bruno.mello/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/bruno.mello/google-cloud-sdk/completion.zsh.inc'; fi
 
 export PATH=/opt/homebrew/opt/libpq/bin:$PATH
+
+unalias open
