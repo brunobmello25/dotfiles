@@ -27,6 +27,11 @@ if [ -d ~/.asdf ]; then
   . ~/.asdf/plugins/golang/set-env.zsh
 fi
 
+# === secret env vars ===
+if [ -f ~/.envs ]; then
+  source ~/.envs
+fi
+
 # === SCRIPTS PATH ===
 [ -d ~/.local/scripts ] && export PATH="$HOME/.local/scripts:$PATH"
 
