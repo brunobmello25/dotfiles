@@ -4,7 +4,7 @@ if [[ $# -eq 1 ]]; then
     selected=$1
 else
     dirs=$(find -L ~/build ~/dev ~/dev/personal ~/dev/faculdade ~/dev/work -mindepth 1 -maxdepth 1 -type d)
-    selected=$(printf "%s\n%s\n%s\n%s" ~/Documents/notes "$dirs" "$HOME/build" "$HOME/dev/nvimrc" "$HOME/.dotfiles" | fzf)
+    selected=$(printf "%s\n%s\n%s\n%s" ~/Documents/notes "$dirs" "$HOME/build" "$HOME/.dotfiles" | fzf)
 fi
 
 if [[ -z $selected ]]; then
