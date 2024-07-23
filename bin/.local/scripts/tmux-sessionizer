@@ -3,8 +3,8 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    dirs=$(find -L ~/build ~/Documents ~/Documents/work ~/dev ~/dev/plugins ~/dev/personal ~/dev/faculdade ~/dev/work ~/dev/godot-projects -mindepth 1 -maxdepth 1 -type d)
-    selected=$(printf "%s\n%s\n%s\n%s\n%s" "$dirs" "$HOME/build" "$HOME/.dotfiles" "$HOME/obsidian-vault" "$HOME/Downloads" | fzf)
+    dirs=$(find -L ~/build ~/dev ~/dev/personal ~/dev/faculdade ~/dev/work -mindepth 1 -maxdepth 1 -type d)
+    selected=$(printf "%s\n%s\n%s\n%s" ~/Documents/notes "$dirs" "$HOME/build" "$HOME/dev/nvimrc" "$HOME/.dotfiles" | fzf)
 fi
 
 if [[ -z $selected ]]; then
