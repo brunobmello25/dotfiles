@@ -11,7 +11,7 @@ alias l="ls -lah"
 alias v="nvim"
 alias lg="lazygit"
 alias t="tmux"
-alias dsa="docker stop \$(docker ps | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ') ; docker rm \$(docker ps -a | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ')"
+alias dsa="echo \"deleting all docker containers\" && docker stop \$(docker ps | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ') ; docker rm \$(docker ps -a | cut -d ' ' -f 1 | tail -n +2 | tr '\\n' ' ')"
 alias myip="curl ifconfig.me"
 alias tf="terraform"
 alias cl="clear"
@@ -25,6 +25,11 @@ if [ -d ~/.asdf ]; then
   # export PATH=$PATH:$GOPATH/bin
   export ASDF_GOLANG_MOD_VERSION_ENABLED=true
   . ~/.asdf/plugins/golang/set-env.zsh
+fi
+
+# === secret env vars ===
+if [ -f ~/.envs ]; then
+  source ~/.envs
 fi
 
 # === SCRIPTS PATH ===
