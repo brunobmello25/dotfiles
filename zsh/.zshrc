@@ -43,7 +43,10 @@ export EDITOR="nvim"
 export PATH=/usr/lib/ccache:$PATH
 export PATH=$PATH:$HOME/.local/bin
 
-eval "$(direnv hook zsh)"
+if command -v direnv 2>&1 >/dev/null
+then
+  eval "$(direnv hook zsh)"
+fi
 
 if [[ "$(uname)" == "Darwin" ]] && [[ -d "$HOME/.config/zsh" ]] && [[ -f "$HOME/.config/zsh/mac-specific-settings.sh" ]]; then
   source "$HOME/.config/zsh/mac-specific-settings.sh"
