@@ -32,6 +32,10 @@ if [ -f ~/.envs ]; then
   source ~/.envs
 fi
 
+if [ -d ~/.platformio ]; then
+  export PATH=$HOME/.platformio/penv/bin:$PATH
+fi
+
 # === SCRIPTS PATH ===
 [ -d ~/.local/scripts ] && export PATH="$HOME/.local/scripts:$PATH"
 
