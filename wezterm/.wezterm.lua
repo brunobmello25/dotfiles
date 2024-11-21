@@ -17,4 +17,17 @@ config.enable_tab_bar = false
 
 config.font_size = 12.0
 
+config.keys = {
+	{
+		key = "LeftArrow",
+		mods = "SHIFT|CTRL",
+		action = wezterm.action.DisableDefaultAssignment,
+	},
+	{
+		key = "RightArrow",
+		mods = "SHIFT|CTRL",
+		action = wezterm.action.DisableDefaultAssignment,
+	},
+}
+
 return config
