@@ -2,19 +2,9 @@
 
 echo "Backing up..."
 
-echo "1. Backing up folders to zip..."
-bck_folders_to_zip > /dev/null
+echo "1. Syncing first google-drive"
+rclone sync -q "drive-bruno:" /mnt/c/Users/Bruno/Documents/backups/drive-bruno
 
-echo "2. Backing up zips to drive..."
-bck_zips_to_drive > /dev/null
-
-echo "3. Clearing older local zips..."
-bck_clear_older_local_zips > /dev/null
-
-echo "4. Syncing google drive to onedrive..."
-rclone sync -q "drive-pessoal:" "onedrive-pessoal:"
-
-echo "5. Syncing google drive to local folder..."
-rclone sync -q "drive-pessoal:" ~/google-drive
-
-echo "Done!"
+echo "2. Copying obsidian vault"
+rm -rf /mnt/c/Users/Bruno/Documents/backups/obsidian-vault
+cp -r /mnt/c/Users/Bruno/Documents/bruno/obsidian-vault /mnt/c/Users/Bruno/Documents/backups/obsidian-vault
