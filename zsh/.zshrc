@@ -17,8 +17,9 @@ alias tf="terraform"
 alias cl="clear"
 bindkey -s '^f' "tmux-sessionizer\n"
 
-# === ASDF ===
-if [ -d ~/.asdf ]; then
+if [[ -f "$HOME/.local/bin/mise" ]]; then
+  eval "$(~/.local/bin/mise activate zsh)"
+elif [ -d ~/.asdf ]; then
   . $HOME/.asdf/asdf.sh
 
   export ASDF_GOLANG_MOD_VERSION_ENABLED=true
