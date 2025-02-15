@@ -19,6 +19,12 @@ bindkey -s '^f' "tmux-sessionizer\n"
 
 if [[ -f "$HOME/.local/bin/mise" ]]; then
   eval "$(~/.local/bin/mise activate zsh)"
+
+  if command -v dotnet >/dev/null 2>&1; then
+    DOTNET_EXEC_PATH=$(which dotnet)
+    # Get the directory two levels up from the executable location
+    export DOTNET_ROOT=$(dirname "$DOTNET_EXEC_PATH")
+  fi
 elif [ -d ~/.asdf ]; then
   . $HOME/.asdf/asdf.sh
 
