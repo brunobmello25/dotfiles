@@ -1,2 +1,0 @@
-- setup docker
-- descobrir como reaproveitar senha de sudo pra nao precisar digitar a senha várias vezes
