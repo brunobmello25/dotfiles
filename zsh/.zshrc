@@ -22,8 +22,7 @@ if [[ -f "$HOME/.local/bin/mise" ]]; then
 
   if command -v dotnet >/dev/null 2>&1; then
     DOTNET_EXEC_PATH=$(which dotnet)
-    # Get the directory two levels up from the executable location
-    export DOTNET_ROOT=$(dirname "$DOTNET_EXEC_PATH")
+    export PATH="$PATH:$HOME/.dotnet/tools"
   fi
 elif [ -d ~/.asdf ]; then
   . $HOME/.asdf/asdf.sh
