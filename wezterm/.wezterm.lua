@@ -28,6 +28,17 @@ config.keys = {
 		mods = "SHIFT|CTRL",
 		action = wezterm.action.DisableDefaultAssignment,
 	},
+
+	{
+		key = "LeftArrow",
+		mods = "ALT",
+		action = wezterm.action.DisableDefaultAssignment,
+	},
+	{
+		key = "RightArrow",
+		mods = "ALT",
+		action = wezterm.action.DisableDefaultAssignment,
+	},
 }
 
 return config
