@@ -41,6 +41,10 @@ if [ -d ~/.platformio ]; then
   export PATH=$HOME/.platformio/penv/bin:$PATH
 fi
 
+if [ -f ~/.config/emacs/bin/doom ]; then
+  export PATH=$PATH:~/.config/emacs/bin
+fi
+
 # === SCRIPTS PATH ===
 [ -d ~/.local/scripts ] && export PATH="$HOME/.local/scripts:$PATH"
 
