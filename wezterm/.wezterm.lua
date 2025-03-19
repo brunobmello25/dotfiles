@@ -15,7 +15,7 @@ config.window_padding = {
 
 config.enable_tab_bar = false
 
-config.font_size = 12.0
+config.font_size = 16.0
 
 config.keys = {
 	{
