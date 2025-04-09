@@ -65,8 +65,10 @@ if [[ "$(uname)" == "Darwin" ]] && [[ -d "$HOME/.config/zsh" ]] && [[ -f "$HOME/
   source "$HOME/.config/zsh/mac-specific-settings.sh"
 fi
 
+
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/brubs/dev/work/backoffice/google-cloud-sdk/path.zsh.inc' ]; then . '/home/brubs/dev/work/backoffice/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '$HOME/dev/work/backoffice/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/dev/work/backoffice/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/brubs/dev/work/backoffice/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/brubs/dev/work/backoffice/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '$HOME/dev/work/backoffice/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/dev/work/backoffice/google-cloud-sdk/completion.zsh.inc'; fi
+
