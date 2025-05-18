@@ -54,8 +54,8 @@ run_step() {
 # -----------------------------------------------------------------------------
 # 4) Sync Google Drive(s)
 # -----------------------------------------------------------------------------
-# run_step "rclone sync gdrive_me:/   $BACKUP_DATA/gdrive_me   --log-level INFO"
-# run_step "rclone sync gdrive_ro:/   $BACKUP_DATA/gdrive_ro   --log-level INFO"
+run_step "rclone sync gdrive_me:/   $BACKUP_DATA/gdrive_me   --log-level INFO"
+run_step "rclone sync gdrive_ro:/   $BACKUP_DATA/gdrive_ro   --log-level INFO"
 
 # -----------------------------------------------------------------------------
 # 5) Obsidian vault copy + git push
