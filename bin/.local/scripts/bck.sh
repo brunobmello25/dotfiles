@@ -17,17 +17,25 @@ BACKUP_DATA="/run/media/brubs/Bruno/auto-backup"
 
 # Where to put logs
 LOG_DIR="$XDG_STATE_HOME/backup"
-LOG_FILE="$LOG_DIR/full_backup.log"
 
 # If your secondary HDD is mounted at ~/Backup, mirror goes there:
 # (you may skip this if you want everything under $BACKUP_DATA)
 # BACKUP_ROOT="$HOME/Backup"  
 
 # -----------------------------------------------------------------------------
-# 2) Bootstrap directories & start the log
+# 2) Prepare timestamped log file
 # -----------------------------------------------------------------------------
 mkdir -p "$BACKUP_DATA" "$LOG_DIR"
-echo "===== Backup started at $(date) =====" >> "$LOG_FILE"
+
+TIMESTAMP="$(date +'%Y-%m-%d_%H-%M-%S')"
+LOG_FILE="$LOG_DIR/backup-$TIMESTAMP.log"
+
+# keep a "latest.log" symlink for quick access
+ln -sf "$LOG_FILE" "$LOG_DIR/latest.log"
+
+# Kick off the log: use ">" so if we re-run with the same timestamp
+# it starts fresh.  Subsequent writes should use ">>".
+echo "===== Backup started at $(date) =====" > "$LOG_FILE"
 
 ERR=0
 
@@ -36,7 +44,7 @@ ERR=0
 # -----------------------------------------------------------------------------
 run_step() {
   local cmd="$1"
-  echo "[`date '+%Y-%m-%d %H:%M:%S'`] $cmd" >> "$LOG_FILE"
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] $cmd" >> "$LOG_FILE"
   if ! eval "$cmd" >>"$LOG_FILE" 2>&1; then
     echo "[ERROR] step failed: $cmd" >> "$LOG_FILE"
     ERR=1
@@ -47,15 +55,15 @@ run_step() {
 # 4) Sync Google Drive(s)
 # -----------------------------------------------------------------------------
 # run_step "rclone sync gdrive_me:/   $BACKUP_DATA/gdrive_me   --log-level INFO"
-# run_step "rclone sync gdrive_ro:/  $BACKUP_DATA/gdrive_ro  --log-level INFO"
-
-mkdir -p $BACKUP_DATA/obsidian-backup
-rm -rf $BACKUP_DATA/obsidian-backup/vault
-cp -r ~/Documents/notes $BACKUP_DATA/obsidian-backup/vault
+# run_step "rclone sync gdrive_ro:/   $BACKUP_DATA/gdrive_ro   --log-level INFO"
 
 # -----------------------------------------------------------------------------
-# 5) Commit & push Obsidian vault to GitHub
+# 5) Obsidian vault copy + git push
 # -----------------------------------------------------------------------------
+mkdir -p "$BACKUP_DATA/obsidian-backup"
+rm -rf  "$BACKUP_DATA/obsidian-backup/vault"
+cp -r ~/Documents/notes "$BACKUP_DATA/obsidian-backup/vault"
+
 VAULT_DIR="$BACKUP_DATA/obsidian-backup/vault"
 (
   cd "$VAULT_DIR" || {
@@ -100,5 +108,5 @@ VAULT_DIR="$BACKUP_DATA/obsidian-backup/vault"
 # # -----------------------------------------------------------------------------
 # run_step "rclone sync $BACKUP_DATA/   b2:yourBucketName/backups/   --log-level INFO"
 
-echo "===== Backup finished at $(date)  exit=$ERR =====" >> "$LOG_FILE"
+echo "===== Backup finished at $(date) exit=$ERR =====" >> "$LOG_FILE"
 exit $ERR
