@@ -24,6 +24,7 @@ setup_logging() {
   LOG_FILE="$LOG_DIR/backup-$TIMESTAMP.log"
   ln -sf "$LOG_FILE" "$LOG_DIR/latest.log"
   echo "===== Backup started at $(date) =====" > "$LOG_FILE"
+  echo "Backup started at $(date)"
 }
 
 log() {
@@ -44,11 +45,14 @@ run_step() {
     fi
   fi
 
+  echo "Running step: $step_name"
   log "INFO" "Running step: $step_name"
   if ! $step_func >>"$LOG_FILE" 2>&1; then
     log "ERROR" "Step failed: $step_name"
+    echo "Step failed: $step_name"
     return 1
   fi
+  echo "Step completed: $step_name"
 }
 
 # -----------------------------------------------------------------------------
@@ -152,4 +156,5 @@ for step_name in "${!STEPS[@]}"; do
 done
 
 log "INFO" "Backup finished at $(date) exit=$ERR"
+echo "Backup finished at $(date) exit=$ERR"
 exit $ERR
