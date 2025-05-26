@@ -44,6 +44,9 @@ if [ -f ~/.config/emacs/bin/doom ]; then
   export PATH=$PATH:~/.config/emacs/bin
 fi
 
+# Doom emacs
+[ -d ~/.config/emacs/bin ] && export PATH=$PATH:~/.config/emacs/bin
+
 # === SCRIPTS PATH ===
 [ -d ~/.local/scripts ] && export PATH="$HOME/.local/scripts:$PATH"
 
