@@ -63,11 +63,6 @@ then
   eval "$(direnv hook zsh)"
 fi
 
-if [[ "$(uname)" == "Darwin" ]] && [[ -d "$HOME/.config/zsh" ]] && [[ -f "$HOME/.config/zsh/mac-specific-settings.sh" ]]; then
-  source "$HOME/.config/zsh/mac-specific-settings.sh"
-fi
-
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '$HOME/dev/work/backoffice/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/dev/work/backoffice/google-cloud-sdk/path.zsh.inc'; fi
 
