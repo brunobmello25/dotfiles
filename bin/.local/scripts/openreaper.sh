@@ -5,7 +5,7 @@ IFS=$'\n\t'
 # ─── adjust to your setup ─────────────────────────────────────────────────────
 AUDIO_SWITCH=setaudio.sh
 REAPER_CMD=/home/brubs/opt/REAPER/reaper
-SWITCH_BACK_DELAY=10    # seconds
+SWITCH_BACK_DELAY=5    # seconds
 # ──────────────────────────────────────────────────────────────────────────────
 
 echo "banana"
