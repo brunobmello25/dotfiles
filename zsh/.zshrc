@@ -44,6 +44,9 @@ if [ -f ~/.config/emacs/bin/doom ]; then
   export PATH=$PATH:~/.config/emacs/bin
 fi
 
+# Doom emacs
+[ -d ~/.config/emacs/bin ] && export PATH=$PATH:~/.config/emacs/bin
+
 # === SCRIPTS PATH ===
 [ -d ~/.local/scripts ] && export PATH="$HOME/.local/scripts:$PATH"
 
@@ -59,11 +62,6 @@ if command -v direnv 2>&1 >/dev/null
 then
   eval "$(direnv hook zsh)"
 fi
-
-if [[ "$(uname)" == "Darwin" ]] && [[ -d "$HOME/.config/zsh" ]] && [[ -f "$HOME/.config/zsh/mac-specific-settings.sh" ]]; then
-  source "$HOME/.config/zsh/mac-specific-settings.sh"
-fi
-
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '$HOME/dev/work/backoffice/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/dev/work/backoffice/google-cloud-sdk/path.zsh.inc'; fi
