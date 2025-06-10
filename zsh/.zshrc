@@ -1,6 +1,6 @@
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="half-life"
-plugins=(git zsh-fzf-history-search)
+plugins=(git zsh-fzf-history-search direnv)
 [ -d $ZSH ] && source $ZSH/oh-my-zsh.sh
 
 # === ALIASES ===
@@ -57,11 +57,6 @@ export EDITOR="nvim"
 
 export PATH=/usr/lib/ccache:$PATH
 export PATH=$PATH:$HOME/.local/bin
-
-if command -v direnv 2>&1 >/dev/null
-then
-  eval "$(direnv hook zsh)"
-fi
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '$HOME/dev/work/backoffice/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/dev/work/backoffice/google-cloud-sdk/path.zsh.inc'; fi
