@@ -1,0 +1,11 @@
+[tools]
+bun = "latest"
+dotnet = "9.0.300"
+go = "1.23.9"
+node = "latest"
+python = "latest"
+rust = "latest"
+zig = "latest"
+
+[settings]
+idiomatic_version_file_enable_tools = ["node"]
