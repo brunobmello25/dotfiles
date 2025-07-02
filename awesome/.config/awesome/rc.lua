@@ -22,6 +22,38 @@ require("awful.hotkeys_popup.keys")
 local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
 
+local user = os.getenv("USER")
+local home = os.getenv("HOME")
+
+-- helper to test if an external monitor is connected
+local function external_connected()
+	-- replace HDMI-1 with whatever your external port is called
+	-- you can find it via: `xrandr --query | grep connected`
+	local cmd = "xrandr --query | grep -E '^(HDMI|DP|VGA)[0-9]+ connected'"
+	-- return true if exit code is zero
+	return awful.spawn.easy_async_with_shell
+			and awful.spawn.easy_async_with_shell(cmd, function(stdout, stderr, reason, exit_code)
+					-- we won't actually use the async callback here
+				end)
+				== 0
+		or (os.execute(cmd) == 0)
+end
+
+-- dispatch by machine and connection state
+if user == "brubs" then
+	-- my personal laptop: always use desktop.sh
+	awful.spawn.once(home .. "/.screenlayout/desktop.sh")
+elseif user == "bruno.mello" then
+	-- my work laptop: choose plugged vs unplugged
+	if external_connected() then
+		awful.spawn.once(home .. "/.screenlayout/plugged.sh")
+	else
+		awful.spawn.once(home .. "/.screenlayout/unplugged.sh")
+	end
+end
+
+awful.spawn.with_shell("setxkbmap -layout us -variant intl -option ''")
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -58,8 +90,10 @@ end
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "x-terminal-emulator"
-editor = os.getenv("EDITOR") or "editor"
+-- terminal = "x-terminal-emulator"
+terminal = "kitty"
+
+editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -286,9 +320,11 @@ globalkeys = gears.table.join(
 	awful.key({ modkey }, "k", function()
 		awful.client.focus.byidx(-1)
 	end, { description = "focus previous by index", group = "client" }),
-	awful.key({ modkey }, "w", function()
-		mymainmenu:show()
-	end, { description = "show main menu", group = "awesome" }),
+
+	-- TODO: Show main menu some other way
+	-- awful.key({ modkey }, "w", function()
+	-- 	mymainmenu:show()
+	-- end, { description = "show main menu", group = "awesome" }),
 
 	-- Layout manipulation
 	awful.key({ modkey, "Shift" }, "j", function()
@@ -315,6 +351,11 @@ globalkeys = gears.table.join(
 	awful.key({ modkey }, "Return", function()
 		awful.spawn(terminal)
 	end, { description = "open a terminal", group = "launcher" }),
+
+	awful.key({ modkey }, "space", function()
+		awful.spawn("rofi -show drun")
+	end, { description = "app launcher (rofi)", group = "launcher" }),
+
 	awful.key({ modkey, "Control" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
 	awful.key({ modkey, "Shift" }, "q", awesome.quit, { description = "quit awesome", group = "awesome" }),
 
@@ -336,12 +377,11 @@ globalkeys = gears.table.join(
 	awful.key({ modkey, "Control" }, "l", function()
 		awful.tag.incncol(-1, nil, true)
 	end, { description = "decrease the number of columns", group = "layout" }),
-	awful.key({ modkey }, "space", function()
+
+	-- change layout
+	awful.key({ modkey, "Shift" }, "space", function()
 		awful.layout.inc(1)
 	end, { description = "select next", group = "layout" }),
-	awful.key({ modkey, "Shift" }, "space", function()
-		awful.layout.inc(-1)
-	end, { description = "select previous", group = "layout" }),
 
 	awful.key({ modkey, "Control" }, "n", function()
 		local c = awful.client.restore()
@@ -371,25 +411,30 @@ globalkeys = gears.table.join(
 )
 
 clientkeys = gears.table.join(
-	awful.key({ modkey }, "f", function(c)
-		c.fullscreen = not c.fullscreen
-		c:raise()
-	end, { description = "toggle fullscreen", group = "client" }),
-	awful.key({ modkey, "Shift" }, "c", function(c)
+
+	-- TODO: decide if I want this fullscreen behavior
+	-- awful.key({ modkey }, "f", function(c)
+	-- 	c.fullscreen = not c.fullscreen
+	-- 	c:raise()
+	-- end, { description = "toggle fullscreen", group = "client" }),
+
+	awful.key({ modkey }, "w", function(c)
 		c:kill()
 	end, { description = "close", group = "client" }),
-	awful.key(
-		{ modkey, "Control" },
-		"space",
-		awful.client.floating.toggle,
-		{ description = "toggle floating", group = "client" }
-	),
+
+	awful.key({ modkey }, "f", awful.client.floating.toggle, { description = "toggle floating", group = "client" }),
+
 	awful.key({ modkey, "Control" }, "Return", function(c)
 		c:swap(awful.client.getmaster())
 	end, { description = "move to master", group = "client" }),
-	awful.key({ modkey }, "o", function(c)
+
+	awful.key({ modkey }, "o", function()
+		awful.screen.focus_relative(1)
+	end, { description = "focus the next screen", group = "screen" }),
+	awful.key({ modkey, "Shift" }, "o", function(c)
 		c:move_to_screen()
 	end, { description = "move to screen", group = "client" }),
+
 	awful.key({ modkey }, "t", function(c)
 		c.ontop = not c.ontop
 	end, { description = "toggle keep on top", group = "client" }),
@@ -530,8 +575,7 @@ awful.rules.rules = {
 	{ rule_any = { type = { "normal", "dialog" } }, properties = { titlebars_enabled = true } },
 
 	-- Set Firefox to always map on the tag named "2" on screen 1.
-	-- { rule = { class = "Firefox" },
-	--   properties = { screen = 1, tag = "2" } },
+	{ rule = { class = "Firefox" }, properties = { screen = 1, tag = "2" } },
 }
 -- }}}
 
