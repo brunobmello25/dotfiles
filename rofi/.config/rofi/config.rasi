@@ -1,4 +1,3 @@
-@import "catppuccin-mocha"
 configuration {
 /*	modes: "window,drun,run,ssh";*/
 /*	font: "mono 12";*/
