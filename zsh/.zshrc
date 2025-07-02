@@ -36,6 +36,10 @@ if [ -f ~/.envs ]; then
   source ~/.envs
 fi
 
+if [ -d ~/.local/lib/qmk_toolchains_linuxX64/bin ]; then
+  export PATH=$PATH:~/.local/lib/qmk_toolchains_linuxX64/bin
+fi
+
 if [ -d ~/.platformio ]; then
   export PATH=$HOME/.platformio/penv/bin:$PATH
 fi

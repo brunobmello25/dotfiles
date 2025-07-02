@@ -9,4 +9,4 @@ rust = "latest"
 zig = "latest"
 
 [settings]
-idiomatic_version_file_enable_tools = ["node"]
+idiomatic_version_file_enable_tools = ["node", "ruby"]
