@@ -583,6 +583,9 @@ awful.rules.rules = {
 				"Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
 				"Wpa_gui",
 				"veromix",
+				"gnome-calculator",
+				"pavucontrol",
+				"Pavucontrol",
 				"xtightvncviewer",
 			},
 
