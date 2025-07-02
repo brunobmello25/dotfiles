@@ -390,7 +390,12 @@ globalkeys = gears.table.join(
 	-- Menubar
 	awful.key({ modkey }, "p", function()
 		menubar.show()
-	end, { description = "show the menubar", group = "launcher" })
+	end, { description = "show the menubar", group = "launcher" }),
+
+	-- Lock screen
+	awful.key({ "Mod1", "Shift" }, "l", function()
+		awful.spawn.with_shell(home .. "/.config/awesome/bin/lock.sh")
+	end, { description = "lock screen", group = "awesome" })
 )
 
 clientkeys = gears.table.join(
