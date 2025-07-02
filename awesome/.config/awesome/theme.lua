@@ -10,6 +10,7 @@ local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
 
 local theme = {}
+local mic = require("widgets/mic")
 
 theme.font = "sans 10"
 
@@ -120,19 +121,18 @@ theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height, theme.bg_focus
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
 theme.icon_theme = nil
 
--- local mic = require("mic")
--- theme.widget_micMuted = gfs.get_configuration_dir() .. "icons/micMuted2.png"
--- theme.widget_micUnmuted = gfs.get_configuration_dir() .. "icons/micUnmuted2.png"
--- theme.mic = mic({
--- 	timeout = 10,
--- 	settings = function(self)
--- 		if self.state == "muted" then
--- 			self.widget:set_image(theme.widget_micMuted)
--- 		else
--- 			self.widget:set_image(theme.widget_micUnmuted)
--- 		end
--- 	end,
--- })
+theme.widget_micMuted = gfs.get_configuration_dir() .. "widgets/icons/micMuted.png"
+theme.widget_micUnmuted = gfs.get_configuration_dir() .. "widgets/icons/micUnmuted.png"
+theme.mic = mic({
+	timeout = 10,
+	settings = function(self)
+		if self.state == "muted" then
+			self.widget:set_image(theme.widget_micMuted)
+		else
+			self.widget:set_image(theme.widget_micUnmuted)
+		end
+	end,
+})
 
 return theme
 

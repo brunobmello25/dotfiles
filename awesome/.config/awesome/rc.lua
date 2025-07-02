@@ -276,6 +276,8 @@ awful.screen.connect_for_each_screen(function(s)
 	-- Create the wibox
 	s.mywibox = awful.wibar({ position = "top", screen = s })
 
+	local widget_mic = wibox.widget({ beautiful.mic.widget, layout = wibox.layout.align.horizontal })
+
 	-- Add widgets to the wibox
 	s.mywibox:setup({
 		layout = wibox.layout.align.horizontal,
@@ -285,9 +287,11 @@ awful.screen.connect_for_each_screen(function(s)
 			s.mytaglist,
 			s.mypromptbox,
 		},
-		s.mytasklist, -- Middle widget
+		-- s.mytasklist, -- Middle widget
+		nil,
 		{ -- Right widgets
 			layout = wibox.layout.fixed.horizontal,
+			widget_mic,
 			mykeyboardlayout,
 			wibox.widget.systray(),
 			mytextclock,
@@ -359,6 +363,10 @@ globalkeys = gears.table.join(
 	awful.key({ modkey }, "space", function()
 		awful.spawn("rofi -show drun")
 	end, { description = "app launcher (rofi)", group = "launcher" }),
+
+	awful.key({ "Control", "Shift" }, "space", function()
+		beautiful.mic:toggle()
+	end, { description = "Toggle microphone (amixer)", group = "Hotkeys" }),
 
 	awful.key({ modkey, "Control" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
 	awful.key({ modkey, "Shift" }, "q", awesome.quit, { description = "quit awesome", group = "awesome" }),
@@ -433,20 +441,23 @@ clientkeys = gears.table.join(
 	end, { description = "move to master", group = "client" }),
 
 	awful.key({ modkey }, "o", function()
-		local total = screen.count()
-		local tries = 0
+		awful.screen.focus_relative(1)
 
-		-- keep hopping until we find a screen with clients or exhaust all screens
-		repeat
-			awful.screen.focus_relative(1)
-			tries = tries + 1
-		until #awful.screen.focused().clients > 0 or tries >= total
-
-		-- if after all that we're still on an empty screen, jump to the primary
-		if #awful.screen.focused().clients == 0 then
-			-- `screen.primary` is your “default” display
-			awful.screen.focus(screen.primary)
-		end
+		-- TODO:
+		-- local total = screen.count()
+		-- local tries = 0
+		--
+		-- -- keep hopping until we find a screen with clients or exhaust all screens
+		-- repeat
+		-- 	awful.screen.focus_relative(1)
+		-- 	tries = tries + 1
+		-- until #awful.screen.focused().clients > 0 or tries >= total
+		--
+		-- -- if after all that we're still on an empty screen, jump to the primary
+		-- if #awful.screen.focused().clients == 0 then
+		-- 	-- `screen.primary` is your “default” display
+		-- 	awful.screen.focus(screen.primary)
+		-- end
 	end, { description = "focus next non-empty screen with fallback", group = "screen" }),
 
 	awful.key({ modkey, "Shift" }, "o", function(c)
