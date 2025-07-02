@@ -87,7 +87,7 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 -- terminal = "x-terminal-emulator"
@@ -352,6 +352,10 @@ globalkeys = gears.table.join(
 		awful.spawn(terminal)
 	end, { description = "open a terminal", group = "launcher" }),
 
+	awful.key({ modkey }, "b", function()
+		awful.spawn("firefox")
+	end, { description = "spawn firefox", group = "launcher" }),
+
 	awful.key({ modkey }, "space", function()
 		awful.spawn("rofi -show drun")
 	end, { description = "app launcher (rofi)", group = "launcher" }),
@@ -429,8 +433,22 @@ clientkeys = gears.table.join(
 	end, { description = "move to master", group = "client" }),
 
 	awful.key({ modkey }, "o", function()
-		awful.screen.focus_relative(1)
-	end, { description = "focus the next screen", group = "screen" }),
+		local total = screen.count()
+		local tries = 0
+
+		-- keep hopping until we find a screen with clients or exhaust all screens
+		repeat
+			awful.screen.focus_relative(1)
+			tries = tries + 1
+		until #awful.screen.focused().clients > 0 or tries >= total
+
+		-- if after all that we're still on an empty screen, jump to the primary
+		if #awful.screen.focused().clients == 0 then
+			-- `screen.primary` is your “default” display
+			awful.screen.focus(screen.primary)
+		end
+	end, { description = "focus next non-empty screen with fallback", group = "screen" }),
+
 	awful.key({ modkey, "Shift" }, "o", function(c)
 		c:move_to_screen()
 	end, { description = "move to screen", group = "client" }),
@@ -572,7 +590,7 @@ awful.rules.rules = {
 	},
 
 	-- Add titlebars to normal clients and dialogs
-	{ rule_any = { type = { "normal", "dialog" } }, properties = { titlebars_enabled = true } },
+	-- { rule_any = { type = { "normal", "dialog" } }, properties = { titlebars_enabled = true } },
 
 	-- Set Firefox to always map on the tag named "2" on screen 1.
 	{ rule = { class = "Firefox" }, properties = { screen = 1, tag = "2" } },
