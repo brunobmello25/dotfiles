@@ -37,6 +37,8 @@ local function external_connected()
 		or (os.execute(cmd) == 0)
 end
 
+awful.spawn.with_shell("pgrep -u $USER -x lxpolkit >/dev/null || lxpolkit &")
+
 -- dispatch by machine and connection state
 if user == "brubs" then
 	-- my personal laptop: always use desktop.sh
