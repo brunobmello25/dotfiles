@@ -110,6 +110,7 @@ modkey = "Mod4"
 awful.layout.layouts = {
 	awful.layout.suit.tile,
 	awful.layout.suit.floating,
+	awful.layout.suit.max,
 	-- awful.layout.suit.tile.left,
 	-- awful.layout.suit.tile.bottom,
 	-- awful.layout.suit.tile.top,
@@ -117,7 +118,6 @@ awful.layout.layouts = {
 	-- awful.layout.suit.fair.horizontal,
 	-- awful.layout.suit.spiral,
 	-- awful.layout.suit.spiral.dwindle,
-	-- awful.layout.suit.max,
 	-- awful.layout.suit.max.fullscreen,
 	-- awful.layout.suit.magnifier,
 	-- awful.layout.suit.corner.nw,
@@ -272,8 +272,7 @@ awful.screen.connect_for_each_screen(function(s)
 			s.mytaglist,
 			s.mypromptbox,
 		},
-		-- s.mytasklist, -- Middle widget
-		nil,
+		s.mytasklist, -- Middle widget
 		{ -- Right widgets
 			layout = wibox.layout.fixed.horizontal,
 			widget_mic,
@@ -351,7 +350,7 @@ globalkeys = gears.table.join(
 
 	awful.key({ "Control", "Shift" }, "space", function()
 		beautiful.mic:toggle()
-	end, { description = "Toggle microphone (amixer)", group = "Hotkeys" }),
+	end, { description = "Toggle microphone (amixer)", group = "Audio" }),
 
 	awful.key({ modkey, "Control" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
 	awful.key({ modkey, "Shift" }, "q", awesome.quit, { description = "quit awesome", group = "awesome" }),
