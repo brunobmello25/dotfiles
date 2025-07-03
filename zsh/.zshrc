@@ -72,6 +72,6 @@ if [ -f '$HOME/dev/work/backoffice/google-cloud-sdk/completion.zsh.inc' ]; then 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # opencode
-if [ -d /home/brubs/.opencode/bin ]; then
-  export PATH=/home/brubs/.opencode/bin:$PATH
+if [ -d $HOME/.opencode/bin ]; then
+  export PATH=$HOME/.opencode/bin:$PATH
 fi
