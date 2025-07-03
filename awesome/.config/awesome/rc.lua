@@ -43,11 +43,14 @@ awful.spawn.with_shell("pgrep -u $USER -x lxpolkit >/dev/null || lxpolkit &")
 if user == "brubs" then
 	-- my personal laptop: always use desktop.sh
 	awful.spawn.once(home .. "/.screenlayout/desktop.sh")
+	naughty.notify({ title = "Using desktop layout" })
 elseif user == "bruno.mello" then
 	-- my work laptop: choose plugged vs unplugged
 	if external_connected() then
+		naughty.notify({ title = "Using plugged layout" })
 		awful.spawn.once(home .. "/.screenlayout/plugged.sh")
 	else
+		naughty.notify({ title = "Using unplugged layout" })
 		awful.spawn.once(home .. "/.screenlayout/unplugged.sh")
 	end
 end
