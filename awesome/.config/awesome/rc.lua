@@ -315,12 +315,27 @@ globalkeys = gears.table.join(
 		awful.screen.focus_relative(-1)
 	end, { description = "focus the previous screen", group = "screen" }),
 	awful.key({ modkey }, "u", awful.client.urgent.jumpto, { description = "jump to urgent client", group = "client" }),
-	awful.key({ modkey }, "Tab", function()
-		awful.client.focus.history.previous()
-		if client.focus then
-			client.focus:raise()
+
+	awful.key({ modkey, "Shift" }, "Tab", function()
+		-- tag_view_nonempty(-1)
+		local focused = awful.screen.focused()
+		for _ = 1, #focused.tags do
+			awful.tag.viewidx(-1, focused)
+			if #focused.clients > 0 then
+				return
+			end
 		end
-	end, { description = "go back", group = "client" }),
+	end, { description = "view previous tag", group = "tag" }),
+
+	awful.key({ modkey }, "Tab", function()
+		local focused = awful.screen.focused()
+		for _ = 1, #focused.tags do
+			awful.tag.viewidx(1, focused)
+			if #focused.clients > 0 then
+				return
+			end
+		end
+	end, { description = "view next tag", group = "tag" }),
 
 	-- Standard program
 	awful.key({ modkey }, "Return", function()
