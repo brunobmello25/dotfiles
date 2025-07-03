@@ -23,18 +23,10 @@ local has_fdo, freedesktop = pcall(require, "freedesktop")
 local user = os.getenv("USER")
 local home = os.getenv("HOME")
 
--- helper to test if an external monitor is connected
 local function external_connected()
-	-- replace HDMI-1 with whatever your external port is called
-	-- you can find it via: `xrandr --query | grep connected`
-	local cmd = "xrandr --query | grep -E '^(HDMI|DP|VGA)[0-9]+ connected'"
-	-- return true if exit code is zero
-	return awful.spawn.easy_async_with_shell
-			and awful.spawn.easy_async_with_shell(cmd, function(stdout, stderr, reason, exit_code)
-					-- we won't actually use the async callback here
-				end)
-				== 0
-		or (os.execute(cmd) == 0)
+	local cmd = "xrandr --query | grep -E '^(HDMI|DP|VGA)-[0-9]+ connected'"
+	local ok, exit_type, code = os.execute(cmd)
+	return ok or (exit_type == "exit" and code == 0)
 end
 
 awful.spawn.with_shell("pgrep -u $USER -x lxpolkit >/dev/null || lxpolkit &")
