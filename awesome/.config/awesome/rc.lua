@@ -461,6 +461,7 @@ globalkeys = gears.table.join(
 	end, { description = "app launcher (rofi)", group = "launcher" }),
 
 	awful.key({ "Control", "Shift" }, "space", function()
+		naughty.notify({ title = "toggle mic" })
 		beautiful.mic:toggle()
 	end, { description = "Toggle microphone (amixer)", group = "Audio" }),
 

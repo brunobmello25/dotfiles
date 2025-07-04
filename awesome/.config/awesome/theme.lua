@@ -125,13 +125,8 @@ theme.widget_micMuted = gfs.get_configuration_dir() .. "widgets/icons/micMuted.p
 theme.widget_micUnmuted = gfs.get_configuration_dir() .. "widgets/icons/micUnmuted.png"
 theme.mic = mic({
 	timeout = 10,
-	settings = function(self)
-		if self.state == "muted" then
-			self.widget:set_image(theme.widget_micMuted)
-		else
-			self.widget:set_image(theme.widget_micUnmuted)
-		end
-	end,
+	icon_mute = gfs.get_configuration_dir() .. "widgets/icons/micMuted.png",
+	icon_unmute = gfs.get_configuration_dir() .. "widgets/icons/micUnmuted.png",
 })
 
 return theme

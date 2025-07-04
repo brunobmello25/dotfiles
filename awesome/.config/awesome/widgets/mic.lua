@@ -1,164 +1,99 @@
---[[
-
-        Licensed under GNU General Public License v2
-        * (c) 2021, bzgec
-
-
-# Microphone state widget/watcher
-
-This widget can be used to display the current microphone status.
-
-## Requirements
-
-- `amixer` - this command is used to get and toggle microphone state
-
-## Usage
-
-- Download [mic.lua](https://awesomewm.org/recipes/mic.lua) file and put it into awesome's
-  folder (like `~/.config/awesome/widgets/mic.lua`)
-
-- Add widget to `theme.lua`:
-
-```lua
-local widgets = {
-    mic = require("widgets/mic"),
-}
-theme.mic = widgets.mic({
-    timeout = 10,
-    settings = function(self)
-        if self.state == "muted" then
-            self.widget:set_image(theme.widget_micMuted)
-        else
-            self.widget:set_image(theme.widget_micUnmuted)
-        end
-    end
-})
-local widget_mic = wibox.widget { theme.mic.widget, layout = wibox.layout.align.horizontal }
-```
-
-- Create a shortcut to toggle microphone state (add to `rc.lua`):
-
-```lua
--- Toggle microphone state
-awful.key({ modkey, "Shift" }, "m",
-          function ()
-              beautiful.mic:toggle()
-          end,
-          {description = "Toggle microphone (amixer)", group = "Hotkeys"}
-),
-```
-
-- You can also add a command to mute the microphone state on boot. Add this to your `rc.lua`:
-
-```lua
--- Mute microphone on boot
-beautiful.mic:mute()
-```
-
---]]
-
 local awful = require("awful")
 local naughty = require("naughty")
 local gears = require("gears")
 local wibox = require("wibox")
 
 local function factory(args)
-	local args = args or {}
+	args = args or {}
 
+	-- user‐overrideable parameters
+	local widget = args.widget or wibox.widget.imagebox()
+	local timeout = args.timeout or 10
+	local icon_unmute = args.icon_unmute or "/usr/share/icons/Adwaita/32x32/status/audio-input-microphone.png"
+	local icon_mute = args.icon_mute or "/usr/share/icons/Adwaita/32x32/status/audio-input-microphone-muted.png"
+	local on_state_cb = args.settings -- optional callback(state, mic) after every update
+
+	-- internal state
 	local mic = {
-		widget = args.widget or wibox.widget.imagebox(),
-		settings = args.settings or function(self) end,
-		timeout = args.timeout or 10,
-		timer = gears.timer,
-		state = "",
+		widget = widget,
+		timeout = timeout,
+		state = nil, -- "muted" or "unmuted"
+		timer = gears.timer, -- placeholder, will be set below
 	}
 
+	----------------------------------------------------------------
+	-- control methods
+	----------------------------------------------------------------
 	function mic:mute()
-		awful.spawn.easy_async({ "amixer", "set", "Capture", "nocap" }, function()
+		awful.spawn.easy_async("pactl set-source-mute @DEFAULT_SOURCE@ 1", function()
 			self:update()
 		end)
 	end
 
 	function mic:unmute()
-		awful.spawn.easy_async({ "amixer", "set", "Capture", "cap" }, function()
+		awful.spawn.easy_async("pactl set-source-mute @DEFAULT_SOURCE@ 0", function()
 			self:update()
 		end)
 	end
 
 	function mic:toggle()
-		awful.spawn.easy_async({ "amixer", "set", "Capture", "toggle" }, function()
+		awful.spawn.easy_async("pactl set-source-mute @DEFAULT_SOURCE@ toggle", function()
 			self:update()
 		end)
 	end
 
-	function mic:pressed(button)
-		if button == 1 then
-			self:toggle()
-		end
-	end
-
 	function mic:update()
-		-- Check that timer has started
-		if self.timer.started then
+		-- force an immediate re‐read of the status
+		if self.timer and self.timer.started then
 			self.timer:emit_signal("timeout")
 		end
 	end
 
-	-- Read `amixer get Capture` command and try to `grep` all "[on]" lines.
-	--   - If there are lines with "[on]" then assume microphone is "unmuted".
-	--   - If there are NO lines with "[on]" then assume microphone is "muted".
+	----------------------------------------------------------------
+	-- watch the actual mute‐state
+	----------------------------------------------------------------
+	local watch_cmd = { "bash", "-c", "pactl get-source-mute @DEFAULT_SOURCE@" }
+
+	-- awful.widget.watch returns: (base_widget, timer)
 	mic, mic.timer = awful.widget.watch(
-		{ "bash", "-c", "amixer get Capture | grep '\\[on\\]'" },
+		watch_cmd,
 		mic.timeout,
-		function(self, stdout, stderr, exitreason, exitcode)
-			local current_micState = "error"
+		function(self, stdout)
+			-- stdout = "Mute: yes\n" or "Mute: no\n"
+			local muted = stdout:match("yes")
+			local new_state = muted and "muted" or "unmuted"
 
-			if exitcode == 1 then
-				-- Exit code 1 - no line selected
-				current_micState = "muted"
-			elseif exitcode == 0 then
-				-- Exit code 0 - a line is selected
-				current_micState = "unmuted"
-			else
-				-- Other exit code (2) - error occurred
-				current_micState = "error"
+			if new_state ~= self.state then
+				self.state = new_state
+
+				-- update icon
+				self.widget:set_image(muted and icon_mute or icon_unmute)
+
+				-- optional notification on change
 			end
 
-			-- Compare new and old state
-			if current_micState ~= self.state then
-				if current_micState == "muted" then
-				-- naughty.notify({
-				--   preset = naughty.config.presets.normal,
-				--   title = "mic widget info",
-				--   text = 'muted'
-				-- })
-				elseif current_micState == "unmuted" then
-				-- naughty.notify({
-				--   preset = naughty.config.presets.normal,
-				--   title = "mic widget info",
-				--   text = 'unmuted'
-				-- })
-				else
-					naughty.notify({
-						preset = naughty.config.presets.critical,
-						title = "mic widget error",
-						text = "Error on \"amixer get Capture | grep '\\[on\\]'\"",
-					})
-				end
-
-				-- Store new microphone state
-				self.state = current_micState
+			-- user‐supplied hook
+			if on_state_cb then
+				on_state_cb(self.state, self)
 			end
-
-			-- Call user/theme defined function
-			self:settings()
 		end,
-		mic -- base_widget (passed in callback function as first parameter)
+		mic -- pass our mic table as the base_widget
 	)
 
-	-- add mouse click
-	mic.widget:connect_signal("button::press", function(c, _, _, button)
-		mic:pressed(button)
+	----------------------------------------------------------------
+	-- click handling
+	----------------------------------------------------------------
+	mic.widget:connect_signal("button::press", function(_, _, _, button)
+		if button == 1 then
+			mic:toggle()
+		elseif button == 3 then
+			-- right‐click: force on/off
+			if mic.state == "muted" then
+				mic:unmute()
+			else
+				mic:mute()
+			end
+		end
 	end)
 
 	return mic
