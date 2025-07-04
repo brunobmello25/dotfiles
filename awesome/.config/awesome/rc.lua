@@ -31,23 +31,31 @@ end
 
 awful.spawn.with_shell("pgrep -u $USER -x lxpolkit >/dev/null || lxpolkit &")
 
+awful.spawn.with_shell([[
+  # Find the internal KB device-id
+  DEV=$(xinput list --id-only "AT Translated Set 2 keyboard")
+  if [ -n "$DEV" ]; then
+    # apply caps<->esc swap only to that device
+    setxkbmap -device $DEV -option "caps:swapescape"
+  fi
+]])
+
 -- dispatch by machine and connection state
 if user == "brubs" then
 	-- my personal laptop: always use desktop.sh
 	awful.spawn.once(home .. "/.screenlayout/desktop.sh")
-	naughty.notify({ title = "Using desktop layout" })
 elseif user == "bruno.mello" then
 	-- my work laptop: choose plugged vs unplugged
 	if external_connected() then
-		naughty.notify({ title = "Using plugged layout" })
 		awful.spawn.once(home .. "/.screenlayout/plugged.sh")
 	else
-		naughty.notify({ title = "Using unplugged layout" })
 		awful.spawn.once(home .. "/.screenlayout/unplugged.sh")
 	end
 end
 
 awful.spawn.with_shell("setxkbmap -layout us -variant intl -option ''")
+
+naughty.config.defaults.screen = screen.primary
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -138,6 +146,111 @@ myawesomemenu = {
 		end,
 	},
 }
+
+local battery_text = wibox.widget({
+	align = "center",
+	valign = "center",
+	widget = wibox.widget.textbox,
+})
+
+-- wrap it in a little margin so it isn't jammed against its neighbors
+local battery_widget = wibox.container.margin(battery_text, 4, 4, 2, 2)
+
+-- helper to read and trim a sysfs file
+local function read_file(path)
+	local fh = io.open(path, "r")
+	if not fh then
+		return nil
+	end
+	local contents = fh:read("*all")
+	fh:close()
+	return (contents:gsub("^%s*(.-)%s*$", "%1"))
+end
+
+-- battery update function
+local function update_battery()
+	local bat = "/sys/class/power_supply/BAT0" -- change BAT0 if yours is called BAT1, etc.
+	local cap = read_file(bat .. "/capacity") or "N/A"
+	local status = read_file(bat .. "/status") or "Unknown"
+
+	-- pick an icon
+	local ico
+	if status == "Charging" then
+		ico = "🔌"
+	elseif tonumber(cap) and tonumber(cap) < 10 then
+		ico = ""
+	elseif tonumber(cap) and tonumber(cap) < 40 then
+		ico = ""
+	elseif tonumber(cap) and tonumber(cap) < 70 then
+		ico = ""
+	else
+		ico = ""
+	end
+
+	local resulting_text = string.format("%s   %s%%", ico, cap)
+
+	-- update the textbox
+	battery_text:set_text(resulting_text)
+end
+
+-- timer to refresh every 30 seconds
+gears.timer({
+	timeout = 30,
+	autostart = true,
+	callback = update_battery,
+})
+
+-- initial call
+update_battery()
+
+----------------------------------------------------------------
+-- CAPS-LOCK INDICATOR WIDGET
+----------------------------------------------------------------
+-- 1a) the textbox widget
+local capslock = wibox.widget({
+	text = "a", -- default is off
+	align = "center",
+	valign = "center",
+	widget = wibox.widget.textbox,
+})
+
+-- 1b) optional styling (margin + background)
+capslock = wibox.container.margin(capslock, 4, 4, 2, 2)
+-- if you want a colored background when ON, uncomment below:
+-- local caps_bg = wibox.container.background(capslock, "#ff0000", gears.shape.rectangle)
+-- capslock = caps_bg
+
+-- 1c) update function
+local function update_caps()
+	-- run xset q and grab the “Caps Lock:” line
+	local fh = io.popen("xset q | grep 'Caps Lock:'")
+	if not fh then
+		return
+	end
+	local s = fh:read("*a")
+	fh:close()
+
+	-- parse “Caps Lock:   on” vs “off”
+	local on = s:match("Caps Lock:%s+on")
+	if on then
+		capslock.widget:set_text("A") -- uppercase when ON
+		-- if using a background container, do:
+		-- caps_bg.bg = "#ff0000"
+	else
+		capslock.widget:set_text("a") -- lowercase when OFF
+		-- caps_bg.bg = nil
+	end
+end
+
+-- 1d) timer to refresh every 1 sec
+gears.timer({
+	timeout = 1,
+	autostart = true,
+	callback = update_caps,
+})
+
+-- initial draw
+update_caps()
 
 local menu_awesome = { "awesome", myawesomemenu, beautiful.awesome_icon }
 local menu_terminal = { "open terminal", terminal }
@@ -267,6 +380,8 @@ awful.screen.connect_for_each_screen(function(s)
 		s.mytasklist, -- Middle widget
 		{ -- Right widgets
 			layout = wibox.layout.fixed.horizontal,
+			capslock,
+			battery_widget,
 			widget_mic,
 			mykeyboardlayout,
 			wibox.widget.systray(),
