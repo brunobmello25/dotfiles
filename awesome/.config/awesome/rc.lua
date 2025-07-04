@@ -369,6 +369,14 @@ awful.screen.connect_for_each_screen(function(s)
 
 	local widget_mic = wibox.widget({ beautiful.mic.widget, layout = wibox.layout.align.horizontal })
 
+	local get_battery_widget = function()
+		if user == "brubs" then
+			return nil
+		end
+
+		return battery_widget
+	end
+
 	-- Add widgets to the wibox
 	s.mywibox:setup({
 		layout = wibox.layout.align.horizontal,
@@ -381,7 +389,7 @@ awful.screen.connect_for_each_screen(function(s)
 		{ -- Right widgets
 			layout = wibox.layout.fixed.horizontal,
 			capslock,
-			battery_widget,
+			get_battery_widget(),
 			widget_mic,
 			mykeyboardlayout,
 			wibox.widget.systray(),
@@ -461,7 +469,6 @@ globalkeys = gears.table.join(
 	end, { description = "app launcher (rofi)", group = "launcher" }),
 
 	awful.key({ "Control", "Shift" }, "space", function()
-		naughty.notify({ title = "toggle mic" })
 		beautiful.mic:toggle()
 	end, { description = "Toggle microphone (amixer)", group = "Audio" }),
 
