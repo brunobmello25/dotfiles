@@ -35,14 +35,11 @@ awful.spawn.with_shell("pgrep -u $USER -x lxpolkit >/dev/null || lxpolkit &")
 if user == "brubs" then
 	-- my personal laptop: always use desktop.sh
 	awful.spawn.once(home .. "/.screenlayout/desktop.sh")
-	naughty.notify({ title = "Using desktop layout" })
 elseif user == "bruno.mello" then
 	-- my work laptop: choose plugged vs unplugged
 	if external_connected() then
-		naughty.notify({ title = "Using plugged layout" })
 		awful.spawn.once(home .. "/.screenlayout/plugged.sh")
 	else
-		naughty.notify({ title = "Using unplugged layout" })
 		awful.spawn.once(home .. "/.screenlayout/unplugged.sh")
 	end
 end
@@ -138,6 +135,62 @@ myawesomemenu = {
 		end,
 	},
 }
+
+local battery_text = wibox.widget({
+	align = "center",
+	valign = "center",
+	widget = wibox.widget.textbox,
+})
+
+-- wrap it in a little margin so it isn't jammed against its neighbors
+local battery_widget = wibox.container.margin(battery_text, 4, 4, 2, 2)
+
+-- helper to read and trim a sysfs file
+local function read_file(path)
+	local fh = io.open(path, "r")
+	if not fh then
+		return nil
+	end
+	local contents = fh:read("*all")
+	fh:close()
+	return (contents:gsub("^%s*(.-)%s*$", "%1"))
+end
+
+-- battery update function
+local function update_battery()
+	local bat = "/sys/class/power_supply/BAT0" -- change BAT0 if yours is called BAT1, etc.
+	local cap = read_file(bat .. "/capacity") or "N/A"
+	local status = read_file(bat .. "/status") or "Unknown"
+
+	-- pick an icon
+	local ico
+	if status == "Charging" then
+		ico = "🔌"
+	elseif tonumber(cap) and tonumber(cap) < 10 then
+		ico = ""
+	elseif tonumber(cap) and tonumber(cap) < 40 then
+		ico = ""
+	elseif tonumber(cap) and tonumber(cap) < 70 then
+		ico = ""
+	else
+		ico = ""
+	end
+
+	local resulting_text = string.format("%s   %s%%", ico, cap)
+
+	-- update the textbox
+	battery_text:set_text(resulting_text)
+end
+
+-- timer to refresh every 30 seconds
+gears.timer({
+	timeout = 30,
+	autostart = true,
+	callback = update_battery,
+})
+
+-- initial call
+update_battery()
 
 local menu_awesome = { "awesome", myawesomemenu, beautiful.awesome_icon }
 local menu_terminal = { "open terminal", terminal }
@@ -267,6 +320,7 @@ awful.screen.connect_for_each_screen(function(s)
 		s.mytasklist, -- Middle widget
 		{ -- Right widgets
 			layout = wibox.layout.fixed.horizontal,
+			battery_widget,
 			widget_mic,
 			mykeyboardlayout,
 			wibox.widget.systray(),
