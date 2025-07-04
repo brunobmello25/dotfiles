@@ -31,6 +31,15 @@ end
 
 awful.spawn.with_shell("pgrep -u $USER -x lxpolkit >/dev/null || lxpolkit &")
 
+awful.spawn.with_shell([[
+  # Find the internal KB device-id
+  DEV=$(xinput list --id-only "AT Translated Set 2 keyboard")
+  if [ -n "$DEV" ]; then
+    # apply caps<->esc swap only to that device
+    setxkbmap -device $DEV -option "caps:swapescape"
+  fi
+]])
+
 -- dispatch by machine and connection state
 if user == "brubs" then
 	-- my personal laptop: always use desktop.sh
@@ -45,6 +54,8 @@ elseif user == "bruno.mello" then
 end
 
 awful.spawn.with_shell("setxkbmap -layout us -variant intl -option ''")
+
+naughty.config.defaults.screen = screen.primary
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
