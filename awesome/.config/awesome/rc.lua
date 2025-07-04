@@ -203,6 +203,55 @@ gears.timer({
 -- initial call
 update_battery()
 
+----------------------------------------------------------------
+-- CAPS-LOCK INDICATOR WIDGET
+----------------------------------------------------------------
+-- 1a) the textbox widget
+local capslock = wibox.widget({
+	text = "a", -- default is off
+	align = "center",
+	valign = "center",
+	widget = wibox.widget.textbox,
+})
+
+-- 1b) optional styling (margin + background)
+capslock = wibox.container.margin(capslock, 4, 4, 2, 2)
+-- if you want a colored background when ON, uncomment below:
+-- local caps_bg = wibox.container.background(capslock, "#ff0000", gears.shape.rectangle)
+-- capslock = caps_bg
+
+-- 1c) update function
+local function update_caps()
+	-- run xset q and grab the “Caps Lock:” line
+	local fh = io.popen("xset q | grep 'Caps Lock:'")
+	if not fh then
+		return
+	end
+	local s = fh:read("*a")
+	fh:close()
+
+	-- parse “Caps Lock:   on” vs “off”
+	local on = s:match("Caps Lock:%s+on")
+	if on then
+		capslock.widget:set_text("A") -- uppercase when ON
+		-- if using a background container, do:
+		-- caps_bg.bg = "#ff0000"
+	else
+		capslock.widget:set_text("a") -- lowercase when OFF
+		-- caps_bg.bg = nil
+	end
+end
+
+-- 1d) timer to refresh every 1 sec
+gears.timer({
+	timeout = 1,
+	autostart = true,
+	callback = update_caps,
+})
+
+-- initial draw
+update_caps()
+
 local menu_awesome = { "awesome", myawesomemenu, beautiful.awesome_icon }
 local menu_terminal = { "open terminal", terminal }
 
@@ -331,6 +380,7 @@ awful.screen.connect_for_each_screen(function(s)
 		s.mytasklist, -- Middle widget
 		{ -- Right widgets
 			layout = wibox.layout.fixed.horizontal,
+			capslock,
 			battery_widget,
 			widget_mic,
 			mykeyboardlayout,
