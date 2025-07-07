@@ -18,6 +18,8 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+local caffeine = require("widgets.caffeine")()
+
 local user = os.getenv("USER")
 local home = os.getenv("HOME")
 
@@ -353,6 +355,7 @@ awful.screen.connect_for_each_screen(function(s)
 		s.mytasklist, -- Middle widget
 		{ -- Right widgets
 			layout = wibox.layout.fixed.horizontal,
+			caffeine,
 			capslock,
 			get_battery_widget(),
 			widget_mic,
