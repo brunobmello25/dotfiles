@@ -372,6 +372,26 @@ end)
 globalkeys = gears.table.join(
 	awful.key({ modkey, "Shift" }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
 
+	awful.key({ modkey }, "o", function()
+		awful.screen.focus_relative(1)
+
+		-- TODO:
+		-- local total = screen.count()
+		-- local tries = 0
+		--
+		-- -- keep hopping until we find a screen with clients or exhaust all screens
+		-- repeat
+		-- 	awful.screen.focus_relative(1)
+		-- 	tries = tries + 1
+		-- until #awful.screen.focused().clients > 0 or tries >= total
+		--
+		-- -- if after all that we're still on an empty screen, jump to the primary
+		-- if #awful.screen.focused().clients == 0 then
+		-- 	-- `screen.primary` is your “default” display
+		-- 	awful.screen.focus(screen.primary)
+		-- end
+	end, { description = "focus next non-empty screen with fallback", group = "screen" }),
+
 	awful.key({ modkey }, "s", function()
 		awful.spawn("flameshot gui")
 	end, {}),
@@ -516,26 +536,6 @@ clientkeys = gears.table.join(
 	awful.key({ modkey, "Control" }, "Return", function(c)
 		c:swap(awful.client.getmaster())
 	end, { description = "move to master", group = "client" }),
-
-	awful.key({ modkey }, "o", function()
-		awful.screen.focus_relative(1)
-
-		-- TODO:
-		-- local total = screen.count()
-		-- local tries = 0
-		--
-		-- -- keep hopping until we find a screen with clients or exhaust all screens
-		-- repeat
-		-- 	awful.screen.focus_relative(1)
-		-- 	tries = tries + 1
-		-- until #awful.screen.focused().clients > 0 or tries >= total
-		--
-		-- -- if after all that we're still on an empty screen, jump to the primary
-		-- if #awful.screen.focused().clients == 0 then
-		-- 	-- `screen.primary` is your “default” display
-		-- 	awful.screen.focus(screen.primary)
-		-- end
-	end, { description = "focus next non-empty screen with fallback", group = "screen" }),
 
 	awful.key({ modkey, "Shift" }, "o", function(c)
 		c:move_to_screen()
