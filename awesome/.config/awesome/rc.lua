@@ -19,6 +19,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
 local caffeine = require("widgets.caffeine")()
+local vpn_widget = require("widgets.vpn").new()
 
 local user = os.getenv("USER")
 local home = os.getenv("HOME")
@@ -397,6 +398,7 @@ awful.screen.connect_for_each_screen(function(s)
 			capslock,
 			get_battery_widget(),
 			widget_mic,
+			vpn_widget,
 			awful.widget.keyboardlayout(),
 			wibox.widget.systray(),
 			wibox.widget.textclock(),
@@ -512,6 +514,19 @@ globalkeys = gears.table.join(
 	awful.key({ "Control", "Shift" }, "space", function()
 		beautiful.mic:toggle()
 	end, { description = "Toggle microphone (amixer)", group = "Audio" }),
+
+	-- Volume control keybindings
+	awful.key({}, "XF86AudioRaiseVolume", function()
+		awful.spawn("amixer -q sset Master 5%+")
+	end, { description = "Raise volume", group = "Audio" }),
+
+	awful.key({}, "XF86AudioLowerVolume", function()
+		awful.spawn("amixer -q sset Master 5%-")
+	end, { description = "Lower volume", group = "Audio" }),
+
+	awful.key({}, "XF86AudioMute", function()
+		awful.spawn("amixer -q sset Master toggle")
+	end, { description = "Mute/Unmute volume", group = "Audio" }),
 
 	awful.key({ modkey, "Control" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
 	awful.key({ modkey, "Shift" }, "q", awesome.quit, { description = "quit awesome", group = "awesome" }),
