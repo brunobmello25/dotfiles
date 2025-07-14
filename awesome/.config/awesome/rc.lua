@@ -737,6 +737,8 @@ awful.rules.rules = {
 				"pavucontrol",
 				"Pavucontrol",
 				"xtightvncviewer",
+				"Vial",
+				"vial",
 			},
 
 			-- Note that the name property shown in xprop might be set slightly after creation of the client
