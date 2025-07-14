@@ -408,6 +408,21 @@ end)
 globalkeys = gears.table.join(
 	awful.key({ modkey, "Shift" }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
 
+	awful.key({ modkey, "Control", "Shift" }, "o", function()
+		-- get active screen
+		local screen = awful.screen.focused()
+		debug_log("Focused screen: " .. screen.index)
+
+		local screen_tags = screen.tags
+		local screen_clients = {}
+		for _, t in ipairs(screen_tags) do
+			for _, c in ipairs(t:clients()) do
+				table.insert(screen_clients, c)
+			end
+		end
+		debug_log(screen_clients)
+	end, { description = "", group = "client" }),
+
 	awful.key({ modkey }, "o", function()
 		awful.screen.focus_relative(1)
 
