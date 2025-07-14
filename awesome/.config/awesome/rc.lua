@@ -76,6 +76,8 @@ awful.spawn.with_shell([[
   fi
 ]])
 
+awful.spawn.with_shell("nm-applet --indicator &")
+
 -- dispatch by machine and connection state
 if user == "brubs" then
 	-- my personal laptop: always use desktop.sh
