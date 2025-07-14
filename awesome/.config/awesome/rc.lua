@@ -23,6 +23,42 @@ local caffeine = require("widgets.caffeine")()
 local user = os.getenv("USER")
 local home = os.getenv("HOME")
 
+-- Debug logging function
+local debug_log_path = home .. "/.awesome_debug.log"
+
+local function table_to_string(tbl, indent)
+	indent = indent or 0
+	local result = string.rep("  ", indent) .. "{\n"
+	for k, v in pairs(tbl) do
+		local formatting = string.rep("  ", indent + 1) .. tostring(k) .. " = "
+		if type(v) == "table" then
+			result = result .. formatting .. table_to_string(v, indent + 1)
+		else
+			result = result .. formatting .. tostring(v) .. ",\n"
+		end
+	end
+	result = result .. string.rep("  ", indent) .. "},\n"
+	return result
+end
+
+local function debug_log(message)
+	local log_file = io.open(debug_log_path, "a")
+	if log_file then
+		local timestamp = os.date("%Y-%m-%d %H:%M:%S")
+
+		-- Handle different types of input
+		local log_message
+		if type(message) == "table" then
+			log_message = table_to_string(message)
+		else
+			log_message = tostring(message)
+		end
+
+		log_file:write(string.format("[%s] %s\n", timestamp, log_message))
+		log_file:close()
+	end
+end
+
 local function external_connected()
 	local cmd = "xrandr --query | grep -E '^(HDMI|DP|VGA)-[0-9]+ connected'"
 	local ok, exit_type, code = os.execute(cmd)
@@ -512,6 +548,11 @@ globalkeys = gears.table.join(
 	awful.key({ modkey }, "p", function()
 		menubar.show()
 	end, { description = "show the menubar", group = "launcher" }),
+
+	-- Open debug log
+	awful.key({ modkey, "Shift" }, "d", function()
+		awful.spawn(terminal .. " -e tail -f " .. debug_log_path)
+	end, { description = "open debug log", group = "awesome" }),
 
 	-- Lock screen
 	awful.key({ "Mod1", "Shift" }, "l", function()
