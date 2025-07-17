@@ -20,14 +20,7 @@ require("awful.hotkeys_popup.keys")
 -- Custom modules
 local autostart = require("autostart")
 local keybindings = require("keybindings")
-local battery_widget = require("widgets.battery")
-local capslock_widget = require("widgets.capslock")
-
--- Existing widgets
-local caffeine = require("widgets.caffeine")()
-local vpn_widget = require("widgets.vpn").new()
-
-local user = os.getenv("USER")
+local widgets = require("widgets")
 
 -- Setup autostart applications
 autostart.setup()
@@ -101,9 +94,8 @@ awful.layout.layouts = {
 }
 -- }}}
 
--- Initialize widgets
-local battery = battery_widget.new()
-local capslock = capslock_widget.new()
+-- Initialize all widgets
+local my_widgets = widgets.setup()
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -210,16 +202,6 @@ awful.screen.connect_for_each_screen(function(s)
 	-- Create the wibox
 	s.mywibox = awful.wibar({ position = "top", screen = s })
 
-	local widget_mic = wibox.widget({ beautiful.mic.widget, layout = wibox.layout.align.horizontal })
-
-	local get_battery_widget = function()
-		if user == "brubs" then
-			return nil
-		end
-
-		return battery
-	end
-
 	-- Add widgets to the wibox
 	s.mywibox:setup({
 		layout = wibox.layout.align.horizontal,
@@ -231,11 +213,11 @@ awful.screen.connect_for_each_screen(function(s)
 		s.mytasklist, -- Middle widget
 		{ -- Right widgets
 			layout = wibox.layout.fixed.horizontal,
-			caffeine,
-			capslock,
-			get_battery_widget(),
-			widget_mic,
-			vpn_widget,
+			my_widgets.caffeine,
+			my_widgets.capslock,
+			my_widgets.battery,
+			my_widgets.mic,
+			my_widgets.vpn,
 			awful.widget.keyboardlayout(),
 			wibox.widget.systray(),
 			wibox.widget.textclock(),
