@@ -43,7 +43,13 @@ function battery.new()
 
   update_battery()
 
-  return battery_widget
+  -- Only show battery widget for specific users
+  local user = os.getenv("USER")
+  if user == "bruno.mello" then
+    return battery_widget
+  else
+    return nil
+  end
 end
 
 return battery

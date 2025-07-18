@@ -2,6 +2,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local battery_widget = require("widgets.battery")
 local capslock_widget = require("widgets.capslock")
+local volume_widget = require("widgets.volume")
 
 local widgets = {}
 
@@ -13,6 +14,7 @@ function widgets.setup()
   local capslock = capslock_widget.new()
   local caffeine = require("widgets.caffeine")()
   local vpn_widget = require("widgets.vpn").new()
+  local volume = volume_widget.new()
   
   -- Mic widget setup
   local widget_mic = wibox.widget({ 
@@ -20,20 +22,13 @@ function widgets.setup()
     layout = wibox.layout.align.horizontal 
   })
   
-  -- Battery widget logic - only show for work laptop
-  local function get_battery_widget()
-    if user == "brubs" then
-      return nil
-    end
-    return battery
-  end
-  
   return {
     caffeine = caffeine,
     capslock = capslock,
-    battery = get_battery_widget(),
+    battery = battery,
     mic = widget_mic,
-    vpn = vpn_widget
+    vpn = vpn_widget,
+    volume = volume
   }
 end
 
