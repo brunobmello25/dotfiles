@@ -109,6 +109,7 @@ function keybindings.setup(terminal, modkey)
 		awful.key({}, "XF86AudioLowerVolume", function()
 			awful.spawn("pactl set-sink-volume @DEFAULT_SINK@ -" .. volume_step)
 			awesome.emit_signal("volume::update")
+			utils.debug_log("Volume lowered by 5%")
 		end, { description = "Lower volume", group = "Audio" }),
 
 		awful.key({}, "XF86AudioMute", function()
@@ -270,4 +271,3 @@ function keybindings.setup(terminal, modkey)
 end
 
 return keybindings
-
