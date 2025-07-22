@@ -30,7 +30,11 @@ function autostart.setup()
     end
   end
 
+  -- Set keyboard layout and bind to a key for quick reset
   awful.spawn.with_shell("setxkbmap -layout us -variant intl -option ''")
+  
+  -- Also set it with a slight delay to override any conflicting startup processes
+  awful.spawn.with_shell("sleep 2 && setxkbmap -layout us -variant intl -option ''")
 end
 
 return autostart

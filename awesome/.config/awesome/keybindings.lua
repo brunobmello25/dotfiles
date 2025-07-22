@@ -175,7 +175,11 @@ function keybindings.setup(terminal, modkey)
 		awful.key({ "Mod1", "Shift" }, "l", function()
 			local home = os.getenv("HOME")
 			awful.spawn.with_shell(home .. "/.config/awesome/bin/lock.sh")
-		end, { description = "lock screen", group = "awesome" })
+		end, { description = "lock screen", group = "awesome" }),
+
+		awful.key({ modkey, "Shift" }, "i", function()
+			awful.spawn.with_shell("setxkbmap -layout us -variant intl -option ''")
+		end, { description = "reset keyboard to us(intl)", group = "awesome" })
 	)
 
 	local clientkeys = gears.table.join(
