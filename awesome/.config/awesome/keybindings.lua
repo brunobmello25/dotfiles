@@ -89,8 +89,8 @@ function keybindings.setup(terminal, modkey)
 		end, { description = "open a terminal", group = "launcher" }),
 
 		awful.key({ modkey }, "b", function()
-			awful.spawn("google-chrome-stable")
-		end, { description = "spawn chrome", group = "launcher" }),
+			awful.spawn("firefox")
+		end, { description = "spawn firefox", group = "launcher" }),
 
 		awful.key({ modkey }, "space", function()
 			awful.spawn("rofi -show drun")
