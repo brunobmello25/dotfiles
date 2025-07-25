@@ -117,6 +117,14 @@ function keybindings.setup(terminal, modkey)
 			awesome.emit_signal("volume::update")
 		end, { description = "Mute/Unmute volume", group = "Audio" }),
 
+		awful.key({}, "XF86MonBrightnessUp", function()
+			awful.spawn("brightnessctl set +10%")
+		end, { description = "Increase brightness", group = "Screen" }),
+
+		awful.key({}, "XF86MonBrightnessDown", function()
+			awful.spawn("brightnessctl set 10%-")
+		end, { description = "Decrease brightness", group = "Screen" }),
+
 		awful.key({ modkey, "Control" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
 		awful.key({ modkey, "Shift" }, "q", awesome.quit, { description = "quit awesome", group = "awesome" }),
 
