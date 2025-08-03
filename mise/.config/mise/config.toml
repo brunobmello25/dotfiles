@@ -1,11 +1,7 @@
 [tools]
-bun = "latest"
-dotnet = "9.0.300"
-go = "1.23.9"
-node = "latest"
+go = "latest"
 python = "latest"
 ruby = "latest"
-rust = "latest"
 zig = "latest"
 
 [settings]
