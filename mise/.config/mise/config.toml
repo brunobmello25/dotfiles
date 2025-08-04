@@ -1,8 +1,9 @@
 [tools]
 go = "latest"
+node = "22.18.0"
 python = "latest"
 ruby = "latest"
-zig = "latest"
+zig = "0.14.1"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node", "ruby"]
