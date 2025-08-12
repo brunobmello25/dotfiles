@@ -4,6 +4,7 @@ node = "22.18.0"
 pnpm = "10.14.0"
 python = "latest"
 ruby = "latest"
+yarn = "latest"
 zig = "0.14.1"
 
 [settings]
