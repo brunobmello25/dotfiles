@@ -97,7 +97,7 @@ function keybindings.setup(terminal, modkey)
 		end, { description = "app launcher (rofi)", group = "launcher" }),
 
 		awful.key({ modkey }, "v", function()
-			awful.spawn("copyq")
+			awful.spawn("copyq show")
 		end, { description = "clipboard history", group = "launcher" }),
 
 		awful.key({ "Control", "Shift" }, "space", function()
