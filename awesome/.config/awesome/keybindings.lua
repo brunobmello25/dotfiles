@@ -96,6 +96,10 @@ function keybindings.setup(terminal, modkey)
 			awful.spawn("rofi -show drun")
 		end, { description = "app launcher (rofi)", group = "launcher" }),
 
+		awful.key({ modkey }, "v", function()
+			awful.spawn("copyq")
+		end, { description = "clipboard history", group = "launcher" }),
+
 		awful.key({ "Control", "Shift" }, "space", function()
 			beautiful.mic:toggle()
 		end, { description = "Toggle microphone (amixer)", group = "Audio" }),
