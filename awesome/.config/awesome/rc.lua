@@ -289,6 +289,7 @@ awful.rules.rules = {
 				"xtightvncviewer",
 				"Vial",
 				"vial",
+				"Sokoban",
 			},
 
 			-- Note that the name property shown in xprop might be set slightly after creation of the client
