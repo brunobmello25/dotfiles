@@ -1,2 +1,3 @@
 nvim/.config/nvim/plugin
 fonts/.fonts/.uuid
+mise/.config/mise/conf.d/config.local.toml
