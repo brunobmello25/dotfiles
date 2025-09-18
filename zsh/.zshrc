@@ -1,6 +1,10 @@
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="half-life"
 plugins=(git zsh-fzf-history-search direnv)
+
+# Load fzf before Oh My Zsh plugins
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 [ -d $ZSH ] && source $ZSH/oh-my-zsh.sh
 
 # === ALIASES ===
@@ -67,9 +71,6 @@ if [ -f '$HOME/dev/work/backoffice/google-cloud-sdk/path.zsh.inc' ]; then . '$HO
 
 # The next line enables shell command completion for gcloud.
 if [ -f '$HOME/dev/work/backoffice/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/dev/work/backoffice/google-cloud-sdk/completion.zsh.inc'; fi
-
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # opencode
 if [ -d $HOME/.opencode/bin ]; then
