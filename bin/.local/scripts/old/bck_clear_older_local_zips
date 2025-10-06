@@ -1,3 +1,0 @@
-#!/bin/bash
-
-ls -1t ~/backups/*.zip | tail -n +4 | xargs -r rm --
