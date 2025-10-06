@@ -3,9 +3,28 @@ local utils = require("utils")
 
 local autostart = {}
 
+local function run_once(name, cmd)
+	local user = os.getenv("USER")
+	local flagfile = string.format("/tmp/awesome-%s-%s", name, user)
+
+	awful.spawn.with_shell(string.format(
+		[[
+		if [ ! -f "%s" ]; then
+			touch "%s"
+			%s
+		fi
+	]],
+		flagfile,
+		flagfile,
+		cmd
+	))
+end
+
 function autostart.setup()
 	local user = os.getenv("USER")
 	local home = os.getenv("HOME")
+
+	run_once("xdg-autostart", "dex-autostart --autostart --environment Awesome")
 
 	awful.spawn.with_shell("pgrep -u $USER -x lxpolkit >/dev/null || lxpolkit &")
 
@@ -41,4 +60,3 @@ function autostart.setup()
 end
 
 return autostart
-
