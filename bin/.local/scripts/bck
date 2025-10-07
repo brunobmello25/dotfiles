@@ -1,0 +1,291 @@
+#!/bin/bash
+
+# ============================================
+# Sistema de Backup com Backblaze B2
+# Usa restic para backups incrementais
+# ============================================
+
+set -e  # Sai em caso de erro
+
+# Cores para output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# ============================================
+# CONFIGURAÇÃO - Edite estas variáveis
+# ============================================
+
+check_bw() {
+    if ! command -v bw &> /dev/null; then
+        log_error "bitwarden-cli (bw) não está instalado!"
+        echo ""
+        echo "Instale com:"
+        echo "  npm install -g @bitwarden/cli"
+        echo "  Ou veja: https://bitwarden.com/help/cli/"
+        exit 1
+    fi
+
+    if ! bw status &> /dev/null; then
+        log_error "Erro ao verificar status do bitwarden"
+        exit 1
+    fi
+
+    local bw_status=$(bw status | jq -r '.status')
+    if [ "$bw_status" != "unlocked" ]; then
+        log_error "bitwarden não está autenticado ou desbloqueado!"
+        echo ""
+        echo "Execute um dos comandos:"
+        echo "  bw login      # Se não estiver logado"
+        echo "  bw unlock     # Se estiver logado mas bloqueado"
+        echo ""
+        echo "Depois exporte a sessão:"
+        echo "  export BW_SESSION=\"<chave-da-sessão>\""
+        exit 1
+    fi
+
+    log_info "bitwarden autenticado e desbloqueado"
+}
+
+load_secrets() {
+    B2_ACCOUNT_ID="$(bw list items --search backblaze-key-id | jq -r '.[] | .notes')"
+    B2_ACCOUNT_KEY="$(bw list items --search backblaze-application-key | jq -r '.[] | .notes')"
+    RESTIC_PASSWORD="$(bw list items --search restic-repository-key | jq -r '.[] | .login.password')"
+}
+
+B2_BUCKET="backups-brunobmello25"
+
+# Política de retenção de snapshots
+KEEP_DAILY=7      # Manter últimos 7 backups diários
+KEEP_WEEKLY=4     # Manter últimas 4 semanas
+KEEP_MONTHLY=6    # Manter últimos 6 meses
+KEEP_YEARLY=2     # Manter últimos 2 anos
+
+# ============================================
+# FUNÇÕES
+# ============================================
+
+log_info() {
+    echo -e "${GREEN}[INFO]${NC} $1"
+}
+
+log_warn() {
+    echo -e "${YELLOW}[AVISO]${NC} $1"
+}
+
+log_error() {
+    echo -e "${RED}[ERRO]${NC} $1"
+}
+
+check_dependencies() {
+    if ! command -v jq &> /dev/null; then
+        log_error "jq não está instalado!"
+        echo ""
+        echo "Instale com:"
+        echo "  Ubuntu/Debian: sudo apt install jq"
+        echo "  Fedora: sudo dnf install jq"
+        echo "  macOS: brew install jq"
+        exit 1
+    fi
+    log_info "jq encontrado: $(jq --version)"
+
+    check_bw
+
+    if ! command -v restic &> /dev/null; then
+        log_error "restic não está instalado!"
+        echo ""
+        echo "Instale com:"
+        echo "  Ubuntu/Debian: sudo apt install restic"
+        echo "  Fedora: sudo dnf install restic"
+        echo "  macOS: brew install restic"
+        echo "  Ou baixe de: https://restic.net/"
+        exit 1
+    fi
+    log_info "restic encontrado: $(restic version)"
+}
+
+init_repository() {
+    local repo_url="b2:${B2_BUCKET}"
+    
+    log_info "Verificando repositório..."
+    
+    if ! restic -r "$repo_url" snapshots &> /dev/null; then
+        log_warn "Repositório não existe. Inicializando..."
+        restic -r "$repo_url" init
+        log_info "Repositório inicializado com sucesso!"
+    else
+        log_info "Repositório já existe."
+    fi
+}
+
+do_backup() {
+    local backup_path="$1"
+    local repo_url="b2:${B2_BUCKET}"
+    
+    if [ ! -d "$backup_path" ] && [ ! -f "$backup_path" ]; then
+        log_error "Caminho não encontrado: $backup_path"
+        exit 1
+    fi
+    
+    log_info "Iniciando backup de: $backup_path"
+    log_info "Destino: Backblaze B2 ($B2_BUCKET)"
+    echo ""
+    
+    # Fazer o backup
+    restic -r "$repo_url" backup "$backup_path" \
+        --verbose \
+        --tag "$(hostname)" \
+        --tag "$(date +%Y-%m)"
+    
+    log_info "Backup concluído!"
+}
+
+list_snapshots() {
+    local repo_url="b2:${B2_BUCKET}"
+    
+    log_info "Listando snapshots disponíveis:"
+    echo ""
+    restic -r "$repo_url" snapshots
+}
+
+cleanup_old_snapshots() {
+    local repo_url="b2:${B2_BUCKET}"
+    
+    log_info "Aplicando política de retenção..."
+    log_info "  - Diários: últimos $KEEP_DAILY"
+    log_info "  - Semanais: últimos $KEEP_WEEKLY"
+    log_info "  - Mensais: últimos $KEEP_MONTHLY"
+    log_info "  - Anuais: últimos $KEEP_YEARLY"
+    echo ""
+    
+    restic -r "$repo_url" forget \
+        --keep-daily $KEEP_DAILY \
+        --keep-weekly $KEEP_WEEKLY \
+        --keep-monthly $KEEP_MONTHLY \
+        --keep-yearly $KEEP_YEARLY \
+        --prune
+    
+    log_info "Limpeza concluída!"
+}
+
+check_repository() {
+    local repo_url="b2:${B2_BUCKET}"
+    
+    log_info "Verificando integridade do repositório..."
+    restic -r "$repo_url" check
+    log_info "Verificação concluída!"
+}
+
+restore_snapshot() {
+    local snapshot_id="$1"
+    local restore_path="$2"
+    local repo_url="b2:${B2_BUCKET}"
+    
+    if [ -z "$snapshot_id" ] || [ -z "$restore_path" ]; then
+        log_error "Uso: $0 restore <snapshot_id> <caminho_destino>"
+        exit 1
+    fi
+    
+    log_info "Restaurando snapshot $snapshot_id para $restore_path"
+    restic -r "$repo_url" restore "$snapshot_id" --target "$restore_path"
+    log_info "Restauração concluída!"
+}
+
+show_help() {
+    cat << EOF
+Sistema de Backup com Backblaze B2
+
+Uso: $0 <comando> [argumentos]
+
+Comandos:
+    backup <caminho>           Faz backup de uma pasta ou arquivo
+    list                       Lista todos os snapshots
+    restore <id> <destino>     Restaura um snapshot
+    cleanup                    Remove snapshots antigos (política de retenção)
+    check                      Verifica integridade do repositório
+    stats                      Mostra estatísticas do repositório
+    help                       Mostra esta mensagem
+
+Exemplos:
+    $0 backup /home/usuario/documentos
+    $0 list
+    $0 restore abc123 /tmp/restore
+    $0 cleanup
+
+Configuração:
+    Edite as variáveis no topo do script:
+    - B2_ACCOUNT_ID: ID da conta Backblaze
+    - B2_ACCOUNT_KEY: Application Key do Backblaze
+    - B2_BUCKET: Nome do bucket
+    - RESTIC_PASSWORD: Senha do repositório
+EOF
+}
+
+# ============================================
+# MAIN
+# ============================================
+
+# Verificar argumentos
+if [ $# -eq 0 ]; then
+    show_help
+    exit 1
+fi
+
+# Mostrar help sem verificar dependências
+if [ "$1" = "help" ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+    show_help
+    exit 0
+fi
+
+# Verificar dependências
+check_dependencies
+
+# Carregar secrets do bitwarden
+load_secrets
+
+# Exportar variáveis de ambiente necessárias
+export B2_ACCOUNT_ID
+export B2_ACCOUNT_KEY
+export RESTIC_PASSWORD
+
+# Processar comando
+case "$1" in
+    backup)
+        if [ -z "$2" ]; then
+            log_error "Especifique o caminho para backup"
+            echo "Uso: $0 backup <caminho>"
+            exit 1
+        fi
+        init_repository
+        do_backup "$2"
+        log_info "Dica: Execute '$0 cleanup' periodicamente para limpar backups antigos"
+        ;;
+    
+    list)
+        list_snapshots
+        ;;
+    
+    restore)
+        restore_snapshot "$2" "$3"
+        ;;
+    
+    cleanup)
+        cleanup_old_snapshots
+        ;;
+    
+    check)
+        check_repository
+        ;;
+    
+    stats)
+        restic -r "b2:${B2_BUCKET}" stats
+        ;;
+    
+    *)
+        log_error "Comando desconhecido: $1"
+        echo ""
+        show_help
+        exit 1
+        ;;
+esac
