@@ -80,3 +80,5 @@ if [ -f '$HOME/dev/work/backoffice/google-cloud-sdk/completion.zsh.inc' ]; then 
 if [ -d $HOME/.opencode/bin ]; then
   export PATH=$HOME/.opencode/bin:$PATH
 fi
+
+[ -f $HOME/.isaac-zsh-settings ] && source $HOME/.isaac-zsh-settings
