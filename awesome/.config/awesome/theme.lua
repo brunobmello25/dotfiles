@@ -62,17 +62,25 @@ theme.menu_submenu_icon = themes_path .. "default/submenu.png"
 theme.menu_height = dpi(15)
 theme.menu_width = dpi(100)
 
+-- Titlebar styling
+theme.titlebar_bg_normal = "#1a1a1a"
+theme.titlebar_bg_focus = "#2a2a2a"
+theme.titlebar_fg_normal = "#888888"
+theme.titlebar_fg_focus = "#ffffff"
+
 -- You can add as many variables as
 -- you wish and access them by using
 -- beautiful.variable in your rc.lua
 --theme.bg_widget = "#cc0000"
 
--- Define the image to load
-theme.titlebar_close_button_normal = themes_path .. "default/titlebar/close_normal.png"
-theme.titlebar_close_button_focus = themes_path .. "default/titlebar/close_focus.png"
+-- Define the image to load (custom titlebar icons)
+local titlebar_icon_path = gfs.get_configuration_dir() .. "icons/titlebar/"
 
-theme.titlebar_minimize_button_normal = themes_path .. "default/titlebar/minimize_normal.png"
-theme.titlebar_minimize_button_focus = themes_path .. "default/titlebar/minimize_focus.png"
+theme.titlebar_close_button_normal = titlebar_icon_path .. "close_normal.png"
+theme.titlebar_close_button_focus = titlebar_icon_path .. "close_focus.png"
+
+theme.titlebar_minimize_button_normal = titlebar_icon_path .. "minimize_normal.png"
+theme.titlebar_minimize_button_focus = titlebar_icon_path .. "minimize_focus.png"
 
 theme.titlebar_ontop_button_normal_inactive = themes_path .. "default/titlebar/ontop_normal_inactive.png"
 theme.titlebar_ontop_button_focus_inactive = themes_path .. "default/titlebar/ontop_focus_inactive.png"
@@ -89,10 +97,10 @@ theme.titlebar_floating_button_focus_inactive = themes_path .. "default/titlebar
 theme.titlebar_floating_button_normal_active = themes_path .. "default/titlebar/floating_normal_active.png"
 theme.titlebar_floating_button_focus_active = themes_path .. "default/titlebar/floating_focus_active.png"
 
-theme.titlebar_maximized_button_normal_inactive = themes_path .. "default/titlebar/maximized_normal_inactive.png"
-theme.titlebar_maximized_button_focus_inactive = themes_path .. "default/titlebar/maximized_focus_inactive.png"
-theme.titlebar_maximized_button_normal_active = themes_path .. "default/titlebar/maximized_normal_active.png"
-theme.titlebar_maximized_button_focus_active = themes_path .. "default/titlebar/maximized_focus_active.png"
+theme.titlebar_maximized_button_normal_inactive = titlebar_icon_path .. "maximize_normal_inactive.png"
+theme.titlebar_maximized_button_focus_inactive = titlebar_icon_path .. "maximize_focus_inactive.png"
+theme.titlebar_maximized_button_normal_active = titlebar_icon_path .. "maximize_normal_active.png"
+theme.titlebar_maximized_button_focus_active = titlebar_icon_path .. "maximize_focus_active.png"
 
 theme.wallpaper = "~/Pictures/wallpapers/cats_fishing.png"
 

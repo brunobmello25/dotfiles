@@ -317,7 +317,7 @@ awful.rules.rules = {
 	},
 
 	-- Add titlebars to normal clients and dialogs
-	-- { rule_any = { type = { "normal", "dialog" } }, properties = { titlebars_enabled = true } },
+	{ rule_any = { type = { "normal", "dialog" } }, properties = { titlebars_enabled = true } },
 
 	-- Set Firefox to always map on the tag named "2" on screen 1.
 	{ rule = { class = "Firefox" }, properties = { screen = 1, tag = "2" } },
@@ -351,27 +351,66 @@ client.connect_signal("request::titlebars", function(c)
 		end)
 	)
 
-	awful.titlebar(c):setup({
+	-- Helper function to add hover effect to buttons
+	local function add_hover_effect(widget)
+		local container = wibox.widget({
+			widget,
+			shape = gears.shape.rounded_rect,
+			widget = wibox.container.background,
+		})
+
+		container:connect_signal("mouse::enter", function()
+			container.bg = "#333333"
+			container.shape_border_width = 1
+			container.shape_border_color = "#555555"
+		end)
+
+		container:connect_signal("mouse::leave", function()
+			container.bg = nil
+			container.shape_border_width = 0
+		end)
+
+		return wibox.widget({
+			container,
+			margins = 2,
+			widget = wibox.container.margin,
+		})
+	end
+
+	awful.titlebar(c, { size = 28 }):setup({
 		{ -- Left
-			awful.titlebar.widget.iconwidget(c),
+			{
+				awful.titlebar.widget.iconwidget(c),
+				margins = 4,
+				widget = wibox.container.margin,
+			},
+			{
+				{
+					align = "left",
+					font = "sans bold 10",
+					widget = awful.titlebar.widget.titlewidget(c),
+				},
+				left = 8,
+				right = 8,
+				widget = wibox.container.margin,
+			},
 			buttons = buttons,
 			layout = wibox.layout.fixed.horizontal,
 		},
 		{ -- Middle
-			{ -- Title
-				align = "center",
-				widget = awful.titlebar.widget.titlewidget(c),
-			},
 			buttons = buttons,
 			layout = wibox.layout.flex.horizontal,
 		},
 		{ -- Right
-			awful.titlebar.widget.floatingbutton(c),
-			awful.titlebar.widget.maximizedbutton(c),
-			awful.titlebar.widget.stickybutton(c),
-			awful.titlebar.widget.ontopbutton(c),
-			awful.titlebar.widget.closebutton(c),
-			layout = wibox.layout.fixed.horizontal(),
+			{
+				add_hover_effect(awful.titlebar.widget.minimizebutton(c)),
+				add_hover_effect(awful.titlebar.widget.maximizedbutton(c)),
+				add_hover_effect(awful.titlebar.widget.closebutton(c)),
+				spacing = 4,
+				layout = wibox.layout.fixed.horizontal(),
+			},
+			margins = 4,
+			widget = wibox.container.margin,
 		},
 		layout = wibox.layout.align.horizontal,
 	})
