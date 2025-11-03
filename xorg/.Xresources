@@ -1,0 +1,14 @@
+! Cursor theme settings
+Xcursor.theme: Adwaita
+Xcursor.size: 24
+
+! Enable antialiasing
+Xft.autohint: 0
+Xft.lcdfilter: lcddefault
+Xft.hintstyle: hintslight
+Xft.antialias: 1
+Xft.rgba: rgb
+
+! Terminal colors (if using xterm)
+*background: #222222
+*foreground: #aaaaaa
