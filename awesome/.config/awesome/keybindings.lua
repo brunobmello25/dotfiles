@@ -121,6 +121,26 @@ function keybindings.setup(terminal, modkey)
 			awesome.emit_signal("volume::update")
 		end, { description = "Mute/Unmute volume", group = "Audio" }),
 
+		awful.key({}, "XF86AudioPlay", function()
+			awful.spawn("playerctl play-pause")
+			awesome.emit_signal("media::update")
+		end, { description = "Play/Pause media", group = "Media" }),
+
+		awful.key({}, "XF86AudioPause", function()
+			awful.spawn("playerctl pause")
+			awesome.emit_signal("media::update")
+		end, { description = "Pause media", group = "Media" }),
+
+		awful.key({}, "XF86AudioNext", function()
+			awful.spawn("playerctl next")
+			awesome.emit_signal("media::update")
+		end, { description = "Next track", group = "Media" }),
+
+		awful.key({}, "XF86AudioPrev", function()
+			awful.spawn("playerctl previous")
+			awesome.emit_signal("media::update")
+		end, { description = "Previous track", group = "Media" }),
+
 		awful.key({}, "XF86MonBrightnessUp", function()
 			awful.spawn("brightnessctl set +10%")
 		end, { description = "Increase brightness", group = "Screen" }),

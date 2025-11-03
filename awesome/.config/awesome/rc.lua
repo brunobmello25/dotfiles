@@ -233,6 +233,8 @@ awful.screen.connect_for_each_screen(function(s)
 			wibox.widget.textbox(" │ "),
 			my_widgets.vpn,
 			wibox.widget.textbox(" │ "),
+			my_widgets.media,
+			wibox.widget.textbox(" │ "),
 			awful.widget.keyboardlayout(),
 			wibox.widget.textbox(" │ "),
 			wibox.widget.systray(),
