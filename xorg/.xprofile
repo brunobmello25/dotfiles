@@ -1,0 +1,27 @@
+#!/bin/sh
+# X session profile - executed by display managers before window manager starts
+
+# Load X resources
+[ -f ~/.Xresources ] && xrdb -merge ~/.Xresources
+
+# Auto-detect cursor theme from lxappearance settings
+if [ -f ~/.icons/default/index.theme ]; then
+    XCURSOR_THEME=$(grep "^Inherits=" ~/.icons/default/index.theme | cut -d'=' -f2)
+fi
+
+# Fallback to Adwaita if not found
+XCURSOR_THEME=${XCURSOR_THEME:-Adwaita}
+
+# Get cursor size from Xresources or default to 24
+XCURSOR_SIZE=$(xrdb -query | grep "Xcursor.size" | cut -f2)
+XCURSOR_SIZE=${XCURSOR_SIZE:-24}
+
+# Export cursor theme settings
+export XCURSOR_THEME
+export XCURSOR_SIZE
+
+# Make cursor theme available for all systemd user services
+dbus-update-activation-environment --systemd XCURSOR_THEME XCURSOR_SIZE 2>/dev/null || true
+
+# Set default cursor for the root window
+xsetroot -cursor_name left_ptr
