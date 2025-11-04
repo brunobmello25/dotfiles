@@ -23,3 +23,5 @@
 	defaultBranch = main
 [url "git@github.com:OlaIsaac"]
 	insteadOf = https://github.com/OlaIsaac
+[fetch]
+	prune = true
