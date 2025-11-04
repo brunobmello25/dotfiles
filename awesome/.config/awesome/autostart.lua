@@ -58,7 +58,7 @@ function autostart.setup()
 	-- Also set it with a slight delay to override any conflicting startup processes
 	awful.spawn.with_shell("sleep 2 && setxkbmap -layout us -variant intl -option ''")
 
-	awful.spawn.with_shell("pgrep -u $USER -x picom >/dev/null || picom -b --config " .. home .. "/.dotfiles/picom/picom.conf")
+	-- awful.spawn.with_shell("pgrep -u $USER -x picom >/dev/null || picom -b --config " .. home .. "/.dotfiles/picom/picom.conf")
 end
 
 return autostart
