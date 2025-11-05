@@ -198,6 +198,51 @@ awful.screen.connect_for_each_screen(function(s)
 		screen = s,
 		filter = awful.widget.taglist.filter.all,
 		buttons = taglist_buttons,
+		style = {
+			shape = gears.shape.rounded_rect,
+			font = beautiful.taglist_font,
+			squares_sel = nil,
+			squares_unsel = nil,
+		},
+		layout = {
+			spacing = beautiful.taglist_spacing,
+			layout = wibox.layout.fixed.horizontal,
+		},
+		widget_template = {
+			{
+				{
+					id = "text_role",
+					widget = wibox.widget.textbox,
+				},
+				left = 8,
+				right = 8,
+				top = 4,
+				bottom = 4,
+				widget = wibox.container.margin,
+			},
+			id = "background_role",
+			widget = wibox.container.background,
+			create_callback = function(self, tag, index, objects)
+				self:connect_signal("mouse::enter", function()
+					if tag.selected then
+						self.bg = beautiful.taglist_bg_focus
+					elseif #tag:clients() > 0 then
+						self.bg = "#555555"
+					else
+						self.bg = "#3a3a3a"
+					end
+				end)
+				self:connect_signal("mouse::leave", function()
+					if tag.selected then
+						self.bg = beautiful.taglist_bg_focus
+					elseif #tag:clients() > 0 then
+						self.bg = beautiful.taglist_bg_occupied
+					else
+						self.bg = beautiful.taglist_bg_empty
+					end
+				end)
+			end,
+		},
 	})
 
 	-- Create a tasklist widget

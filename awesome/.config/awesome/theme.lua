@@ -44,10 +44,21 @@ theme.border_marked = "#91231c"
 -- Example:
 --theme.taglist_bg_focus = "#ff0000"
 
--- Generate taglist squares:
-local taglist_square_size = dpi(4)
-theme.taglist_squares_sel = theme_assets.taglist_squares_sel(taglist_square_size, theme.fg_normal)
-theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(taglist_square_size, theme.fg_normal)
+-- Taglist styling
+theme.taglist_font = "sans bold 11"
+theme.taglist_bg_focus = "#dd7373"
+theme.taglist_fg_focus = "#ffffff"
+theme.taglist_bg_occupied = "#444444"
+theme.taglist_fg_occupied = "#dddddd"
+theme.taglist_bg_empty = "#2a2a2a"
+theme.taglist_fg_empty = "#666666"
+theme.taglist_bg_urgent = "#ff6b6b"
+theme.taglist_fg_urgent = "#ffffff"
+theme.taglist_spacing = dpi(4)
+
+-- Disable taglist squares (we use background colors instead)
+theme.taglist_squares_sel = nil
+theme.taglist_squares_unsel = nil
 
 -- Variables set for theming notifications:
 -- notification_font
