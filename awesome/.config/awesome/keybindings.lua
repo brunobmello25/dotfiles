@@ -12,6 +12,10 @@ function keybindings.setup(terminal, modkey)
 	local globalkeys = gears.table.join(
 		awful.key({ modkey, "Shift" }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
 
+		awful.key({ modkey }, "e", function()
+			awful.spawn("thunar")
+		end, { description = "open file explorer (thunar)", group = "launcher" }),
+
 		awful.key({ modkey, "Control", "Shift" }, "o", function()
 			local screen = awful.screen.focused()
 			utils.debug_log("Focused screen: " .. screen.index)
