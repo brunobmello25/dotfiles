@@ -135,12 +135,18 @@ local tasklist_buttons = gears.table.join(
 	end),
 	awful.button({}, 3, function(c)
 		local menu_items = {
-			{ "Always on Top", function()
-				c.ontop = not c.ontop
-			end },
-			{ "Close", function()
-				c:kill()
-			end },
+			{
+				"Always on Top",
+				function()
+					c.ontop = not c.ontop
+				end,
+			},
+			{
+				"Close",
+				function()
+					c:kill()
+				end,
+			},
 		}
 		awful.menu({ items = menu_items }):show()
 	end),
@@ -346,6 +352,7 @@ awful.rules.rules = {
 				"vial",
 				"Sokoban",
 				"Project Seed",
+				"org.gnome.FileRoller",
 			},
 
 			-- Note that the name property shown in xprop might be set slightly after creation of the client
