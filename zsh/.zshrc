@@ -78,3 +78,11 @@ if [ -d $HOME/.opencode/bin ]; then
 fi
 
 [ -f $HOME/.isaac-zsh-settings ] && source $HOME/.isaac-zsh-settings
+
+# pnpm
+export PNPM_HOME="/home/bruno.mello/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
