@@ -77,6 +77,8 @@ if [ -d $HOME/.opencode/bin ]; then
   export PATH=$HOME/.opencode/bin:$PATH
 fi
 
+[ -d $HOME/build/Odin/ ] && export PATH=$HOME/build/Odin/:$PATH
+
 [ -f $HOME/.isaac-zsh-settings ] && source $HOME/.isaac-zsh-settings
 
 # pnpm
