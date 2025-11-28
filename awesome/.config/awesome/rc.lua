@@ -361,6 +361,7 @@ awful.rules.rules = {
 				"Event Tester", -- xev.
 				"Handmade Hero",
 				"Voxel Engine",
+				"Evermore",
 			},
 			role = {
 				"AlarmWindow", -- Thunderbird's calendar.
