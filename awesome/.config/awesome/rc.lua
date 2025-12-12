@@ -21,6 +21,7 @@ require("awful.hotkeys_popup.keys")
 local autostart = require("autostart")
 local keybindings = require("keybindings")
 local widgets = require("widgets")
+local threecolumn = require("layouts.threecolumn")
 
 -- Setup autostart applications
 autostart.setup()
@@ -76,6 +77,7 @@ local modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
 	awful.layout.suit.tile,
+	threecolumn,
 	awful.layout.suit.floating,
 	awful.layout.suit.max,
 	-- awful.layout.suit.tile.left,
