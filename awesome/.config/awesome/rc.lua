@@ -21,6 +21,7 @@ require("awful.hotkeys_popup.keys")
 local autostart = require("autostart")
 local keybindings = require("keybindings")
 local widgets = require("widgets")
+local threecolumn = require("layouts.threecolumn")
 
 -- Setup autostart applications
 autostart.setup()
@@ -76,6 +77,7 @@ local modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
 	awful.layout.suit.tile,
+	threecolumn,
 	awful.layout.suit.floating,
 	awful.layout.suit.max,
 	-- awful.layout.suit.tile.left,
@@ -159,14 +161,23 @@ local tasklist_buttons = gears.table.join(
 )
 
 local function set_wallpaper(s)
-	-- Wallpaper
-	if beautiful.wallpaper then
-		local wallpaper = beautiful.wallpaper
+	-- Select wallpaper based on screen resolution
+	local wallpaper
+	local geo = s.geometry
+	
+	-- QHD ultrawide: 3440x1440
+	if geo.width == 3440 and geo.height == 1440 then
+		wallpaper = beautiful.wallpaper_qhd
+	else
+		wallpaper = beautiful.wallpaper_default
+	end
+	
+	if wallpaper then
 		-- If wallpaper is a function, call it with the screen
 		if type(wallpaper) == "function" then
 			wallpaper = wallpaper(s)
 		end
-		gears.wallpaper.maximized(wallpaper, s, true)
+		gears.wallpaper.centered(wallpaper, s, nil)
 	end
 end
 
@@ -369,7 +380,7 @@ awful.rules.rules = {
 				"pop-up", -- e.g. Google Chrome's (detached) Developer Tools.
 			},
 		},
-		properties = { floating = true },
+		properties = { floating = true, placement = awful.placement.centered },
 	},
 
 	-- Add titlebars to normal clients and dialogs

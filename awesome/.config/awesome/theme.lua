@@ -113,7 +113,9 @@ theme.titlebar_maximized_button_focus_inactive = titlebar_icon_path .. "maximize
 theme.titlebar_maximized_button_normal_active = titlebar_icon_path .. "maximize_normal_active.png"
 theme.titlebar_maximized_button_focus_active = titlebar_icon_path .. "maximize_focus_active.png"
 
-theme.wallpaper = "~/Pictures/wallpapers/cats_fishing.png"
+-- Per-screen wallpapers based on resolution
+theme.wallpaper_qhd = "~/Pictures/wallpapers/WQHD/chameleon_wildlife_illustration-wallpaper-3440x1440.jpg"
+theme.wallpaper_default = "~/Pictures/wallpapers/FHD/cats_fishing.png"
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = themes_path .. "default/layouts/fairhw.png"
@@ -132,6 +134,7 @@ theme.layout_cornernw = themes_path .. "default/layouts/cornernww.png"
 theme.layout_cornerne = themes_path .. "default/layouts/cornernew.png"
 theme.layout_cornersw = themes_path .. "default/layouts/cornersww.png"
 theme.layout_cornerse = themes_path .. "default/layouts/cornersew.png"
+theme.layout_threecolumn = gfs.get_configuration_dir() .. "icons/threecolumnw.png"
 
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height, theme.bg_focus, theme.fg_focus)
