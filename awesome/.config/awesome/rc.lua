@@ -177,7 +177,7 @@ local function set_wallpaper(s)
 		if type(wallpaper) == "function" then
 			wallpaper = wallpaper(s)
 		end
-		gears.wallpaper.centered(wallpaper, s, nil)
+		gears.wallpaper.maximized(wallpaper, s, false)
 	end
 end
 
