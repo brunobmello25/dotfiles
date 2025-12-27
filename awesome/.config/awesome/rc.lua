@@ -78,8 +78,8 @@ local modkey = "Mod4"
 awful.layout.layouts = {
 	awful.layout.suit.tile,
 	threecolumn,
-	awful.layout.suit.floating,
 	awful.layout.suit.max,
+	awful.layout.suit.floating,
 	-- awful.layout.suit.tile.left,
 	-- awful.layout.suit.tile.bottom,
 	-- awful.layout.suit.tile.top,
@@ -164,20 +164,20 @@ local function set_wallpaper(s)
 	-- Select wallpaper based on screen resolution
 	local wallpaper
 	local geo = s.geometry
-	
+
 	-- QHD ultrawide: 3440x1440
 	if geo.width == 3440 and geo.height == 1440 then
 		wallpaper = beautiful.wallpaper_qhd
 	else
 		wallpaper = beautiful.wallpaper_default
 	end
-	
+
 	if wallpaper then
 		-- If wallpaper is a function, call it with the screen
 		if type(wallpaper) == "function" then
 			wallpaper = wallpaper(s)
 		end
-		gears.wallpaper.centered(wallpaper, s, nil)
+		gears.wallpaper.maximized(wallpaper, s, false)
 	end
 end
 

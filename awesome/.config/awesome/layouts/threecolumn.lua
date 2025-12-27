@@ -1,10 +1,46 @@
 -- Three column layout for ultrawide monitors
 local awful = require("awful")
-local gears = require("gears")
 
 local threecolumn = {}
 
 threecolumn.name = "threecolumn"
+
+local function get_column_data(t)
+  local data = awful.tag.getdata(t)
+  if not data.threecolumn then
+    data.threecolumn = {
+      left_factor = 0.25,
+      right_factor = 0.25,
+      last_mwfact = t.master_width_factor
+    }
+  end
+  return data.threecolumn
+end
+
+local function get_focused_column(clients, area, col_data)
+  local c = client.focus
+  if not c then return nil end
+  
+  local dominated_clients = {}
+  for _, cl in ipairs(clients) do
+    dominated_clients[cl] = true
+  end
+  if not dominated_clients[c] then return nil end
+  
+  local g = c:geometry()
+  local center_x = g.x + g.width / 2
+  
+  local left_width = area.width * col_data.left_factor
+  local right_width = area.width * col_data.right_factor
+  
+  if center_x < area.x + left_width then
+    return "left"
+  elseif center_x > area.x + area.width - right_width then
+    return "right"
+  else
+    return "middle"
+  end
+end
 
 function threecolumn.arrange(p)
   local area = p.workarea
@@ -13,20 +49,37 @@ function threecolumn.arrange(p)
   
   if #clients == 0 then return end
   
-  local master_width_factor = t.master_width_factor or 0.34
-  local column_width = area.width * master_width_factor
+  local col_data = get_column_data(t)
+  local mwfact = t.master_width_factor
+  
+  -- Detect mwfact changes and apply to focused column
+  if col_data.last_mwfact ~= mwfact then
+    local delta = mwfact - col_data.last_mwfact
+    local focused_col = get_focused_column(clients, area, col_data)
+    
+    if focused_col == "left" then
+      -- l (increase) shrinks left, h (decrease) grows left
+      col_data.left_factor = math.max(0.1, math.min(0.4, col_data.left_factor + delta))
+    elseif focused_col == "right" then
+      -- l (increase) grows right, h (decrease) shrinks right
+      col_data.right_factor = math.max(0.1, math.min(0.4, col_data.right_factor - delta))
+    elseif focused_col == "middle" then
+      -- l (increase) grows middle by shrinking both sides
+      col_data.left_factor = math.max(0.1, math.min(0.4, col_data.left_factor - delta / 2))
+      col_data.right_factor = math.max(0.1, math.min(0.4, col_data.right_factor - delta / 2))
+    end
+    
+    col_data.last_mwfact = mwfact
+  end
   
   if #clients == 1 then
-    -- Single client takes full width
-    local g = {
+    p.geometries[clients[1]] = {
       x = area.x,
       y = area.y,
       width = area.width,
       height = area.height
     }
-    p.geometries[clients[1]] = g
   elseif #clients == 2 then
-    -- Two clients split the screen
     local half_width = math.floor(area.width / 2)
     
     p.geometries[clients[1]] = {
@@ -43,17 +96,14 @@ function threecolumn.arrange(p)
       height = area.height
     }
   else
-    -- Three or more clients: three column layout
-    local third_width = math.floor(area.width / 3)
+    local left_width = math.floor(area.width * col_data.left_factor)
+    local right_width = math.floor(area.width * col_data.right_factor)
+    local middle_width = area.width - left_width - right_width
     
-    -- Left column
     local left_clients = {}
-    -- Middle column
     local middle_clients = {}
-    -- Right column
     local right_clients = {}
     
-    -- Distribute clients across columns
     for i, c in ipairs(clients) do
       local col = (i - 1) % 3
       if col == 0 then
@@ -74,7 +124,7 @@ function threecolumn.arrange(p)
       p.geometries[c] = {
         x = area.x,
         y = area.y + y_offset,
-        width = third_width,
+        width = left_width,
         height = height
       }
     end
@@ -86,9 +136,9 @@ function threecolumn.arrange(p)
       local height = (i == #middle_clients) and (area.height - y_offset) or middle_height
       
       p.geometries[c] = {
-        x = area.x + third_width,
+        x = area.x + left_width,
         y = area.y + y_offset,
-        width = third_width,
+        width = middle_width,
         height = height
       }
     end
@@ -100,9 +150,9 @@ function threecolumn.arrange(p)
       local height = (i == #right_clients) and (area.height - y_offset) or right_height
       
       p.geometries[c] = {
-        x = area.x + 2 * third_width,
+        x = area.x + left_width + middle_width,
         y = area.y + y_offset,
-        width = area.width - 2 * third_width,
+        width = right_width,
         height = height
       }
     end
