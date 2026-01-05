@@ -115,7 +115,8 @@ theme.titlebar_maximized_button_focus_active = titlebar_icon_path .. "maximize_f
 
 -- Per-screen wallpapers based on resolution
 theme.wallpaper_qhd = "~/Pictures/wallpapers/WQHD/futuristic_geometric_shapes-wallpaper-3440x1440.jpg"
-theme.wallpaper_default = "~/Pictures/wallpapers/FHD/cats_fishing.png"
+-- theme.wallpaper_default = "~/Pictures/wallpapers/FHD/cats_fishing.png"
+theme.wallpaper_default = "~/Pictures/wallpapers/WQHD/futuristic_geometric_shapes-wallpaper-3440x1440.jpg"
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = themes_path .. "default/layouts/fairhw.png"
