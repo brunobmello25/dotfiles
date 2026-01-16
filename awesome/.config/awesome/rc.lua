@@ -10,8 +10,8 @@ require("awful.autofocus")
 local wibox = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
--- Notification library
-local naughty = require("naughty")
+-- Notification library (disabled - using dunst instead)
+-- local naughty = require("naughty")
 local menubar = require("menubar")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
@@ -26,17 +26,19 @@ local threecolumn = require("layouts.threecolumn")
 -- Setup autostart applications
 autostart.setup()
 
-naughty.config.defaults.screen = screen.primary
+-- naughty.config.defaults.screen = screen.primary
 
 -- {{{ Error handling
+-- Note: Error notifications are now handled by dunst
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
-	naughty.notify({
-		preset = naughty.config.presets.critical,
-		title = "Oops, there were errors during startup!",
-		text = awesome.startup_errors,
-	})
+	awful.spawn.with_shell(
+		string.format(
+			'notify-send -u critical "AwesomeWM Startup Error" "%s"',
+			awesome.startup_errors:gsub('"', '\\"')
+		)
+	)
 end
 
 -- Handle runtime errors after startup
@@ -49,11 +51,12 @@ do
 		end
 		in_error = true
 
-		naughty.notify({
-			preset = naughty.config.presets.critical,
-			title = "Oops, an error happened!",
-			text = tostring(err),
-		})
+		awful.spawn.with_shell(
+			string.format(
+				'notify-send -u critical "AwesomeWM Error" "%s"',
+				tostring(err):gsub('"', '\\"')
+			)
+		)
 		in_error = false
 	end)
 end

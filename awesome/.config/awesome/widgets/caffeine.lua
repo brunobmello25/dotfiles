@@ -3,7 +3,6 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
-local naughty = require("naughty")
 
 local M = {}
 
@@ -34,10 +33,10 @@ function M.new()
 	local function update_ui()
 		if dpms_enabled then
 			icon:set_text("🌙")
-			naughty.notify({ text = "DPMS/Screensaver enabled", timeout = 1 })
+			awful.spawn.with_shell('notify-send -t 1000 "DPMS/Screensaver enabled"')
 		else
 			icon:set_text("☕")
-			naughty.notify({ text = "DPMS/Screensaver disabled", timeout = 1 })
+			awful.spawn.with_shell('notify-send -t 1000 "DPMS/Screensaver disabled"')
 		end
 	end
 

@@ -52,6 +52,9 @@ function autostart.setup()
 	-- Start clipboard manager
 	awful.spawn.with_shell("copyq &")
 
+	-- Start dunst notification daemon
+	awful.spawn.with_shell("pgrep -u $USER -x dunst >/dev/null || dunst &")
+
 	-- Set keyboard layout and bind to a key for quick reset
 	awful.spawn.with_shell("setxkbmap -layout us -variant intl -option ''")
 

@@ -1,6 +1,6 @@
 local wibox = require("wibox")
 local gears = require("gears")
-local naughty = require("naughty")
+local awful = require("awful")
 local utils = require("utils")
 
 local battery = {}
@@ -45,11 +45,12 @@ function battery.new()
 			and status ~= "Charging"
 			and not low_battery_notified
 		then
-			naughty.notify({
-				preset = naughty.config.presets.critical,
-				title = "Low Battery",
-				text = string.format("Battery is at %s%%!", cap),
-			})
+			awful.spawn.with_shell(
+				string.format(
+					'notify-send -u critical "Low Battery" "Battery is at %s%%!"',
+					cap
+				)
+			)
 			low_battery_notified = true
 		elseif tonumber(cap) and tonumber(cap) > battery_threshold then
 			low_battery_notified = false
