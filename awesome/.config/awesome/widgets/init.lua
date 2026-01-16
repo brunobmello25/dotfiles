@@ -14,6 +14,7 @@ function widgets.setup()
   local battery = battery_widget.new()
   local capslock = capslock_widget.new()
   local caffeine = require("widgets.caffeine")()
+  local dunst = require("widgets.dunst")()
   local vpn_widget = require("widgets.vpn").new()
   local volume = volume_widget.new()
   local media = media_widget.new()
@@ -28,6 +29,7 @@ function widgets.setup()
     caffeine = caffeine,
     capslock = capslock,
     battery = battery,
+    dunst = dunst,
     mic = widget_mic,
     vpn = vpn_widget,
     volume = volume,
