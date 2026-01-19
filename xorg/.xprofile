@@ -20,8 +20,12 @@ XCURSOR_SIZE=${XCURSOR_SIZE:-24}
 export XCURSOR_THEME
 export XCURSOR_SIZE
 
+# Fix cursor flickering in applications
+export XCURSOR_DISCOVER=0
+export GDK_BACKEND=x11
+
 # Make cursor theme available for all systemd user services
-dbus-update-activation-environment --systemd XCURSOR_THEME XCURSOR_SIZE 2>/dev/null || true
+dbus-update-activation-environment --systemd XCURSOR_THEME XCURSOR_SIZE XCURSOR_DISCOVER GDK_BACKEND 2>/dev/null || true
 
 # Set default cursor for the root window
 xsetroot -cursor_name left_ptr
