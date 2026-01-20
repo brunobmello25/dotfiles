@@ -24,11 +24,8 @@ export XCURSOR_SIZE
 export XCURSOR_DISCOVER=0
 export GDK_BACKEND=x11
 
-# Update systemd and dbus environment
-dbus-update-activation-environment --systemd XCURSOR_DISCOVER GDK_BACKEND XCURSOR_THEME XCURSOR_SIZE 2>/dev/null || true
-
-# Also update for all user processes
-systemctl --user import-environment XCURSOR_DISCOVER GDK_BACKEND
+# Make cursor theme available for all systemd user services
+dbus-update-activation-environment --systemd XCURSOR_THEME XCURSOR_SIZE XCURSOR_DISCOVER GDK_BACKEND 2>/dev/null || true
 
 # Set default cursor for the root window
 xsetroot -cursor_name left_ptr
