@@ -34,10 +34,7 @@ autostart.setup()
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
 	awful.spawn.with_shell(
-		string.format(
-			'notify-send -u critical "AwesomeWM Startup Error" "%s"',
-			awesome.startup_errors:gsub('"', '\\"')
-		)
+		string.format('notify-send -u critical "AwesomeWM Startup Error" "%s"', awesome.startup_errors:gsub('"', '\\"'))
 	)
 end
 
@@ -52,10 +49,7 @@ do
 		in_error = true
 
 		awful.spawn.with_shell(
-			string.format(
-				'notify-send -u critical "AwesomeWM Error" "%s"',
-				tostring(err):gsub('"', '\\"')
-			)
+			string.format('notify-send -u critical "AwesomeWM Error" "%s"', tostring(err):gsub('"', '\\"'))
 		)
 		in_error = false
 	end)
@@ -378,6 +372,14 @@ awful.rules.rules = {
 				"Handmade Hero",
 				"Voxel Engine",
 				"Evermore",
+			},
+		},
+		properties = { floating = true, placement = awful.placement.centered },
+	},
+	{
+		rule_any = {
+			name = {
+				".*[Gg]ame.*", -- Any window with "game" or "Game" in the name
 			},
 			role = {
 				"AlarmWindow", -- Thunderbird's calendar.
