@@ -24,6 +24,42 @@ alias myip="curl ifconfig.me"
 alias tf="terraform"
 bindkey -s '^f' "tmux-sessionizer\n"
 
+# === FUNCTIONS ===
+runmonorepo() {
+  local apps=(
+    "@monorepo/shop"
+    "@monorepo/auth"
+    "@monorepo/home"
+    "@monorepo/negotiation"
+    "@monorepo/pre-matricula"
+    "@monorepo/material-auto-onboarding"
+    "@monorepo/fidc-confirmation"
+    "@monorepo/insurance"
+    "@monorepo/messages"
+    "@monorepo/meu-isaac"
+    "@monorepo/social-media"
+    "@monorepo/storybook"
+    "@monorepo/student-data-collection"
+    "@monorepo/unified-shell"
+  )
+
+  local selected=$(printf '%s\n' "${apps[@]}" | fzf -m --prompt="Select apps to run (TAB to select multiple, ENTER to confirm): ")
+
+  if [[ -z "$selected" ]]; then
+    echo "No apps selected. Exiting."
+    return 1
+  fi
+
+  local filters=""
+  while IFS= read -r app; do
+    filters+="--filter=$app "
+  done <<< "$selected"
+
+  local cmd="pnpm dev $filters"
+  echo "Running: $cmd"
+  eval "$cmd"
+}
+
 if [[ -f "$HOME/.local/bin/mise" ]]; then
   eval "$(~/.local/bin/mise activate zsh)"
 
