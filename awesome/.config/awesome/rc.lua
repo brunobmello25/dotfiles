@@ -402,6 +402,24 @@ awful.rules.rules = {
 -- }}}
 
 -- {{{ Signals
+-- Helper function to size and center floating windows
+local function resize_floating_client(c)
+	if c.floating and not c.fullscreen and not c.maximized then
+		local screen_geo = c.screen.geometry
+		local height = math.floor(screen_geo.height * 0.7)
+		local width = height  -- Make it square
+		local x = screen_geo.x + math.floor((screen_geo.width - width) / 2)
+		local y = screen_geo.y + math.floor((screen_geo.height - height) / 2)
+
+		c:geometry({
+			x = x,
+			y = y,
+			width = width,
+			height = height,
+		})
+	end
+end
+
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function(c)
 	-- Set the windows at the slave,
@@ -412,6 +430,14 @@ client.connect_signal("manage", function(c)
 		-- Prevent clients from being unreachable after screen count changes.
 		awful.placement.no_offscreen(c)
 	end
+
+	-- Size and center floating windows
+	resize_floating_client(c)
+end)
+
+-- Handle when a window is toggled to/from floating
+client.connect_signal("property::floating", function(c)
+	resize_floating_client(c)
 end)
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
