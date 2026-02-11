@@ -10,6 +10,10 @@ local volume_step = "5%"
 
 function keybindings.setup(terminal, modkey)
 	local globalkeys = gears.table.join(
+		awful.key({ modkey }, "t", function()
+			awful.spawn.with_shell(os.getenv("HOME") .. "/.local/scripts/voice-to-clipboard.sh")
+		end, { description = "spawn voice to text", group = "launcher" }),
+
 		awful.key({ modkey, "Shift" }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
 
 		awful.key({ modkey }, "e", function()
@@ -233,9 +237,10 @@ function keybindings.setup(terminal, modkey)
 			c:move_to_screen()
 		end, { description = "move to screen", group = "client" }),
 
-		awful.key({ modkey }, "t", function(c)
-			c.ontop = not c.ontop
-		end, { description = "toggle keep on top", group = "client" }),
+		-- awful.key({ modkey }, "t", function(c)
+		-- 	c.ontop = not c.ontop
+		-- end, { description = "toggle keep on top", group = "client" }),
+
 		awful.key({ modkey }, "n", function(c)
 			c.minimized = true
 		end, { description = "minimize", group = "client" }),
