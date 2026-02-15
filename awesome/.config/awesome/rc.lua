@@ -372,6 +372,7 @@ awful.rules.rules = {
 				"Handmade Hero",
 				"Voxel Engine",
 				"Evermore",
+				"Friends List", -- Steam Friends List
 			},
 		},
 		properties = { floating = true, placement = awful.placement.centered },
