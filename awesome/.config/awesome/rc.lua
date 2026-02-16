@@ -26,6 +26,8 @@ local threecolumn = require("layouts.threecolumn")
 -- Setup autostart applications
 autostart.setup()
 
+context_menu_max_length = 180
+
 -- naughty.config.defaults.screen = screen.primary
 
 -- {{{ Error handling
@@ -124,6 +126,8 @@ local taglist_buttons = gears.table.join(
 	end)
 )
 
+local tasklist_context_menu = nil
+
 local tasklist_buttons = gears.table.join(
 	awful.button({}, 1, function(c)
 		if c == client.focus then
@@ -133,11 +137,29 @@ local tasklist_buttons = gears.table.join(
 		end
 	end),
 	awful.button({}, 3, function(c)
+		-- If menu is currently visible, just hide and return
+		if tasklist_context_menu and tasklist_context_menu.wibox and tasklist_context_menu.wibox.visible then
+			tasklist_context_menu:hide()
+			return
+		end
+
 		local menu_items = {
+			{
+				"Toggle Floating",
+				function()
+					c.floating = not c.floating
+				end,
+			},
 			{
 				"Always on Top",
 				function()
 					c.ontop = not c.ontop
+				end,
+			},
+			{
+				"Show on All Workspaces",
+				function()
+					c.sticky = not c.sticky
 				end,
 			},
 			{
@@ -147,7 +169,8 @@ local tasklist_buttons = gears.table.join(
 				end,
 			},
 		}
-		awful.menu({ items = menu_items }):show()
+		tasklist_context_menu = awful.menu({ items = menu_items, theme = { width = context_menu_max_length } })
+		tasklist_context_menu:show()
 	end),
 	awful.button({}, 4, function()
 		awful.client.focus.byidx(1)
@@ -396,7 +419,7 @@ awful.rules.rules = {
 
 	-- Set Firefox to always map on the tag named "2" on screen 1.
 	{ rule = { class = "Firefox" }, properties = { screen = 1, tag = "2" } },
-	
+
 	-- Set Vesktop to always map on tag 3
 	{ rule = { class = "vesktop" }, properties = { tag = "3" } },
 }
@@ -408,7 +431,7 @@ local function resize_floating_client(c)
 	if c.floating and not c.fullscreen and not c.maximized then
 		local screen_geo = c.screen.geometry
 		local height = math.floor(screen_geo.height * 0.7)
-		local width = height  -- Make it square
+		local width = height -- Make it square
 		local x = screen_geo.x + math.floor((screen_geo.width - width) / 2)
 		local y = screen_geo.y + math.floor((screen_geo.height - height) / 2)
 
