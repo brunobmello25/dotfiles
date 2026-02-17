@@ -34,7 +34,12 @@ function vpn_widget.new()
     -- Initial update
     update_vpn_status()
 
-    return wibox.container.margin(widget, 4, 4, 2, 2)
+    local user = os.getenv("USER")
+    if user == "bruno.mello" then
+        return wibox.container.margin(widget, 4, 4, 2, 2)
+    else
+        return nil
+    end
 end
 
 return vpn_widget
