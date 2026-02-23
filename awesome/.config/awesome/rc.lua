@@ -427,21 +427,62 @@ awful.rules.rules = {
 -- }}}
 
 -- {{{ Signals
+
+-- Windows that should keep their own size when floating (no auto-resize)
+local floating_resize_skip = {
+	classes = { "Sokoban", "Project Seed" },
+	names = { "Handmade Hero", "Voxel Engine", "Evermore" },
+	name_patterns = { ".*[Gg]ame.*" },
+}
+
+-- Windows with custom float sizes (scale = fraction of screen height, window will be square)
+local floating_custom_sizes = {
+	{ class = "gnome-calculator", scale = 0.3 },
+}
+
+-- Returns the scale to use for a floating window, or nil to skip auto-resize
+local function get_float_scale(c)
+	for _, entry in ipairs(floating_custom_sizes) do
+		if entry.class and c.class == entry.class then
+			return entry.scale
+		end
+		if entry.name and c.name == entry.name then
+			return entry.scale
+		end
+	end
+	for _, cls in ipairs(floating_resize_skip.classes) do
+		if c.class == cls then
+			return nil
+		end
+	end
+	for _, name in ipairs(floating_resize_skip.names) do
+		if c.name == name then
+			return nil
+		end
+	end
+	for _, pattern in ipairs(floating_resize_skip.name_patterns) do
+		if c.name and c.name:match(pattern) then
+			return nil
+		end
+	end
+	return 0.7
+end
+
 -- Helper function to size and center floating windows
 local function resize_floating_client(c)
 	if c.floating and not c.fullscreen and not c.maximized then
+		local scale = get_float_scale(c)
+		if not scale then
+			return
+		end
+
 		local screen_geo = c.screen.geometry
-		local height = math.floor(screen_geo.height * 0.7)
+		local height = math.floor(screen_geo.height * scale)
 		local width = height -- Make it square
 		local x = screen_geo.x + math.floor((screen_geo.width - width) / 2)
 		local y = screen_geo.y + math.floor((screen_geo.height - height) / 2)
 
-		c:geometry({
-			x = x,
-			y = y,
-			width = width,
-			height = height,
-		})
+		c:geometry({ x = x, y = y, width = width, height = height })
 	end
 end
 
