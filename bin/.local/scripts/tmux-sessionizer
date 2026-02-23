@@ -3,7 +3,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    dirs=$(find -L ~/Documents ~/build ~/dev/windows-dev ~/Desktop ~/Downloads ~/dev/godot-projects ~/dev ~/dev/personal ~/dev/work -mindepth 1 -maxdepth 1 -type d)
+    dirs=$(find -L ~/Documents ~/build ~/dev/windows-dev ~/Desktop ~/Downloads ~/dev/godot-projects ~/dev ~/dev/personal ~/dev/work ~/dev/personal/handmade -mindepth 1 -maxdepth 1 -type d)
     selected=$(printf "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s" "$HOME/vial-qmk" "$dirs" "$HOME/qmk_firmware" "$HOME/qmk_userspace" "$HOME/Downloads" "$HOME/Documents" "$HOME/Desktop" "$HOME/build" "$HOME/.dotfiles" | fzf)
 fi
 
