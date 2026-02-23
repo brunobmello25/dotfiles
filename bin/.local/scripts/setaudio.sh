@@ -29,7 +29,7 @@ case "$1" in
 
   --default)
     NEW_SINK="alsa_output.pci-0000_0b_00.4.analog-stereo"
-    NEW_SOURCE="alsa_input.usb-3142_fifine_Microphone-00.analog-stereo"
+    NEW_SOURCE="alsa_input.usb-3142_fifine_Microphone-00.iec958-stereo"
     ;;
 
   *)
