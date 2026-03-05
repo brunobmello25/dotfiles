@@ -64,7 +64,7 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 -- terminal = "x-terminal-emulator"
-local terminal = "kitty"
+local terminal = "alacritty"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
