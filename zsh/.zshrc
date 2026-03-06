@@ -23,6 +23,18 @@ setopt SHARE_HISTORY
 setopt EXTENDED_HISTORY
 
 # === KEY BINDINGS ===
+zle-keymap-select() {
+  if [[ $KEYMAP == vicmd ]]; then
+    echo -ne '\e[2 q'  # block (normal mode)
+  else
+    echo -ne '\e[6 q'  # beam (insert mode)
+  fi
+}
+zle -N zle-keymap-select
+zle-line-init() { echo -ne '\e[6 q' }
+zle -N zle-line-init
+export KEYTIMEOUT=10 # 10 is 100ms
+
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
