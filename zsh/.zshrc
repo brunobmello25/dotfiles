@@ -30,6 +30,8 @@ bindkey '^[[A' up-line-or-beginning-search
 bindkey '^[[B' down-line-or-beginning-search
 bindkey '^P' up-line-or-beginning-search
 bindkey '^N' down-line-or-beginning-search
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
 
 # === PROMPT ===
 autoload -Uz vcs_info
