@@ -159,6 +159,7 @@ runmonorepo() {
 
   local cmd="pnpm dev $filters"
   echo "Running: $cmd"
+  print -s "$cmd"
   eval "$cmd"
 }
 
