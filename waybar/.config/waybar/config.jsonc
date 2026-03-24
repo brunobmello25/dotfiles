@@ -1,0 +1,168 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 28,
+    "spacing": 4,
+
+    "modules-left": [
+        "sway/workspaces",
+        "sway/mode",
+        "sway/window"
+    ],
+
+    "modules-center": [],
+
+    "modules-right": [
+        "custom/caffeine",
+        "custom/dunst",
+        "keyboard-state",
+        "battery",
+        "pulseaudio",
+        "pulseaudio#microphone",
+        "custom/vpn",
+        "mpris",
+        "sway/language",
+        "tray",
+        "clock"
+    ],
+
+    // ---- Left ----
+
+    "sway/workspaces": {
+        "disable-scroll": false,
+        "all-outputs": false,
+        "format": "{name}",
+        "persistent-workspaces": {
+            "1": [], "2": [], "3": [], "4": [], "5": [],
+            "6": [], "7": [], "8": [], "9": []
+        }
+    },
+
+    "sway/mode": {
+        "format": "<span style='italic'>{}</span>"
+    },
+
+    "sway/window": {
+        "max-length": 60
+    },
+
+    // ---- Right ----
+
+    // Caffeine: desativa/ativa o swayidle
+    // Depende de: swayidle instalado; o script ~/.config/waybar/scripts/caffeine.sh
+    "custom/caffeine": {
+        "exec": "~/.config/waybar/scripts/caffeine.sh status",
+        "on-click": "~/.config/waybar/scripts/caffeine.sh toggle",
+        "interval": 5,
+        "return-type": "json",
+        "tooltip": true
+    },
+
+    // Dunst: pausa/retoma notificações
+    "custom/dunst": {
+        "exec": "~/.config/waybar/scripts/dunst.sh status",
+        "on-click": "~/.config/waybar/scripts/dunst.sh toggle",
+        "interval": 3,
+        "return-type": "json",
+        "tooltip": true
+    },
+
+    // Caps Lock indicator
+    "keyboard-state": {
+        "capslock": true,
+        "numlock": false,
+        "format": {
+            "capslock": "{icon}",
+            "numlock": ""
+        },
+        "format-icons": {
+            "locked": "A",
+            "unlocked": "a"
+        }
+    },
+
+    // Bateria
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 10
+        },
+        "format": "{icon}   {capacity}%",
+        "format-charging": "🔌   {capacity}%",
+        "format-icons": ["", "", "", "", ""],
+        "interval": 30,
+        "tooltip-format": "{timeTo} — {power:.1f}W"
+    },
+
+    // Volume (saída)
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "🔇 {volume}%",
+        "format-icons": {
+            "default": ["🔈", "🔉", "🔊"]
+        },
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-right": "pavucontrol",
+        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
+        "smooth-scrolling-threshold": 1
+    },
+
+    // Microfone
+    "pulseaudio#microphone": {
+        "format": "{format_source}",
+        "format-source": "🎙 {volume}%",
+        "format-source-muted": "🔇 mic",
+        "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+        "on-scroll-up": "pactl set-source-volume @DEFAULT_SOURCE@ +5%",
+        "on-scroll-down": "pactl set-source-volume @DEFAULT_SOURCE@ -5%"
+    },
+
+    // VPN (warp-cli)
+    "custom/vpn": {
+        "exec": "~/.config/waybar/scripts/vpn.sh",
+        "interval": 10,
+        "return-type": "json",
+        "tooltip": true
+    },
+
+    // Media (playerctl via mpris)
+    // Requer: playerctl e waybar compilado com mpris
+    "mpris": {
+        "format": "{status_icon} {artist} - {title}",
+        "format-paused": "⏸ {artist} - {title}",
+        "status-icons": {
+            "playing": "▶",
+            "paused": "⏸",
+            "stopped": "⏹"
+        },
+        "max-length": 40,
+        "on-click": "playerctl play-pause",
+        "on-click-right": "playerctl stop",
+        "on-scroll-up": "playerctl previous",
+        "on-scroll-down": "playerctl next",
+        "interval": 2,
+        "player-icons": {
+            "default": "♫"
+        }
+    },
+
+    // Layout de teclado
+    "sway/language": {
+        "format": "⌨ {short}",
+        "tooltip-format": "{long}"
+    },
+
+    // System tray
+    "tray": {
+        "spacing": 8,
+        "icon-size": 14
+    },
+
+    // Relógio
+    "clock": {
+        "format": "{:%H:%M  %d/%m/%Y}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "interval": 60
+    }
+}

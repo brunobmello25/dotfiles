@@ -166,3 +166,8 @@ runmonorepo() {
 # === LOCAL SETTINGS ===
 [ -f ~/.envs ] && source ~/.envs
 [ -f $HOME/.isaac-zsh-settings ] && source $HOME/.isaac-zsh-settings
+
+# Atualiza SWAYSOCK automaticamente ao abrir novo shell no Sway
+if [ -z "$SWAYSOCK" ] && [ -n "$WAYLAND_DISPLAY" ]; then
+    export SWAYSOCK=$(ls /run/user/$(id -u)/sway-ipc.*.sock 2>/dev/null | head -1)
+fi

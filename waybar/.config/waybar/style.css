@@ -1,0 +1,169 @@
+/* ============================================================
+   Waybar style — cores espelhando o tema AwesomeWM do bruno
+   bg: #222222 | fg: #aaaaaa | accent: #dd7373 | focus: #535d6c
+   ============================================================ */
+
+* {
+    font-family: sans;
+    font-size: 10pt;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+window#waybar {
+    background-color: #222222;
+    color: #aaaaaa;
+    border-bottom: 1px solid #000000;
+}
+
+/* ---- Workspaces ---- */
+
+#workspaces button {
+    padding: 4px 8px;
+    background-color: #2a2a2a;
+    color: #666666;
+    border-radius: 0;
+    margin: 0 2px;
+}
+
+#workspaces button:hover {
+    background-color: #555555;
+    color: #dddddd;
+}
+
+/* Workspace com janelas abertas */
+#workspaces button.visible {
+    background-color: #444444;
+    color: #dddddd;
+}
+
+/* Workspace focado */
+#workspaces button.focused {
+    background-color: #dd7373;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+#workspaces button.urgent {
+    background-color: #ff6b6b;
+    color: #ffffff;
+}
+
+/* ---- Modo (resize, etc.) ---- */
+
+#mode {
+    background-color: #dd7373;
+    color: #ffffff;
+    padding: 2px 8px;
+    font-style: italic;
+}
+
+/* ---- Título da janela ---- */
+
+#window {
+    padding: 0 8px;
+    color: #aaaaaa;
+}
+
+/* ---- Módulos do lado direito ---- */
+
+/* Separadores visuais entre módulos */
+.modules-right > widget:not(:last-child) > * {
+    border-right: 1px solid #444444;
+    padding-right: 6px;
+    margin-right: 2px;
+}
+
+#battery,
+#pulseaudio,
+#pulseaudio.microphone,
+#clock,
+#tray,
+#keyboard-state,
+#language,
+#mpris,
+#custom-caffeine,
+#custom-dunst,
+#custom-vpn {
+    padding: 2px 6px;
+    color: #aaaaaa;
+    background-color: transparent;
+}
+
+/* Bateria baixa */
+#battery.warning {
+    color: #ffd54f;
+}
+
+#battery.critical {
+    color: #e57373;
+    animation-name: blink;
+    animation-duration: 1s;
+    animation-timing-function: steps(2);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes blink {
+    to { color: #ffffff; }
+}
+
+/* Caps Lock ativo */
+#keyboard-state label.locked {
+    color: #dd7373;
+    font-weight: bold;
+}
+
+#keyboard-state label {
+    color: #aaaaaa;
+}
+
+/* Mute */
+#pulseaudio.muted {
+    color: #666666;
+}
+
+/* Media */
+#mpris {
+    max-width: 280px;
+}
+
+#mpris.playing {
+    color: #81c784;
+}
+
+#mpris.paused {
+    color: #ffd54f;
+}
+
+#mpris.stopped {
+    color: #666666;
+}
+
+/* VPN */
+#custom-vpn {
+    /* conectado: verde; desconectado: padrão */
+}
+
+/* Tray */
+#tray {
+    padding: 2px 4px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #dd7373;
+}
+
+/* Clock */
+#clock {
+    color: #ffffff;
+    font-weight: bold;
+}

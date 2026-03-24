@@ -1,0 +1,337 @@
+# ============================================================
+# Sway config — migrado do AwesomeWM de bruno.mello
+# ============================================================
+
+# ------------------------------------------------------------
+# Variáveis
+# ------------------------------------------------------------
+set $mod Mod4
+set $terminal alacritty
+set $menu rofi -show drun
+set $browser google-chrome-stable
+set $files thunar
+set $lock ~/.config/sway/lock.sh
+
+# ------------------------------------------------------------
+# Aparência
+# ------------------------------------------------------------
+font pango:sans 10
+
+gaps inner 4
+gaps outer 0
+
+default_border pixel 1
+default_floating_border normal 1
+titlebar_border_thickness 1
+
+# Cores: focused unfocused focused_inactive urgent placeholder
+# classe              border    bg        texto     indicador borda
+client.focused        #dd7373   #2a2a2a   #ffffff   #dd7373   #dd7373
+client.unfocused      #000000   #222222   #aaaaaa   #000000   #000000
+client.focused_inactive #000000 #1a1a1a   #888888   #000000   #000000
+client.urgent         #ff0000   #ff0000   #ffffff   #ff0000   #ff0000
+
+# ------------------------------------------------------------
+# Input — teclado
+# ATENÇÃO: caps:swapescape é aplicado para todos os teclados aqui.
+# Se quiser só no teclado interno, descubra o nome exato com:
+#   swaymsg -t get_inputs | grep -A2 "keyboard"
+# e substitua "type:keyboard" por "identifier" específico.
+# ------------------------------------------------------------
+# Todos os teclados: layout US intl, sem caps:swapescape
+input "type:keyboard" {
+    xkb_layout  us
+    xkb_variant intl
+}
+
+# Apenas o teclado do laptop: caps:swapescape (Corne já faz via QMK)
+input "1:1:AT_Translated_Set_2_keyboard" {
+    xkb_options caps:swapescape
+}
+
+# Input — touchpad (ajuste ao gosto)
+input "type:touchpad" {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+}
+
+# ------------------------------------------------------------
+# Output / wallpaper + layout
+# Descubra nomes com: swaymsg -t get_outputs
+# Equivalente ao ~/.screenlayout/plugged.sh
+# ------------------------------------------------------------
+output * bg ~/Pictures/wallpapers/WQHD/futuristic_geometric_shapes-wallpaper-3440x1440.jpg fill
+
+# Plugged layout: DP-3 (FHD) em cima, HDMI-A-1 (ultrawide) embaixo, eDP-1 (laptop) à esquerda
+output eDP-1    position 0 1320
+output HDMI-A-1 position 1920 1080
+output DP-3     position 2177 0
+
+# ------------------------------------------------------------
+# Floating modifier (arrastar janelas flutuantes com Mod+click)
+# ------------------------------------------------------------
+floating_modifier $mod normal
+
+# ------------------------------------------------------------
+# Keybindings — launchers
+# ------------------------------------------------------------
+bindsym $mod+Return       exec $terminal
+bindsym $mod+b            exec $browser
+bindsym $mod+space        exec $menu
+bindsym $mod+e            exec $files
+bindsym $mod+v            exec copyq show
+bindsym $mod+t            exec ~/.local/scripts/voice-to-clipboard.sh
+
+# Screenshot
+# NOTA: flameshot tem suporte parcial no Wayland.
+# Alternativa recomendada: grimshot (parte do pacote sway-contrib)
+#   sudo apt install grimshot
+bindsym $mod+s exec grimshot gui
+# Se preferir manter flameshot: bindsym $mod+s exec flameshot gui
+
+# Lock
+bindsym Mod1+Shift+l exec $lock
+
+# Reset teclado (equivalente ao Mod+Shift+i do awesome)
+bindsym $mod+Shift+i input type:keyboard xkb_layout us, \
+                      input type:keyboard xkb_variant intl, \
+                      input type:keyboard xkb_options caps:swapescape
+
+# ------------------------------------------------------------
+# Keybindings — controle de janelas
+# ------------------------------------------------------------
+bindsym $mod+w       kill
+bindsym $mod+f       floating toggle
+
+# Impede que foco escape para outro monitor (equivalente ao comportamento do awesome)
+focus_wrapping workspace
+
+# Foco (equivalente a focus.byidx no awesome — cicla janelas no mesmo workspace)
+bindsym $mod+j       focus next
+bindsym $mod+k       focus prev
+
+# Mover janela dentro do container (equivalente a swap.byidx — não cruza monitor)
+bindsym $mod+Shift+j exec ~/.config/sway/swap-window.sh next
+bindsym $mod+Shift+k exec ~/.config/sway/swap-window.sh prev
+
+# Foco de monitor (equivalente a screen.focus_relative)
+# Cicla por todos os outputs independente da posição
+set $focus_next swaymsg focus output "$(swaymsg -t get_outputs | jq -r '[.[] | select(.active)] | .[(map(.focused) | index(true) + 1) % length].name')"
+set $focus_prev swaymsg focus output "$(swaymsg -t get_outputs | jq -r '[.[] | select(.active)] | .[(map(.focused) | index(true) - 1 + length) % length].name')"
+
+bindsym $mod+o             exec $focus_prev
+bindsym $mod+Control+j     exec $focus_prev
+bindsym $mod+Control+k     exec $focus_next
+
+# Mover container para outro monitor
+bindsym $mod+Shift+o       exec swaymsg move container to output right; exec $focus_next
+
+# Maximizar / fullscreen (não existe "maximize parcial" no Sway)
+bindsym $mod+m       fullscreen toggle
+
+# Minimizar → scratchpad (o mais próximo possível no Sway)
+# $mod+n envia para o scratchpad (esconde)
+# $mod+Control+n traz de volta (equivalente a "restore minimized")
+bindsym $mod+n           move scratchpad
+bindsym $mod+Control+n   scratchpad show
+
+# "Mover para master" — no Sway não existe conceito de master.
+# Este bind faz a janela ir para o topo do container (swap com vizinho acima).
+bindsym $mod+Control+Return move up
+
+# Urgent jump (equivalente a client.urgent.jumpto)
+bindsym $mod+u       [urgent=latest] focus
+
+# ------------------------------------------------------------
+# Keybindings — layouts
+# Sway tem: splith, splitv, tabbed, stacking
+# Ciclar entre eles é o equivalente aproximado de awful.layout.inc
+#
+# Mapeamento:
+#   tile    → splith (master à esquerda, pilha à direita)
+#   max     → tabbed  (uma janela visível por vez com abas)
+#   floating→ floating toggle (já mapeado em $mod+f)
+# ------------------------------------------------------------
+bindsym $mod+Shift+space   layout toggle splith tabbed stacking
+
+# Equivalente ao incmwfact (redimensionar coluna principal)
+# Em Sway não há "master width factor" — usamos resize mode
+bindsym $mod+h  resize shrink width  40px
+bindsym $mod+l  resize grow   width  40px
+bindsym $mod+Shift+h  resize shrink height 40px
+bindsym $mod+Shift+l  resize grow   height 40px
+
+# Alternar split direction para novas janelas
+bindsym $mod+Control+h    split h
+bindsym $mod+Control+l    split v
+
+# ------------------------------------------------------------
+# Keybindings — workspaces (equivalente às tags do awesome)
+# ------------------------------------------------------------
+bindsym $mod+1   workspace number 1
+bindsym $mod+2   workspace number 2
+bindsym $mod+3   workspace number 3
+bindsym $mod+4   workspace number 4
+bindsym $mod+5   workspace number 5
+bindsym $mod+6   workspace number 6
+bindsym $mod+7   workspace number 7
+bindsym $mod+8   workspace number 8
+bindsym $mod+9   workspace number 9
+
+bindsym $mod+Shift+1   move container to workspace number 1
+bindsym $mod+Shift+2   move container to workspace number 2
+bindsym $mod+Shift+3   move container to workspace number 3
+bindsym $mod+Shift+4   move container to workspace number 4
+bindsym $mod+Shift+5   move container to workspace number 5
+bindsym $mod+Shift+6   move container to workspace number 6
+bindsym $mod+Shift+7   move container to workspace number 7
+bindsym $mod+Shift+8   move container to workspace number 8
+bindsym $mod+Shift+9   move container to workspace number 9
+
+# Navegar entre workspaces (equivalente a Left/Right no awesome)
+bindsym $mod+Left    workspace prev
+bindsym $mod+Right   workspace next
+
+# Back-and-forth (equivalente a tag.history.restore / Escape)
+bindsym $mod+Escape  workspace back_and_forth
+
+# Tab por workspaces (equivalente ao Tab/Shift+Tab do awesome)
+# NOTA: no awesome, pulava workspaces vazias — aqui passa por todas
+bindsym $mod+Tab           workspace next_on_output
+bindsym $mod+Shift+Tab     workspace prev_on_output
+
+# ------------------------------------------------------------
+# Keybindings — áudio / mídia / brilho
+# ------------------------------------------------------------
+bindsym XF86AudioRaiseVolume  exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume  exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute         exec pactl set-sink-mute   @DEFAULT_SINK@ toggle
+bindsym XF86AudioPlay         exec playerctl play-pause
+bindsym XF86AudioPause        exec playerctl pause
+bindsym XF86AudioNext         exec playerctl next
+bindsym XF86AudioPrev         exec playerctl previous
+bindsym XF86MonBrightnessUp   exec brightnessctl set +10%
+bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
+
+# Microfone (equivalente a Control+Shift+space no awesome)
+bindsym Control+Shift+space exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# ------------------------------------------------------------
+# Keybindings — Sway
+# ------------------------------------------------------------
+bindsym $mod+Control+r reload
+bindsym $mod+Shift+q   exec swaynag -t warning \
+    -m 'Sair do Sway?' \
+    -B 'Sim, sair' 'swaymsg exit'
+
+# ------------------------------------------------------------
+# Resize mode (alternativa para redimensionar com teclado)
+# ------------------------------------------------------------
+mode "resize" {
+    bindsym h resize shrink width  20px
+    bindsym l resize grow   width  20px
+    bindsym k resize shrink height 20px
+    bindsym j resize grow   height 20px
+
+    bindsym Left  resize shrink width  20px
+    bindsym Right resize grow   width  20px
+    bindsym Up    resize shrink height 20px
+    bindsym Down  resize grow   height 20px
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# ------------------------------------------------------------
+# Regras de janelas flutuantes
+# (equivalente às rules do awesome com floating = true)
+#
+# NOTA: no Wayland, app_id substitui class para apps nativos.
+# Apps X11 rodando via XWayland ainda usam class.
+# Use: swaymsg -t get_tree | grep app_id   para descobrir ids
+# ------------------------------------------------------------
+
+# Utilitários do sistema
+for_window [app_id="copyq"]              floating enable, resize set 900 600, move position center
+for_window [app_id="pavucontrol"]        floating enable, resize set 900 600, move position center
+for_window [app_id="blueman-manager"]    floating enable, resize set 700 500, move position center
+for_window [app_id="arandr"]             floating enable, move position center
+for_window [app_id="gnome-calculator"]   floating enable, resize set 400 600, move position center
+for_window [app_id="org.gnome.FileRoller"] floating enable, move position center
+for_window [app_id="pinentry-gtk-2"]     floating enable, move position center
+for_window [app_id="pinentry-qt"]        floating enable, move position center
+
+# Classe X11 (apps que rodam via XWayland)
+for_window [class="copyq"]              floating enable, resize set 900 600, move position center
+for_window [class="Pavucontrol"]        floating enable, resize set 900 600, move position center
+for_window [class="Blueman-manager"]    floating enable
+for_window [class="Arandr"]             floating enable
+for_window [class="Gpick"]              floating enable
+for_window [class="Gnome-calculator"]   floating enable, resize set 400 600, move position center
+for_window [class="Vial"]               floating enable, move position center
+for_window [class="Sxiv"]               floating enable, move position center
+
+# Janelas por título
+for_window [title="Event Tester"]       floating enable, move position center
+for_window [title="Handmade Hero"]      floating enable, move position center
+for_window [title="Voxel Engine"]       floating enable, move position center
+for_window [title="Evermore"]           floating enable, move position center
+for_window [title="Friends List"]       floating enable, move position center
+
+# Qualquer coisa com "game" ou "Game" no título
+for_window [title=".*[Gg]ame.*"]        floating enable, move position center
+
+# Pop-ups e diálogos
+for_window [window_role="pop-up"]       floating enable, move position center
+for_window [window_role="AlarmWindow"]  floating enable, move position center
+for_window [window_type="dialog"]       floating enable, move position center
+
+# ------------------------------------------------------------
+# Atribuição de workspaces
+# (equivalente às rules com tag no awesome)
+# ------------------------------------------------------------
+assign [app_id="firefox"]   workspace number 2
+assign [class="Firefox"]    workspace number 2
+assign [app_id="vesktop"]   workspace number 3
+assign [class="vesktop"]    workspace number 3
+
+# ------------------------------------------------------------
+# Autostart
+# ------------------------------------------------------------
+# Polkit
+exec --no-startup-id lxpolkit
+
+# Network manager applet
+exec --no-startup-id nm-applet --indicator
+
+# Clipboard manager
+exec --no-startup-id copyq
+
+# Notificações
+exec --no-startup-id dunst
+
+# Screen idle / DPMS (equivalente ao caffeine do awesome — ativo por padrão)
+# Para desativar o idle: kill o processo swayidle ou use o script de caffeine
+exec --no-startup-id swayidle -w \
+    timeout 300  'swaylock -f' \
+    timeout 600  'swaymsg "output * dpms off"' \
+    resume       'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock -f'
+
+# xdg-desktop-portal (necessário para screen share no Wayland)
+exec --no-startup-id /usr/libexec/xdg-desktop-portal-wlr &
+exec --no-startup-id /usr/libexec/xdg-desktop-portal &
+
+# Script de layout de monitor (detecta monitor externo)
+exec --no-startup-id ~/.config/sway/autostart.sh
+
+# ------------------------------------------------------------
+# Barra
+# ------------------------------------------------------------
+bar {
+    swaybar_command waybar
+}
