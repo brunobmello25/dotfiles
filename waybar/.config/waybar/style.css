@@ -128,7 +128,7 @@ window#waybar {
 
 /* Media */
 #mpris {
-    max-width: 280px;
+    /* max-width not supported in GTK CSS */
 }
 
 #mpris.playing {

@@ -22,7 +22,7 @@ export XCURSOR_SIZE
 
 # Fix cursor flickering in applications
 export XCURSOR_DISCOVER=0
-export GDK_BACKEND=x11
+# export GDK_BACKEND=x11
 
 # Update systemd and dbus environment
 dbus-update-activation-environment --systemd XCURSOR_DISCOVER GDK_BACKEND XCURSOR_THEME XCURSOR_SIZE 2>/dev/null || true
