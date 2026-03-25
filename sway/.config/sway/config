@@ -337,4 +337,4 @@ exec --no-startup-id ~/.config/sway/autostart.sh
 # ------------------------------------------------------------
 # Barra
 # ------------------------------------------------------------
-exec env GDK_BACKEND=wayland waybar
+exec waybar
