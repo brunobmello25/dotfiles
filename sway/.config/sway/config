@@ -327,9 +327,8 @@ exec --no-startup-id swayidle -w \
     resume       'swaymsg "output * dpms on"' \
     before-sleep 'swaylock -f'
 
-# xdg-desktop-portal (necessário para screen share no Wayland)
-exec --no-startup-id /usr/libexec/xdg-desktop-portal-wlr &
-exec --no-startup-id /usr/libexec/xdg-desktop-portal &
+# Exporta variáveis do Wayland para systemd/dbus (necessário para portals, screen share, etc.)
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK
 
 # Script de layout de monitor (detecta monitor externo)
 exec --no-startup-id ~/.config/sway/autostart.sh
