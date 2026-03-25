@@ -24,6 +24,8 @@ export XCURSOR_SIZE
 export XCURSOR_DISCOVER=0
 if [ "$XDG_SESSION_TYPE" = "x11" ]; then
     export GDK_BACKEND=x11
+else
+    unset GDK_BACKEND
 fi
 
 # Update systemd and dbus environment

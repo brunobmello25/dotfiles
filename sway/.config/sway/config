@@ -17,7 +17,7 @@ set $lock ~/.config/sway/lock.sh
 # ------------------------------------------------------------
 font pango:sans 10
 
-gaps inner 4
+gaps inner 8
 gaps outer 0
 
 default_border pixel 1
@@ -337,4 +337,4 @@ exec --no-startup-id ~/.config/sway/autostart.sh
 # ------------------------------------------------------------
 # Barra
 # ------------------------------------------------------------
-exec waybar
+exec env -u GDK_BACKEND waybar
