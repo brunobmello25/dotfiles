@@ -313,11 +313,14 @@ exec --no-startup-id lxpolkit
 # Network manager applet
 exec --no-startup-id nm-applet --indicator
 
-# Clipboard manager
-exec --no-startup-id copyq
-
 # Notificações
 exec --no-startup-id dunst
+
+# Exporta variáveis do Wayland para systemd/dbus (necessário para portals, screen share, etc.)
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK
+
+# Clipboard manager (precisa do dbus environment configurado)
+exec --no-startup-id copyq
 
 # Screen idle / DPMS (equivalente ao caffeine do awesome — ativo por padrão)
 # Para desativar o idle: kill o processo swayidle ou use o script de caffeine
@@ -326,9 +329,6 @@ exec --no-startup-id swayidle -w \
     timeout 600  'swaymsg "output * dpms off"' \
     resume       'swaymsg "output * dpms on"' \
     before-sleep '~/.config/sway/lock.sh'
-
-# Exporta variáveis do Wayland para systemd/dbus (necessário para portals, screen share, etc.)
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK
 
 # Script de layout de monitor (detecta monitor externo)
 exec --no-startup-id ~/.config/sway/autostart.sh
