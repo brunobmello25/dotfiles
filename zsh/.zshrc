@@ -124,6 +124,8 @@ alias t="tmux"
 alias dsa="echo \"deleting all docker containers\" && docker stop \$(docker ps | cut -d ' ' -f 1 | tail -n +2 | tr '\n' ' ') ; docker rm \$(docker ps -a | cut -d ' ' -f 1 | tail -n +2 | tr '\n' ' ')"
 alias myip="curl ifconfig.me"
 alias tf="terraform"
+alias gcloudtoken="gcloud sql generate-login-token | if [ \"$XDG_SESSION_TYPE\" = \"wayland\" ]; then wl-copy; else xclip -selection clipboard; fi"
+
 bindkey -s '^f' "tmux-sessionizer\n"
 
 # === FUNCTIONS ===
