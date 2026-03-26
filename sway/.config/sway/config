@@ -88,8 +88,7 @@ bindsym $mod+t            exec ~/.local/scripts/voice-to-clipboard.sh
 # NOTA: flameshot tem suporte parcial no Wayland.
 # Alternativa recomendada: grimshot (parte do pacote sway-contrib)
 #   sudo apt install grimshot
-bindsym $mod+s exec grimshot gui
-# Se preferir manter flameshot: bindsym $mod+s exec flameshot gui
+bindsym $mod+s exec bash -c 'grim -g "$(slurp)" - | ~/.cargo/bin/satty -f -'
 
 # Lock
 bindsym Mod1+Shift+l exec $lock
@@ -264,6 +263,7 @@ for_window [app_id="gnome-calculator"]   floating enable, resize set 400 600, mo
 for_window [app_id="org.gnome.FileRoller"] floating enable, move position center
 for_window [app_id="pinentry-gtk-2"]     floating enable, move position center
 for_window [app_id="pinentry-qt"]        floating enable, move position center
+for_window [app_id="com.gabm.satty"]    floating enable, move position center
 
 # Classe X11 (apps que rodam via XWayland)
 for_window [class="copyq"]              floating enable, resize set 900 600, move position center
@@ -322,10 +322,10 @@ exec --no-startup-id dunst
 # Screen idle / DPMS (equivalente ao caffeine do awesome — ativo por padrão)
 # Para desativar o idle: kill o processo swayidle ou use o script de caffeine
 exec --no-startup-id swayidle -w \
-    timeout 300  'swaylock -f' \
+    timeout 300  '~/.config/sway/lock.sh' \
     timeout 600  'swaymsg "output * dpms off"' \
     resume       'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock -f'
+    before-sleep '~/.config/sway/lock.sh'
 
 # Exporta variáveis do Wayland para systemd/dbus (necessário para portals, screen share, etc.)
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK

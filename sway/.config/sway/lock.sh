@@ -1,25 +1,19 @@
 #!/usr/bin/env bash
 # Lock screen para Sway/Wayland
-# Equivalente ao bin/lock.sh do AwesomeWM, adaptado para Wayland
+# Mostra o wallpaper com efeito de escurecimento (dim)
 #
-# Dependências: grim, imagemagick (convert), swaylock
-#   sudo apt install grim imagemagick swaylock
-#
-# Alternativa mais simples (sem blur): apenas swaylock
-# Alternativa com blur nativo: swaylock-effects (não está nos repos do Ubuntu 24.04 — instalar via PPA ou Flatpak)
+# Dependências: imagemagick (convert), swaylock
+#   sudo apt install imagemagick swaylock
 
-TMPBG=/tmp/sway_bg.png
-TMPBLUR=/tmp/sway_bg_blur.png
+WALLPAPER="$HOME/Pictures/wallpapers/WQHD/futuristic_geometric_shapes-wallpaper-3440x1440.jpg"
+TMPDIM=/tmp/sway_lock_dim.png
 
-# Captura a tela com grim (equivalente ao maim no X11)
-grim "$TMPBG"
+# Aplica escurecimento (50% brightness) no wallpaper
+if [ ! -f "$TMPDIM" ] || [ "$WALLPAPER" -nt "$TMPDIM" ]; then
+    convert "$WALLPAPER" -fill black -colorize 40% "$TMPDIM"
+fi
 
-# Aplica blur (mesmo algoritmo do seu lock.sh original)
-convert "$TMPBG" -scale 10% -blur 0x8 -scale 1000% "$TMPBLUR"
-
-# Chama swaylock com a imagem borrada
+# Chama swaylock com a imagem escurecida
 # -f = fork (não bloqueia o terminal)
-swaylock -f --image "$TMPBLUR"
-
-# Limpa temporários
-rm -f "$TMPBG" "$TMPBLUR"
+# -s fill = escala para preencher a tela (mesmo modo do sway config)
+swaylock -f -s fill --image "$TMPDIM"
