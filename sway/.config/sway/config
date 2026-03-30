@@ -317,7 +317,11 @@ exec --no-startup-id nm-applet --indicator
 exec --no-startup-id dunst
 
 # Exporta variáveis do Wayland para systemd/dbus (necessário para portals, screen share, etc.)
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK GTK_IM_MODULE QT_IM_MODULE XMODIFIERS
+
+# IBus — necessário para cedilha (dead_acute+c=ç) funcionar em Chrome/Slack/etc no Wayland.
+# Lê ~/.XCompose que tem o override de ć→ç.
+exec --no-startup-id ibus-daemon -drx
 
 # Clipboard manager (precisa do dbus environment configurado)
 exec --no-startup-id copyq

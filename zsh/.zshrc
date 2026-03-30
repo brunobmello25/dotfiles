@@ -113,6 +113,11 @@ export LANG=en_US.UTF-8
 export LOCALE=en_US.UTF-8
 export EDITOR="nvim"
 
+# Cedilha fix: IBus lê ~/.XCompose que mapeia dead_acute+c=ç
+export GTK_IM_MODULE=ibus
+export QT_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+
 # === ALIASES ===
 alias g="git"
 alias open="xdg-open"
