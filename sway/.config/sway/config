@@ -65,9 +65,9 @@ input "type:touchpad" {
 output * bg ~/Pictures/wallpapers/WQHD/futuristic_geometric_shapes-wallpaper-3440x1440.jpg fill
 
 # Plugged layout: DP-3 (FHD) em cima, HDMI-A-1 (ultrawide) embaixo, eDP-1 (laptop) à esquerda
-output eDP-1    scale 1.2 position 0 1320
+output eDP-1    scale 1.2 position 318 1519
 output HDMI-A-1 position 1920 1080
-output DP-3     position 2177 0
+output DP-3     position 2626 0
 
 # ------------------------------------------------------------
 # Floating modifier (arrastar janelas flutuantes com Mod+click)
