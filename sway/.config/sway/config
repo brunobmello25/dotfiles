@@ -7,7 +7,7 @@
 # ------------------------------------------------------------
 set $mod Mod4
 set $terminal alacritty
-set $menu rofi -show drun
+set $menu env PATH=$HOME/.local/bin:$HOME/.local/scripts:$PATH rofi -show combi -combi-modes "drun,run"
 set $browser google-chrome-stable
 set $files thunar
 set $lock ~/.config/sway/lock.sh
@@ -64,10 +64,7 @@ input "type:touchpad" {
 # ------------------------------------------------------------
 output * bg ~/Pictures/wallpapers/WQHD/futuristic_geometric_shapes-wallpaper-3440x1440.jpg fill
 
-# Plugged layout: DP-3 (FHD) em cima, HDMI-A-1 (ultrawide) embaixo, eDP-1 (laptop) à esquerda
-output eDP-1    scale 1.2 position 318 1519
-output HDMI-A-1 position 1920 1080
-output DP-3     position 2626 0
+# Monitor layout is configured in autostart.sh (handles plugged/unplugged detection)
 
 # ------------------------------------------------------------
 # Floating modifier (arrastar janelas flutuantes com Mod+click)
