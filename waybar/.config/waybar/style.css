@@ -23,8 +23,8 @@ window#waybar {
 
 #workspaces button {
     padding: 4px 8px;
-    background-color: #2a2a2a;
-    color: #666666;
+    background-color: #333333;
+    color: #dddddd;
     border-radius: 0;
     margin: 0 2px;
 }
@@ -34,10 +34,10 @@ window#waybar {
     color: #dddddd;
 }
 
-/* Workspace com janelas abertas */
-#workspaces button.visible {
-    background-color: #444444;
-    color: #dddddd;
+/* Workspace vazio (persistent sem janelas) */
+#workspaces button.persistent {
+    background-color: #2a2a2a;
+    color: #666666;
 }
 
 /* Workspace focado */
