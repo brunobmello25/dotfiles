@@ -33,14 +33,14 @@ elif [ "$USER" = "brubs" ]; then
     swaymsg output DP-1 enable mode 3440x1440 position 0 1080
 fi
 
-# Renomeia workspaces iniciais para o formato "output:numero"
-# Sway cria workspaces "1", "2" etc. por padrão, mas workspace.sh
-# usa o formato "output:N" para workspaces independentes por monitor.
+# Renomeia workspaces iniciais para "output:1"
+# Sway cria workspaces "1", "2", "3" (um por output) por padrão.
+# Todos devem virar "output:1" para que cada tela inicie no workspace 1.
 for entry in $(swaymsg -t get_workspaces | jq -r '.[] | "\(.name)|\(.output)"'); do
     name="${entry%%|*}"
     output="${entry##*|}"
     if [[ "$name" != *:* ]]; then
-        swaymsg "rename workspace \"$name\" to \"${output}:${name}\""
+        swaymsg "rename workspace \"$name\" to \"${output}:1\""
     fi
 done
 
