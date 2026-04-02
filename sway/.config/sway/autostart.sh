@@ -33,6 +33,17 @@ elif [ "$USER" = "brubs" ]; then
     swaymsg output DP-1 enable mode 3440x1440 position 0 1080
 fi
 
+# Renomeia workspaces iniciais para o formato "output:numero"
+# Sway cria workspaces "1", "2" etc. por padrão, mas workspace.sh
+# usa o formato "output:N" para workspaces independentes por monitor.
+for entry in $(swaymsg -t get_workspaces | jq -r '.[] | "\(.name)|\(.output)"'); do
+    name="${entry%%|*}"
+    output="${entry##*|}"
+    if [[ "$name" != *:* ]]; then
+        swaymsg "rename workspace \"$name\" to \"${output}:${name}\""
+    fi
+done
+
 # xdg-autostart (equivalente ao dex-autostart)
 if command -v dex >/dev/null 2>&1; then
     dex --autostart --environment sway 2>/dev/null &
