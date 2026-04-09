@@ -170,6 +170,8 @@ runmonorepo() {
   eval "$cmd"
 }
 
+claudeg() { read "branch?Nome da branch: " && claude --tmux --worktree "$branch" }
+
 # === LOCAL SETTINGS ===
 [ -f ~/.envs ] && source ~/.envs
 [ -f $HOME/.isaac-zsh-settings ] && source $HOME/.isaac-zsh-settings
