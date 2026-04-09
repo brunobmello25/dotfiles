@@ -331,7 +331,10 @@ exec --no-startup-id swayidle -w \
     resume       'swaymsg "output * dpms on"' \
     before-sleep '~/.config/sway/lock.sh'
 
-# Script de layout de monitor (detecta monitor externo)
+# Monitor layout — exec_always so it re-applies on reload (Ctrl+Super+r)
+exec_always --no-startup-id ~/.config/sway/monitor-layout.sh
+
+# Startup-only: workspace renaming + xdg-autostart
 exec --no-startup-id ~/.config/sway/autostart.sh
 
 # ------------------------------------------------------------
