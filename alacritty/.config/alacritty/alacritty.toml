@@ -36,3 +36,8 @@ blue    = "#89b4fa"
 magenta = "#f5c2e7"
 cyan    = "#94e2d5"
 white   = "#a6adc8"
+
+[[keyboard.bindings]]
+key = "B"
+mods = "Control|Shift"
+action = "ReceiveChar"

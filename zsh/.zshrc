@@ -172,6 +172,33 @@ runmonorepo() {
 
 claudeg() { read "branch?Nome da branch: " && claude --tmux --worktree "$branch" }
 
+claudeg-sessions() {
+  local git_root worktrees_dir worktree name
+
+  git_root=$(git rev-parse --show-toplevel 2>/dev/null)
+  if [[ -z "$git_root" ]]; then
+    echo "Not inside a git repository"
+    return 1
+  fi
+
+  worktrees_dir="$git_root/.claude/worktrees"
+  if [[ ! -d "$worktrees_dir" ]]; then
+    echo "No worktrees found at $worktrees_dir"
+    return 1
+  fi
+
+  for worktree in "$worktrees_dir"/*/; do
+    [[ -d "$worktree" ]] || continue
+    name=$(basename "$worktree")
+    if tmux has-session -t "=$name" 2>/dev/null; then
+      echo "Session already exists: $name"
+    else
+      tmux new-session -d -s "$name" -c "$worktree"
+      echo "Created session: $name"
+    fi
+  done
+}
+
 # === LOCAL SETTINGS ===
 [ -f ~/.envs ] && source ~/.envs
 [ -f $HOME/.isaac-zsh-settings ] && source $HOME/.isaac-zsh-settings
