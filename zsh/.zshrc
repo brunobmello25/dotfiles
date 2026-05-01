@@ -205,5 +205,6 @@ claudeg-sessions() {
 
 # Atualiza SWAYSOCK automaticamente ao abrir novo shell no Sway
 if [ -z "$SWAYSOCK" ] && [ -n "$WAYLAND_DISPLAY" ]; then
-    export SWAYSOCK=$(ls /run/user/$(id -u)/sway-ipc.*.sock 2>/dev/null | head -1)
+    # export SWAYSOCK=$(ls /run/user/$(id -u)/sway-ipc.*.sock 2>/dev/null | head -1)
+    for s in /run/user/$(id -u)/sway-ipc.*.sock(N); do export SWAYSOCK=$s; break; done
 fi
