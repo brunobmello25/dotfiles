@@ -8,13 +8,6 @@ vim.g.maplocalleader = " "
 vim.opt.number = true
 vim.opt.relativenumber = false
 
--- Make :find search recursively
-vim.opt.path:append("**")
-
--- Optional: ignore common junk dirs
-vim.opt.wildignore:append("*/node_modules/*,*/.git/*,*/target/*")
----
-
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = "a"
 
@@ -82,14 +75,6 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHo
 	desc = "Check for external file changes",
 })
 
--- Notify when a file is changed outside of Neovim
-vim.api.nvim_create_autocmd("FileChangedShellPost", {
-	callback = function()
-		vim.notify("File changed on disk. Buffer reloaded.", vim.log.levels.WARN)
-	end,
-	desc = "Notify when file is reloaded due to external changes",
-})
-
 ---------------------------------------
 ---LOAD PROJECT CONFIG
 ---------------------------------------
@@ -100,9 +85,7 @@ local function load_project_config()
 
 	if vim.fn.filereadable(project_config_path) == 1 then
 		local success, err = pcall(dofile, project_config_path)
-		if success then
-			vim.notify("Loaded project config: " .. project_config_path, vim.log.levels.INFO)
-		else
+		if not success then
 			vim.notify("Error loading project config: " .. err, vim.log.levels.ERROR)
 		end
 	end
@@ -220,8 +203,13 @@ vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Yank to clipboard" })
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { desc = "Sessionizer" })
 
 -- exit with leader q
-vim.keymap.set("n", "<leader>q", "<cmd>q<CR>", { desc = "Quit" })
-vim.keymap.set("n", "<leader>Q", "<cmd>tabclose<CR>", { desc = "Close tab" })
+vim.keymap.set("n", "<leader>q", function()
+	if #vim.api.nvim_list_tabpages() > 1 then
+		vim.cmd("tabclose")
+	else
+		vim.cmd("quit")
+	end
+end, { desc = "Close tab or window" })
 
 -- keep visual mode after moving lines up and down
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
@@ -264,7 +252,44 @@ vim.keymap.set(
 
 vim.keymap.set("n", "<leader>rln", "<cmd>RelativeLineNumber<CR>", { desc = "Toggle relative line numbers" })
 
-
 ---------------------------------------
 --- PLUGINS
 ---------------------------------------
+
+-- [[ Install `lazy.nvim` plugin manager ]]
+--    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+	if vim.v.shell_error ~= 0 then
+		error("Error cloning lazy.nvim:\n" .. out)
+	end
+end
+
+---@type vim.Option
+local rtp = vim.opt.rtp
+rtp:prepend(lazypath)
+
+require("lazy").setup({
+	{
+		"cbochs/grapple.nvim",
+		dependencies = {
+			{ "nvim-tree/nvim-web-devicons", lazy = true },
+		},
+		config = function()
+			vim.keymap.set("n", "<leader>ha", require("grapple").tag)
+			vim.keymap.set("n", "<leader>hh", require("grapple").toggle_tags)
+
+			vim.keymap.set("n", "<leader>1", "<cmd>Grapple select index=1<cr>")
+			vim.keymap.set("n", "<leader>2", "<cmd>Grapple select index=2<cr>")
+			vim.keymap.set("n", "<leader>3", "<cmd>Grapple select index=3<cr>")
+			vim.keymap.set("n", "<leader>4", "<cmd>Grapple select index=4<cr>")
+			vim.keymap.set("n", "<leader>5", "<cmd>Grapple select index=5<cr>")
+			vim.keymap.set("n", "<leader>6", "<cmd>Grapple select index=6<cr>")
+			vim.keymap.set("n", "<leader>7", "<cmd>Grapple select index=7<cr>")
+			vim.keymap.set("n", "<leader>8", "<cmd>Grapple select index=8<cr>")
+			vim.keymap.set("n", "<leader>9", "<cmd>Grapple select index=9<cr>")
+		end,
+	},
+})
