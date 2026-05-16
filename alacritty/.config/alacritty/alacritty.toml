@@ -41,3 +41,8 @@ white   = "#a6adc8"
 key = "B"
 mods = "Control|Shift"
 action = "ReceiveChar"
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001b\r"
