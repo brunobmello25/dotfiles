@@ -92,6 +92,7 @@ export PATH=$PATH:$HOME/.local/bin
 [ -d ~/.local/lib/qmk_toolchains_linuxX64/bin ] && export PATH=$PATH:~/.local/lib/qmk_toolchains_linuxX64/bin
 [ -d ~/.config/emacs/bin ] && export PATH=$PATH:~/.config/emacs/bin
 [ -d $HOME/.opencode/bin ] && export PATH=$HOME/.opencode/bin:$PATH
+[ -d $HOME/.local/share/bob ] && export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 
 # pnpm
 export PNPM_HOME="/home/bruno.mello/.local/share/pnpm"
@@ -124,7 +125,7 @@ alias open="xdg-open"
 alias doco="docker-compose"
 alias l="ls -lah"
 alias v="nvim"
-alias vn="NVIM_APPNAME=nvim2 mise exec neovim@0.12.2 -- nvim"
+alias vn="NVIM_APPNAME=nvim2 bob run 0.12.2"
 alias lg="lazygit"
 alias t="tmux"
 alias dsa="echo \"deleting all docker containers\" && docker stop \$(docker ps | cut -d ' ' -f 1 | tail -n +2 | tr '\n' ' ') ; docker rm \$(docker ps -a | cut -d ' ' -f 1 | tail -n +2 | tr '\n' ' ')"
