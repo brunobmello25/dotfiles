@@ -3,6 +3,10 @@ vim.g.maplocalleader = " "
 
 vim.g.have_nerd_font = true
 
+-- Suprime o ftplugin padrão do nvim que tenta iniciar treesitter
+-- com o parser bundled (incompatível no 0.12.2) antes do arborist carregar
+vim.g.loaded_ftplugin_lua = 1
+
 -------------------------------------------
 -------------- BASIC KEYMAPS --------------
 -------------------------------------------
@@ -59,4 +63,28 @@ vim.api.nvim_create_autocmd("VimEnter", {
 vim.api.nvim_create_autocmd("DirChanged", {
 	desc = "Load project-specific configuration when changing directories",
 	callback = load_project_config,
+})
+
+-----------------------------------------------------
+--- PLUGINS ---
+-----------------------------------------------------
+
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+end ---@diagnostic disable-next-line: undefined-field
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({
+	{
+		"arborist-ts/arborist.nvim",
+		lazy = false, -- carrega no startup, antes de qualquer buffer
+		priority = 1000,
+		config = function()
+			require("arborist").setup({
+				auto_install = true, -- instala parser automaticamente ao abrir arquivo
+			})
+		end,
+	},
 })
