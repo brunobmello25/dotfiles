@@ -93,6 +93,7 @@ export PATH=$PATH:$HOME/.local/bin
 [ -d ~/.config/emacs/bin ] && export PATH=$PATH:~/.config/emacs/bin
 [ -d $HOME/.opencode/bin ] && export PATH=$HOME/.opencode/bin:$PATH
 [ -d $HOME/.local/share/bob ] && export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+[ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
 
 # pnpm
 export PNPM_HOME="/home/bruno.mello/.local/share/pnpm"
