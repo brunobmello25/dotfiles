@@ -173,7 +173,40 @@ runmonorepo() {
   eval "$cmd"
 }
 
-claudeg() { read "branch?Nome da branch: " && claude --tmux --worktree "$branch" }
+claudeg() {
+  local branch git_root worktree name
+  read "branch?Nome da branch: "
+  [[ -z "$branch" ]] && { echo "No branch name. Exiting."; return 1; }
+
+  git_root=$(git rev-parse --show-toplevel 2>/dev/null)
+  [[ -z "$git_root" ]] && { echo "Not inside a git repository"; return 1; }
+
+  # claude troca / por + no nome do diretório do worktree (/ vira subpasta).
+  name="${branch//\//+}"
+  worktree="$git_root/.claude/worktrees/$name"
+
+  # Cria worktree se ainda não existir
+  if [[ ! -d "$worktree" ]]; then
+    git worktree add "$worktree" -b "$branch" 2>/dev/null \
+      || git worktree add "$worktree" "$branch" \
+      || return 1
+  fi
+
+  # Usa session id (ex: $3) p/ alvo: nome tem "." que o tmux confunde com window.pane.
+  local sid
+  sid=$(tmux list-sessions -F '#{session_id} #{session_name}' 2>/dev/null \
+    | awk -v n="$name" '$2==n{print $1; exit}')
+
+  if [[ -z "$sid" ]]; then
+    sid=$(tmux new-session -d -P -F '#{session_id}' -s "$name" -c "$worktree")
+  fi
+
+  if [[ -n "$TMUX" ]]; then
+    tmux switch-client -t "$sid"
+  else
+    tmux attach -t "$sid"
+  fi
+}
 
 claudeg-sessions() {
   local git_root worktrees_dir worktree name
