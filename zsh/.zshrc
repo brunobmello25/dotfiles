@@ -123,6 +123,14 @@ export XMODIFIERS=@im=ibus
 # === ALIASES ===
 alias g="git"
 alias open="xdg-open"
+
+# Parent-dir shortcuts (oh-my-zsh behavior): `...` -> ../.. , `....` -> ../../.. , etc.
+# Global aliases (-g) so they also expand after `cd`.
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g ......='../../../../..'
+
 alias doco="docker-compose"
 alias l="ls -lah"
 alias v="nvim"
