@@ -243,6 +243,71 @@ claudeg-sessions() {
   done
 }
 
+# Re-pareia o MX Master 3 num comando só, sem nenhum input no sistema
+# (bug de reconexão do controlador MediaTek MT7922).
+# Precisa só do mouse em modo de pareamento: segure o Easy-Switch até o
+# LED piscar rápido, depois rode 'mxrepair'. Sem popup do GNOME porque
+# registramos nosso próprio agente NoInputNoOutput (pareamento "Just Works").
+# Busca por nome porque o endereço BLE do MX muda a cada pareamento.
+mxrepair() {
+  local name="MX Master 3" mac i scan_pid
+
+  # 1) Esquece o bond atual, se existir
+  mac=$(bluetoothctl devices | awk -v n="$name" 'index($0,n){print $2; exit}')
+  if [[ -n "$mac" ]]; then
+    echo "Removendo bond antigo ($mac)..."
+    bluetoothctl remove "$mac" >/dev/null 2>&1
+  fi
+
+  echo "Segure o Easy-Switch do MX Master 3 até o LED piscar rápido."
+  read "?Pressione ENTER quando estiver piscando... "
+
+  # 2) Scan persistente em background: mantém o device 'disponível' durante o
+  #    pair (o endereço some se o scan parar). --timeout cobre busca + pair.
+  echo "Procurando o mouse..."
+  bluetoothctl --timeout 45 scan on </dev/null >/dev/null 2>&1 &
+  scan_pid=$!
+
+  # 3) Espera o device aparecer (até ~20s)
+  for i in {1..20}; do
+    mac=$(bluetoothctl devices | awk -v n="$name" 'index($0,n){print $2; exit}')
+    [[ -n "$mac" ]] && break
+    sleep 1
+  done
+  if [[ -z "$mac" ]]; then
+    kill $scan_pid 2>/dev/null
+    echo "Não encontrei '$name'. Garanta o LED piscando e rode 'mxrepair' de novo."
+    return 1
+  fi
+
+  # 4) Pareia numa única sessão: agente NoInputNoOutput como default => sem
+  #    confirmação. O scan de background mantém o $mac alcançável.
+  echo "Encontrado $mac — pareando (sem confirmação)..."
+  {
+    echo "agent NoInputNoOutput"
+    echo "default-agent"
+    sleep 1
+    echo "pair $mac";    sleep 6
+    echo "trust $mac";   sleep 1
+    echo "connect $mac"; sleep 3
+    echo "quit"
+  } | bluetoothctl >/dev/null 2>&1
+
+  # 5) Encerra o scan de background
+  kill $scan_pid 2>/dev/null
+
+  # 6) Confirma conexão (alguns segundos de tolerância)
+  for i in {1..5}; do
+    if bluetoothctl info "$mac" 2>/dev/null | grep -q "Connected: yes"; then
+      echo "✅ MX Master 3 conectado ($mac)."
+      return 0
+    fi
+    sleep 1
+  done
+  echo "⚠️  Pareou mas não confirmei a conexão. Cheque: bluetoothctl info $mac"
+  return 1
+}
+
 # === LOCAL SETTINGS ===
 [ -f ~/.envs ] && source ~/.envs
 [ -f $HOME/.isaac-zsh-settings ] && source $HOME/.isaac-zsh-settings
