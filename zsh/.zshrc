@@ -2,6 +2,10 @@
 setopt AUTO_CD
 setopt GLOB_DOTS
 
+# === LS COLORS ===
+eval "$(dircolors -b)"        # popula $LS_COLORS com um default sensato
+alias ls='ls --color=auto'
+
 # === COMPLETION ===
 autoload -Uz compinit
 if [[ -n "$HOME/.zcompdump"(#qN.mh+24) ]]; then

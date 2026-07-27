@@ -46,3 +46,15 @@ action = "ReceiveChar"
 key = "Return"
 mods = "Shift"
 chars = "\u001b\r"
+
+# Ctrl+Shift+H / Ctrl+Shift+L -> CSI-u so nvim sees <C-S-h> / <C-S-l>
+# (h = 104, l = 108; modifier 6 = ctrl+shift)
+[[keyboard.bindings]]
+key = "H"
+mods = "Control|Shift"
+chars = "\u001b[104;6u"
+
+[[keyboard.bindings]]
+key = "L"
+mods = "Control|Shift"
+chars = "\u001b[108;6u"
