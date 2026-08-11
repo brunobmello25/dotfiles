@@ -17,7 +17,7 @@
 [core]
   editor=nvim
 	autocrlf = false
-	hooksPath = /home/bruno.mello/.config/git/hooks
+	; hooksPath = /home/bruno.mello/.config/git/hooks
 [pull]
 	rebase = false
 [init]
