@@ -324,3 +324,5 @@ fi
 
 # opencode
 export PATH=/home/bruno.mello/.opencode/bin:$PATH
+
+[ -d "$HOME/Android/Sdk" ] && export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
