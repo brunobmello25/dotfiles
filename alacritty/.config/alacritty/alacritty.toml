@@ -14,8 +14,10 @@ text = "#1e1e2e"
 background = "#f5e0dc"
 
 [colors.cursor]
-text = "#1e1e2e"
-cursor = "#f5e0dc"
+# text = "#1e1e2e"
+# cursor = "#f5e0dc"
+text = "#ffffff"
+cursor = "#268bd2"
 
 [colors.normal]
 black   = "#45475a"
