@@ -77,10 +77,14 @@ source "$ZSH_FZF_HISTORY_SEARCH_PLUGIN/zsh-fzf-history-search.zsh"
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
 
 # === RUNTIME VERSION MANAGERS ===
-if [[ -f "$HOME/.local/bin/mise" ]]; then
-  eval "$(~/.local/bin/mise activate zsh)"
+if [ -x "$HOME/.local/bin/mise" ]; then
+  MISE_BIN="$HOME/.local/bin/mise"
+elif command -v mise >/dev/null 2>&1; then
+  MISE_BIN="$(command -v mise)"
+fi
+if [ -n "$MISE_BIN" ]; then
+  eval "$("$MISE_BIN" activate zsh)"
   if command -v dotnet >/dev/null 2>&1; then
-    DOTNET_EXEC_PATH=$(which dotnet)
     export PATH="$PATH:$HOME/.dotnet/tools"
   fi
 elif [ -d ~/.asdf ]; then
@@ -88,6 +92,7 @@ elif [ -d ~/.asdf ]; then
   export ASDF_GOLANG_MOD_VERSION_ENABLED=true
   [ -d ~/.asdf/plugins/golang ] && . ~/.asdf/plugins/golang/set-env.zsh
 fi
+unset MISE_BIN
 
 # === PATH ===
 export PATH=/usr/lib/ccache:$PATH
@@ -322,7 +327,7 @@ if [ -z "$SWAYSOCK" ] && [ -n "$WAYLAND_DISPLAY" ]; then
     for s in /run/user/$(id -u)/sway-ipc.*.sock(N); do export SWAYSOCK=$s; break; done
 fi
 
-# opencode
-export PATH=/home/bruno.mello/.opencode/bin:$PATH
-
 [ -d "$HOME/Android/Sdk" ] && export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
+
+# OpenCode Vim
+export PATH="/home/brubs/.ocv/bin:$PATH"
