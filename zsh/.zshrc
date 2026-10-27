@@ -326,3 +326,8 @@ fi
 export PATH=/home/bruno.mello/.opencode/bin:$PATH
 
 [ -d "$HOME/Android/Sdk" ] && export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
+
+if [ -f ~/.unleash/mcp.env ]; then
+  source ~/.unleash/mcp.env
+  export UNLEASH_BASE_URL UNLEASH_PAT UNLEASH_DEFAULT_PROJECT
+fi
